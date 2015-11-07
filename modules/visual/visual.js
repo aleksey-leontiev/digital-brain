@@ -2,7 +2,7 @@
 
 function init(app) {
   // install paper.js
-  paper = app.assets.loadJs("assets/paper-full.js");
+  paper = app.assets.loadJs("bower_components/paper/dist/paper-full.js");
   css   = app.assets.loadCss("assets/style.css");
   paper.install(window);
   paper.setup('canvas');
@@ -19,7 +19,6 @@ function init(app) {
 
   view.onFrame     = onFrame
   view.onMouseDown = onMouseDown
-  view.onKeyUp     = onKeyDown
 }
 
 function onBrainThoughtNewOrLoad(thought) {
@@ -71,9 +70,6 @@ function onFrame(event) {
 
 function onMouseDown(event) {
   notify("visual.mouse.down", event)
-}
-
-function onKeyDown() {
 }
 
 function onVisualGet(thoughtId) {

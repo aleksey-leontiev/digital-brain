@@ -1,0 +1,30 @@
+{
+  "name": "digital-brain",
+  "description": "Brain visualization app for creative thinking",
+  "main": "_main.js",
+  "authors": [
+    "Aleksey Leontiev"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "brain",
+    "mindmap",
+    "creative",
+    "thinking"
+  ],
+  "homepage": "https://github.com/aleksey-leontiev/digital-brain",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "ckeditor": "~4.5.4",
+    "uikit": "~2.23.0",
+    "paper": "~0.9.25"
+  }
+}
