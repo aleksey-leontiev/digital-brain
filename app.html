@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>digitalBrain</title>
+    <link rel="stylesheet" href="assets/style.css">
+
+    <link rel="stylesheet" href="assets/uikit-2/uikit.min.css" />
+    <script>window.$ = window.jQuery = require('./assets/jquery-2.1.4.min.js');</script>
+    <script src="assets/uikit-2/uikit.min.js"></script>
+
+    <script src="assets/uikit-2/js/components/notify.min.js"></script>
+
+    <link rel="stylesheet" href="assets/uikit-2/css/uikit.almost-flat.min.css" />
+    <link rel="stylesheet" href="assets/uikit-2/css/components/notify.almost-flat.min.css" />
+</head>
+<body>
+    <canvas id="canvas" resize></canvas>
+    <div id="panel" class="float-panel noselect">
+    </div>
+    <div id="details" class="float-details">
+    </div>
+
+    <div id="left-titlebar" class="left-titlebar">
+      <div class="left-titlebar-icon">
+        <img id="left-titlebaricon" src="assets/logo.png"></div>
+        <div class="left-titlebar-text">Digital Brain</div>
+        <div class="left-titlebar-close-button">
+          <img id="left-titlebar-close-button" src="assets/button_close.png">
+        </div>
+        <div class="left-titlebar-divider"></div>
+      </div>
+    </div>
+
+</body>
+
+<style>
+  html, body {
+    height: 100%
+  }
+
+  body {
+    background: radial-gradient(white, lightgrey);
+  }
+  /*div {
+    height:100%;
+      }*/
+  div canvas {
+    /*background-color: #0f0;*/
+  }
+
+.leftcol { /* Левая колонка */
+  float: left; /* Обтекание справа */
+  width: 80%; /* Ширина колонки */
+}
+.rightcol { /* Правая колонка */
+  background-color: #eeeeee;
+  float: right;
+  width: 20%;
+}
+.float-panel {
+  margin: 10px;
+  margin-left: 42px;
+  padding: 10px;
+  position: absolute;
+  width: 200px;
+  height: auto;
+  left: 0px;
+  top: 0px;
+  background: rgba(252, 252, 252, 0.95);
+  border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
+}
+.float-details {
+  margin: 10px;
+  padding: 10px;
+  position: absolute;
+  width: 400px;
+  height: 75%;
+  left: 230px;
+  top: 0px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid grey; /* Параметры рамки */
+  visibility: hidden;
+}
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.left-titlebar {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 32px;
+  height: 100%;
+  background-color: #3a3d3d;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.left-titlebar-icon {
+  position: absolute;
+  bottom: 6px;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.left-titlebar-text {
+  position: absolute;
+  bottom: 32px;
+  width: 100px;
+  margin-left: 6px;
+  margin-right: 6px;
+  font-family: Arial;
+  font-size: 12pt;
+  color: #ffffff;
+  -webkit-transform: rotate(-90deg) translate(0, 100%);
+  -webkit-transform-origin: 0% 100%;
+}
+
+.left-titlebar-close-button {
+  position: absolute;
+  top: 11px;
+  width: 17px;
+  height: 17px;
+  margin-left: 6px;
+  margin-right: 6px;
+  -webkit-app-region: no-drag;
+}
+
+.left-titlebar-divider {
+  position: absolute;
+  left: 31px;
+  top: 0px;
+  width: 1px;
+  height: 100%;
+  background-color: #2a2c2c;
+}
+</style>
+
+<script type="text/javascript">
+  var api = require('./digitalBrain');
+  visualBrain = api.modules.load("modules/visual/visual")
+  create = api.modules.load("modules/visual/nodes/create")
+
+  linkLoad = api.modules.load("modules/visual/links/load")
+  drag = api.modules.load("modules/visual/nodes/drag")
+  update = api.modules.load("modules/visual/nodes/update")
+  persistence = api.modules.load("modules/persistence")
+  detailsPanel = api.modules.load("modules/details_panel/details_panel")
+  search = api.modules.load("modules/search/search")
+  list = api.modules.load("modules/search/list")
+  highlightSelected = api.modules.load("modules/visual/nodes/select")
+  layerMove = api.modules.load("modules/visual/layer/move")
+  highlightSearchResults = api.modules.load("modules/search/highlight")
+  link = api.modules.load("modules/visual/links/links")
+  api.modules.load("modules/notifications/notifications")
+  notify("brain.open", { path: "brain" });
+</script>
+
+</script>
+</html>
