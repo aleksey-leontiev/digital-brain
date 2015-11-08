@@ -1,5 +1,5 @@
 // Details Panel
-// shows details of selected thought
+// Allows to modify title and description fields of selected thought
 
 function init(app) {
   commitView("modules/details/view.html")
