@@ -5,20 +5,47 @@
     <title>digitalBrain</title>
     <link rel="stylesheet" href="assets/style.css">
 
-    <link rel="stylesheet" href="assets/uikit-2/uikit.min.css" />
-    <script>window.$ = window.jQuery = require('./assets/jquery-2.1.4.min.js');</script>
-    <script src="assets/uikit-2/uikit.min.js"></script>
+    <link rel="stylesheet" href="bower_components/uikit/css/uikit.min.css" />
+    <script>window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');</script>
+    <script src="bower_components/uikit/js/uikit.min.js"></script>
 
-    <script src="assets/uikit-2/js/components/notify.min.js"></script>
+    <script src="bower_components/uikit/js/components/htmleditor.min.js"></script>
+    <script src="bower_components/uikit/js/components/notify.min.js"></script>
 
-    <link rel="stylesheet" href="assets/uikit-2/css/uikit.almost-flat.min.css" />
-    <link rel="stylesheet" href="assets/uikit-2/css/components/notify.almost-flat.min.css" />
+
+    <link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/notify.almost-flat.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/htmleditor.almost-flat.min.css" />
+
+    <script src="bower_components/ckeditor/ckeditor.js"></script>
 </head>
-<body>
+
+<script>
+$(document).keydown(function(event){
+  //alert(String.fromCharCode(event.which));
+  var char = String.fromCharCode(event.which)
+  notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
+})
+</script>
+
+<body id="body">
     <canvas id="canvas" resize></canvas>
     <div id="panel" class="float-panel noselect">
     </div>
+
     <div id="details" class="float-details">
+      <textarea name="editor1" id="editor1" rows="10" cols="80">
+      </textarea>
+      <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                CKEDITOR.config.toolbarCanCollapse = true;
+                CKEDITOR.config.toolbarStartupExpanded = false;
+                /*CKEDITOR.config.toolbar = [
+                  [ 'Source', '-', 'Bold', 'Italic' ]
+                ];*/
+                CKEDITOR.replace( 'editor1' );
+            </script>
     </div>
 
     <div id="left-titlebar" class="left-titlebar">
@@ -72,15 +99,15 @@
 }
 .float-details {
   margin: 10px;
-  padding: 10px;
+  /*padding: 10px;*/
   position: absolute;
-  width: 400px;
-  height: 75%;
-  left: 230px;
+  width: 600px;
+  height: auto;
+  left: 262px;
   top: 0px;
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid grey; /* Параметры рамки */
-  visibility: hidden;
+  border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
+  display: none;
 }
 .noselect {
     -webkit-touch-callout: none;
@@ -159,6 +186,8 @@
   highlightSearchResults = api.modules.load("modules/search/highlight")
   link = api.modules.load("modules/visual/links/links")
   api.modules.load("modules/notifications/notifications")
+  api.modules.load("modules/editor/editor")
+
   notify("brain.open", { path: "brain" });
 </script>
 
