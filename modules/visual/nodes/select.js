@@ -3,10 +3,19 @@
 
 function init(app) {
   subscribe([
+    { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "visual.thought.select", handler: onVisualThoughtSelect },
     { id: "visual.thought.create", handler: onVisualThoughtCreate },
     { id: "visual.frame",          handler: onVisualFrame }
   ])
+
+  shared = loadModule("shared", __dirname + "/../shared/")
+}
+
+function onBrainThoughtSelect(event) {
+  clearSelection()
+  selectedVisualNode = shared.getVisualNodeByThoughtId(event._id)
+  highlightNode(selectedVisualNode)
 }
 
 function onVisualThoughtCreate(event) {

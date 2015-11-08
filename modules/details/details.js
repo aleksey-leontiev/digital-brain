@@ -20,27 +20,27 @@ function init(app) {
 
 function onBrainThoughtSelect(thought) {
   selectedThought = thought
-  updateFieldsFromThought()
+  updateFieldsFromThought(selectedThought)
 }
 
 function onThoughtChanged() {
-  updateThoughtFromFields()
+  updateThoughtFromFields(selectedThought)
   notify("brain.thought.changed", selectedThought)
 }
 
 function onThoughtChanging() {
-  updateThoughtFromFields()
+  updateThoughtFromFields(selectedThought)
   notify("brain.thought.changing", selectedThought)
 }
 
-function updateFieldsFromThought() {
+function updateFieldsFromThought(thought) {
   thoughtTitle.val(thought.title || "")
   thoughtDescription.val(thought.description || "")
 }
 
-function updateThoughtFromFields() {
-  selectedThought.title       = thoughtTitle.val()
-  selectedThought.description = thoughtDescription.val()
+function updateThoughtFromFields(thought) {
+  thought.title       = thoughtTitle.val()
+  thought.description = thoughtDescription.val()
 }
 
 var selectedThought    = null

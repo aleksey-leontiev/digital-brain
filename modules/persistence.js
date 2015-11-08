@@ -7,7 +7,7 @@ function init(app) {
 
   subscribe([
     { id: "brain.thought.new",     handler: onBrainThoughtNew },
-    { id: "brain.thought.find",    handler: onBrainThoughtFind },
+    { id: "brain.thought.search",  handler: onBrainThoughtSearch },
     { id: "brain.open",            handler: onBrainOpen },
     { id: "brain.thought.changed", handler: onBrainThoughtChanged }
   ])
@@ -22,10 +22,10 @@ function onBrainThoughtNew(thought) {
   });
 }
 
-function onBrainThoughtFind(query) {
+function onBrainThoughtSearch(query) {
   var val = query.query.toLowerCase()
   dataBase.query(queryFunc).then(function(result) {
-    notify("brain.thought.find:response", result.rows)
+    notify("brain.thought.search.response", result.rows)
   }).catch(function(error) {
     notifyError("Unable to search", error)
   })

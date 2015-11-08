@@ -5,11 +5,11 @@ function init(app) {
   rootPath = app.config.root
 }
 
-function load(modulePath) {
+function load(modulePath, root) {
   var newModule = loadedModules[modulePath]
 
   if (newModule == undefined) {
-    newModule = require(rootPath + modulePath)
+    newModule = require((root || rootPath) + modulePath)
     if (newModule.init != null) newModule.init(_app)
     loadedModules[modulePath] = newModule
   }

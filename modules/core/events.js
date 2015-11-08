@@ -12,7 +12,11 @@ function subscribeList(events) {
     if (event.view == null) {
       subscribe(event.id, event.handler)
     } else {
-      $(event.view).on(event.id, function() { event.handler() })
+      if (event.delegate == null) {
+        $(event.view).on(event.id, function() { event.handler() })
+      } else {
+        $(event.delegate).on(event.id, event.view, function(d) { event.handler(d) })
+      }
     }
   })
 }
