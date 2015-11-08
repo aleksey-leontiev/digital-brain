@@ -4,9 +4,9 @@ function init(app) {
   rootPath = app.config.root
 }
 
-function commitView(path, title) {
+function commitView(path, root) {
   var fs = require('fs')
-  var view = fs.readFileSync(rootPath + path, 'utf8')
+  var view = fs.readFileSync((root || rootPath) + "/" + path, 'utf8')
   $("#panel").append(view)
 }
 

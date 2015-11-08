@@ -2,7 +2,7 @@
 // draw links between nodes
 
 function init(app) {
-  commitView("./modules/visual/links/view.html", "Links")
+  commitView("./modules/visual/links/view.html")
 
   subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },

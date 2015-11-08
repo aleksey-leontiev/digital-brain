@@ -2,7 +2,7 @@
 // Allows to modify title and description fields of selected thought
 
 function init(app) {
-  commitView("modules/details/view.html")
+  commitView("view.html", __dirname)
 
   thoughtTitle       = $("#thought-title")
   thoughtDescription = $("#thought-description")

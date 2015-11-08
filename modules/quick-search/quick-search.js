@@ -2,7 +2,7 @@
 // Allows to search thougths
 
 function init(app) {
-  commitView("modules/quick-search/view.html")
+  commitView("view.html", __dirname)
 
   searchQuery = $("#search-query")
 
