@@ -2,7 +2,7 @@ var remote = require("remote")
 
 // configuration
 this.config = {
-  root: __dirname + "/",
+  root:         __dirname + "/",
   userDataPath: remote.getGlobal("userDataPath")
 }
 

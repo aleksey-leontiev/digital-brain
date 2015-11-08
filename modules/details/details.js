@@ -2,7 +2,7 @@
 // shows details of selected thought
 
 function init(app) {
-  commitView("modules/details_panel/view.html", "Details")
+  commitView("modules/details/view.html")
 
   thoughtTitle       = $("#thought-title")
   thoughtDescription = $("#thought-description")
@@ -18,29 +18,33 @@ function init(app) {
   ])
 }
 
+function onBrainThoughtSelect(thought) {
+  selectedThought = thought
+  updateFieldsFromThought()
+}
+
 function onThoughtChanged() {
-  updateThoughtDataFromFields()
-  notify("brain.thought.changed", activeThought)
+  updateThoughtFromFields()
+  notify("brain.thought.changed", selectedThought)
 }
 
 function onThoughtChanging() {
-  updateThoughtDataFromFields()
-  notify("brain.thought.changing", activeThought)
+  updateThoughtFromFields()
+  notify("brain.thought.changing", selectedThought)
 }
 
-function onBrainThoughtSelect(thought) {
-  activeThought = thought
+function updateFieldsFromThought() {
   thoughtTitle.val(thought.title || "")
   thoughtDescription.val(thought.description || "")
 }
 
-function updateThoughtDataFromFields() {
-  activeThought.title       = thoughtTitle.val()
-  activeThought.description = thoughtDescription.val()
+function updateThoughtFromFields() {
+  selectedThought.title       = thoughtTitle.val()
+  selectedThought.description = thoughtDescription.val()
 }
 
-var activeThought = null
-var thoughtTitle  = null
+var selectedThought    = null
+var thoughtTitle       = null
 var thoughtDescription = null
 
 module.exports = { init: init }
