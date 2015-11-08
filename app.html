@@ -24,7 +24,7 @@
 $(document).keydown(function(event){
   //alert(String.fromCharCode(event.which));
   var char = String.fromCharCode(event.which)
-  notify("key.down", { char: char, ctrlKey: event.ctrlKey })
+  notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
 })
 </script>
 
@@ -32,13 +32,18 @@ $(document).keydown(function(event){
     <canvas id="canvas" resize></canvas>
     <div id="panel" class="float-panel noselect">
     </div>
+
     <div id="details" class="float-details">
       <textarea name="editor1" id="editor1" rows="10" cols="80">
-                This is my textarea to be replaced with CKEditor.
       </textarea>
       <script>
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
+                CKEDITOR.config.toolbarCanCollapse = true;
+                CKEDITOR.config.toolbarStartupExpanded = false;
+                /*CKEDITOR.config.toolbar = [
+                  [ 'Source', '-', 'Bold', 'Italic' ]
+                ];*/
                 CKEDITOR.replace( 'editor1' );
             </script>
     </div>
@@ -94,10 +99,10 @@ $(document).keydown(function(event){
 }
 .float-details {
   margin: 10px;
-  padding: 10px;
+  /*padding: 10px;*/
   position: absolute;
-  width: 700px;
-  height: 75%;
+  width: 600px;
+  height: auto;
   left: 262px;
   top: 0px;
   background: rgba(255, 255, 255, 0.95);
