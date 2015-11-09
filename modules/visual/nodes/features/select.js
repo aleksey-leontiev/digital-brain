@@ -1,12 +1,24 @@
 // Highlight Selected
 // highlights selected thought
 
-function init(app) {
+function init(app, config) {
   subscribe([
+    { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "visual.thought.select", handler: onVisualThoughtSelect },
     { id: "visual.thought.create", handler: onVisualThoughtCreate },
     { id: "visual.frame",          handler: onVisualFrame }
   ])
+
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared"
+  ], config)
+  shared = modules[0]
+}
+
+function onBrainThoughtSelect(event) {
+  clearSelection()
+  selectedVisualNode = shared.getVisualNodeByThoughtId(event._id)
+  highlightNode(selectedVisualNode)
 }
 
 function onVisualThoughtCreate(event) {

@@ -1,11 +1,15 @@
 // Brain visualization module
 
-function init(app) {
+function init(app, config) {
   app.events.subscribeList([
     { id: "visual.thought.drag",     handler: onVisualThoughtDrag },
     { id: "visual.thought.mouse.up", handler: onVisualThoughtMouseUp }
   ])
-  shared = app.modules.load("modules/visual/shared/shared")
+
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared"
+  ], config)
+  shared = modules[0]
 }
 
 function onVisualThoughtDrag(event) {

@@ -1,19 +1,20 @@
 // Persistence Module
+// Stores the thoughts in the database.
 
 function init(app) {
   var PouchDB = require('pouchdb');
-  db = new PouchDB(app.config.userDataPath + "_brain");
+  dataBase    = new PouchDB(app.config.userDataPath + "_brain");
 
   subscribe([
     { id: "brain.thought.new",     handler: onBrainThoughtNew },
-    { id: "brain.thought.find",    handler: onBrainThoughtFind },
+    { id: "brain.thought.search",  handler: onBrainThoughtSearch },
     { id: "brain.open",            handler: onBrainOpen },
     { id: "brain.thought.changed", handler: onBrainThoughtChanged }
   ])
 }
 
 function onBrainThoughtNew(thought) {
-  db.put(thought).then(function(result) {
+  dataBase.put(thought).then(function(result) {
     thought._id  = result.id
     thought._rev = result.rev
   }).catch(function(err) {
@@ -21,10 +22,10 @@ function onBrainThoughtNew(thought) {
   });
 }
 
-function onBrainThoughtFind(query) {
+function onBrainThoughtSearch(query) {
   var val = query.query.toLowerCase()
-  db.query(queryFunc).then(function(result) {
-    notify("brain.thought.find:response", result.rows)
+  dataBase.query(queryFunc).then(function(result) {
+    notify("brain.thought.search.response", result.rows)
   }).catch(function(error) {
     notifyError("Unable to search", error)
   })
@@ -33,7 +34,7 @@ function onBrainThoughtFind(query) {
 function onBrainOpen(event) {
   options = { include_docs: true }
 
-  db.allDocs(options).then(function(result) {
+  dataBase.allDocs(options).then(function(result) {
     result.rows.forEach(function(row) {
       notify("brain.thought.load", row.doc)
     })
@@ -44,7 +45,7 @@ function onBrainOpen(event) {
 }
 
 function onBrainThoughtChanged(thought) {
-  db.put(thought).then(function(result) {
+  dataBase.put(thought).then(function(result) {
     thought._rev = result.rev
   }).catch(function(error) {
     notifyError("Unable to save changes", error)
@@ -64,6 +65,6 @@ function notifyError(message, err) {
     data: err })
 }
 
-db = null
+dataBase = null
 
 module.exports = { init: init }

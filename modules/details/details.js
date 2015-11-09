@@ -1,8 +1,8 @@
 // Details Panel
-// shows details of selected thought
+// Allows to modify title and description fields of selected thought
 
 function init(app) {
-  commitView("modules/details_panel/view.html", "Details")
+  commitView("view.html", __dirname)
 
   thoughtTitle       = $("#thought-title")
   thoughtDescription = $("#thought-description")
@@ -18,29 +18,35 @@ function init(app) {
   ])
 }
 
+function onBrainThoughtSelect(thought) {
+  selectedThought = thought
+  updateFieldsFromThought(selectedThought)
+}
+
 function onThoughtChanged() {
-  updateThoughtDataFromFields()
-  notify("brain.thought.changed", activeThought)
+  if (selectedThought == null) return;
+  updateThoughtFromFields(selectedThought)
+  notify("brain.thought.changed", selectedThought)
 }
 
 function onThoughtChanging() {
-  updateThoughtDataFromFields()
-  notify("brain.thought.changing", activeThought)
+  if (selectedThought == null) return;
+  updateThoughtFromFields(selectedThought)
+  notify("brain.thought.changing", selectedThought)
 }
 
-function onBrainThoughtSelect(thought) {
-  activeThought = thought
+function updateFieldsFromThought(thought) {
   thoughtTitle.val(thought.title || "")
   thoughtDescription.val(thought.description || "")
 }
 
-function updateThoughtDataFromFields() {
-  activeThought.title       = thoughtTitle.val()
-  activeThought.description = thoughtDescription.val()
+function updateThoughtFromFields(thought) {
+  thought.title       = thoughtTitle.val()
+  thought.description = thoughtDescription.val()
 }
 
-var activeThought = null
-var thoughtTitle  = null
+var selectedThought    = null
+var thoughtTitle       = null
 var thoughtDescription = null
 
 module.exports = { init: init }

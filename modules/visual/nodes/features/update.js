@@ -1,12 +1,15 @@
 // Brain visualization module
 
-function init(app) {
+function init(app, config) {
   subscribe([
     { id: "brain.thought.changed",  handler: onBrainThoughtChanged },
     { id: "brain.thought.changing", handler: onBrainThoughtChanged }
   ])
 
-  shared = app.modules.load("./modules/visual/shared/shared.js")
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared"
+  ], config)
+  shared = modules[0]
 }
 
 function onBrainThoughtChanged(thought) {

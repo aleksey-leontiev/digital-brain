@@ -1,6 +1,6 @@
 // Brain Visualization Module
 
-function init(app) {
+function init(app, config) {
   // install paper.js
   paper = app.assets.loadJs("bower_components/paper/dist/paper-full.js");
   css   = app.assets.loadCss("assets/style.css");
@@ -15,10 +15,14 @@ function init(app) {
   ])
 
   layer  = request("visual.layer", "nodes")
-  shared = app.modules.load("modules/visual/shared/shared")
 
   view.onFrame     = onFrame
   view.onMouseDown = onMouseDown
+
+  var loaded = loadModules(config.moduleRootPath, [
+    "shared", "nodes/nodes", "links/links", "layer/move", "layer/center"
+  ], config)
+  shared = loaded[0]
 }
 
 function onBrainThoughtNewOrLoad(thought) {
@@ -90,4 +94,9 @@ var layers = {}
 var layer  = null
 var shared = null
 
-module.exports = { init: init }
+module.exports = {
+  init: init,
+  moduleInfo: {
+    id: "digitalBrain.visual"
+  }
+}

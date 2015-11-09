@@ -1,8 +1,12 @@
 // Link Nodes
 // draw links between nodes
 
-function init(app) {
-  commitView("./modules/visual/links/view.html", "Links")
+var moduleInfo = {
+  id: "digitalBrain.visualization.links"
+}
+
+function init(app, config) {
+  commitView("view.html", __dirname)
 
   subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
@@ -10,10 +14,13 @@ function init(app) {
     { id: "brain.links.create",    handler: onBrainLinksCreate }
   ])
 
-  shared      = app.modules.load("./modules/visual/shared/shared.js")
-  sharedLinks = app.modules.load("./modules/visual/links/shared.js")
-
   layer = request("visual.layer", "links")
+
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared", "links/shared", "links/features/create", "links/features/load"
+  ], config)
+  shared = modules[0]
+  sharedLinks = modules[1]
 }
 
 function onBrainThoughtSelect(thought) {
@@ -47,4 +54,7 @@ var selectedThought = null
 var isLinking = false
 var layer = null
 
-module.exports = { init: init }
+module.exports = {
+  info: moduleInfo,
+  init: init
+}

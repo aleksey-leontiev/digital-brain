@@ -1,12 +1,17 @@
 // Link Nodes
 // draw links between nodes
 
-function init(app) {
+function init(app, config) {
   subscribe([
     { id: "brain.open.completed",  handler: onBrainOpenCompleted }
   ])
-  shared      = app.modules.load("./modules/visual/shared/shared.js")
-  sharedLinks = app.modules.load("./modules/visual/links/shared.js")
+
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared", "links/shared"
+  ], config)
+  shared = modules[0]
+  sharedLinks = modules[1]
+
   layer       = request("visual.layer", "links")
 }
 

@@ -3,7 +3,7 @@
 function init(app) {
   subscribe([
     { id: "visual.thought.create", handler: onVisualThoughtCreate },
-    { id: "visual.layer.move",     handler: onVisualLayerMove }
+    { id: "visual.layer.moved",     handler: onVisualLayerMoved }
   ])
 }
 
@@ -31,8 +31,8 @@ function getThoughtByVisualNode(visualNode) {
   return thoughtByVisualNode[visualNode]
 }
 
-function onVisualLayerMove(event) {
-  layerOffset = event
+function onVisualLayerMoved(event) {
+  layerOffset = event.offset
 }
 
 var layerOffset = { x:0, y:0 }

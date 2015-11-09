@@ -2,25 +2,57 @@
 
 function init(app) {
   _app  = app
-  rootPath = app.config.root
+  nodePath = require('path')
 }
 
-function load(modulePath) {
-  var newModule = loadedModules[modulePath]
+function load(modulePath, data) {
+  var path          = nodePath.parse(nodePath.normalize(modulePath))
+  var moduleId      = nodePath.format(path)
+  var loadingModule = loadedModules[moduleId]
+  var moduleInfo    = null
+  var moduleConfig  = (data == null ? {} : data)
 
-  if (newModule == undefined) {
-    newModule = require(rootPath + modulePath)
-    if (newModule.init != null) newModule.init(_app)
-    loadedModules[modulePath] = newModule
+  if (moduleConfig.moduleRootPath == null) {
+    moduleConfig.moduleRootPath = nodePath.join(path.root, path.dir) + nodePath.sep
   }
 
-  return newModule
+  if (loadingModule == null) {
+    loadingModule = require(moduleId)
+    if (loadingModule.moduleInfo != null) {
+      moduleId = loadingModule.moduleInfo.id
+    }
+
+    var checkModule = loadedModules[moduleId]
+    if (checkModule != null) {
+      return checkModule
+    }
+
+    if (loadingModule.init != null) {
+      loadingModule.init(_app, moduleConfig)
+    }
+
+    loadedModules[nodePath.format(path)] = loadingModule
+    loadedModules[moduleId] = loadingModule
+  }
+
+  return loadingModule
+}
+
+function loadModules(path, modulesList, data) {
+  var modules = []
+
+  modulesList.forEach(function (module) {
+    var mpath = nodePath.join(path, module)
+    modules.push(load(mpath, data))
+  })
+
+  return modules
 }
 
 var loadedModules = {}
 var _app = null
-var rootPath = ""
+var nodePath = null
 
 module.exports = {
-  init: init, load: load
+  init: init, load: load, loadModules: loadModules
 }
