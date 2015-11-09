@@ -24,11 +24,13 @@ function onBrainThoughtSelect(thought) {
 }
 
 function onThoughtChanged() {
+  if (selectedThought == null) return;
   updateThoughtFromFields(selectedThought)
   notify("brain.thought.changed", selectedThought)
 }
 
 function onThoughtChanging() {
+  if (selectedThought == null) return;
   updateThoughtFromFields(selectedThought)
   notify("brain.thought.changing", selectedThought)
 }
