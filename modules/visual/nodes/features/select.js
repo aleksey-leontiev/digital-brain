@@ -1,7 +1,7 @@
 // Highlight Selected
 // highlights selected thought
 
-function init(app) {
+function init(app, config) {
   subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "visual.thought.select", handler: onVisualThoughtSelect },
@@ -9,7 +9,10 @@ function init(app) {
     { id: "visual.frame",          handler: onVisualFrame }
   ])
 
-  shared = loadModule("shared", __dirname + "/../shared/")
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared"
+  ], config)
+  shared = modules[0]
 }
 
 function onBrainThoughtSelect(event) {

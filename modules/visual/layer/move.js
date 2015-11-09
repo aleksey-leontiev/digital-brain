@@ -1,4 +1,5 @@
 // Move Layer Module
+// allows to move layer
 
 function init(app) {
   subscribe([

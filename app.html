@@ -171,21 +171,14 @@ $(document).keydown(function(event){
 
 <script type="text/javascript">
   var api = require('./digitalBrain');
-  visualBrain = api.modules.load("modules/visual/visual")
-  create = api.modules.load("modules/visual/nodes/create")
+  var path = __dirname + "/"
 
-  linkLoad = api.modules.load("modules/visual/links/load")
-  drag = api.modules.load("modules/visual/nodes/drag")
-  update = api.modules.load("modules/visual/nodes/update")
-  persistence = api.modules.load("modules/persistence")
-  detailsPanel = api.modules.load("modules/details/details")
-  search = api.modules.load("modules/quick-search/quick-search")
-  highlightSelected = api.modules.load("modules/visual/nodes/select")
-  layerMove = api.modules.load("modules/visual/layer/move")
-
-  link = api.modules.load("modules/visual/links/links")
-  api.modules.load("modules/notifications/notifications")
-  api.modules.load("modules/editor/editor")
+  api.modules.load(path + "modules/details/details")
+  api.modules.load(path + "modules/visual/visual")
+  api.modules.load(path + "modules/persistence")
+  api.modules.load(path + "modules/quick-search/quick-search")
+  api.modules.load(path + "modules/notifications/notifications")
+  api.modules.load(path + "modules/editor/editor")
 
   notify("brain.open", { path: "brain" });
 </script>

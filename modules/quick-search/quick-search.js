@@ -1,7 +1,7 @@
 // Search Module
 // Allows to search thougths
 
-function init(app) {
+function init(app, config) {
   commitView("view.html", __dirname)
 
   searchQuery = $("#search-query")
@@ -10,10 +10,11 @@ function init(app) {
     { view: "#search-query",  id: "change", handler: onSearchChange },
   ])
 
-  var path = __dirname + "/features/"
-  loadModule("highlight", path)
-  loadModule("list",      path)
-  loadModule("open",      path)
+  app.modules.loadModules(config.moduleRootPath, [
+    "features/highlight",
+    "features/list",
+    "features/open"
+  ], config)
 }
 
 function onSearchChange() {

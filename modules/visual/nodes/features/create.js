@@ -1,10 +1,14 @@
 // Brain visualization module
 
-function init(app) {
+function init(app, config) {
   subscribe([
     { id: "visual.mouse.down",  handler: onMouseDown }
   ])
-  shared = app.modules.load("modules/visual/shared/shared")
+
+  var modules = app.modules.loadModules(config.moduleRootPath, [
+    "shared"
+  ], config)
+  shared = modules[0]
 }
 
 function onMouseDown(event) {
