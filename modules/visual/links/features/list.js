@@ -17,23 +17,24 @@ function onBrainThoughtSelect(thought) {
   clearView()
 
   thought.links.forEach(function (link) {
-    var thought = shared.getThoughtById(link)
-    appendView(thought)
+    var thought = shared.getThoughtById(link.to)
+    appendView(thought, link)
   })
 }
 
-function appendView(thought) {
-  linksList.append(getListView(thought))
+function appendView(thought, link) {
+  linksList.append(getListView(thought, link))
 }
 
 function clearView() {
   linksList.html("")
 }
 
-function getListView(thought) {
+function getListView(thought, link) {
   return  "<div class='thought-link uk-panel uk-panel-hover' data-thougth-id='" +thought._id+ "'>" +
           "  <h3 class='uk-panel-title'>" + thought.title + "</h3>" +
-          "  " + thought.description +
+          "  <p>" + thought.description + "</p> " +
+          "  <small><em>" + (link.description || "")+ "</em></small> " +
           "</div>"
 }
 

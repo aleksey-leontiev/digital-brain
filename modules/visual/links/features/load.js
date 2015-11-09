@@ -20,7 +20,7 @@ function onBrainOpenCompleted(brainThoughts) {
     if (thought.doc.links != null) {
       thought.doc.links.forEach(function(link) {
         firstNode =  shared.getVisualNodeByThoughtId(thought.doc._id)
-        secondNode = shared.getVisualNodeByThoughtId(link)
+        secondNode = shared.getVisualNodeByThoughtId(link.to)
         sharedLinks.createVisualLink(firstNode, secondNode)
       })
     }

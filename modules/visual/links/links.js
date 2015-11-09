@@ -22,8 +22,27 @@ function init(app, config) {
 
 function onBrainThoughtSelect(thought) {
   if (isLinking) {
-    selectedThought.links.push(thought._id)
-    notify("brain.links.create", {from: selectedThought, to: thought})
+    // create forward link
+    if (selectedThought.links == null) {
+      selectedThought.links = {}
+    }
+    selectedThought.links.push({
+      to: thought._id,
+      type: "forward"
+    })
+
+    // create backward link
+    backwardThougth = shared.getThoughtById(thought._id)
+    if (backwardThougth.links == null) {
+      backwardThougth.links = {}
+    }
+    backwardThougth.links.push({
+      to: selectedThought._id,
+      type: "backward",
+      description: "Backward link"
+    })
+
+    notify("brain.links.create", { from: selectedThought, to: thought })
   }
   selectedThought = thought
 }

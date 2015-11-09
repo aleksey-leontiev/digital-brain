@@ -17,7 +17,7 @@ function init(app, config) {
 function onThoughtLinkClick(event) {
   var t   = $(event.target)
   var tid = t.data("thougth-id") ||
-            t.parent(".thought-link").data("thougth-id")
+            t.closest(".thought-link").data("thougth-id")
   notify("brain.thought.select", shared.getThoughtById(tid))
 }
 
