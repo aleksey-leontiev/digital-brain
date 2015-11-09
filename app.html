@@ -11,11 +11,15 @@
 
     <script src="bower_components/uikit/js/components/htmleditor.min.js"></script>
     <script src="bower_components/uikit/js/components/notify.min.js"></script>
+    <script src="bower_components/uikit/js/components/search.min.js"></script>
+    <script src="bower_components/uikit/js/components/autocomplete.min.js"></script>
 
 
     <link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/notify.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/htmleditor.almost-flat.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/search.almost-flat.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/autocomplete.almost-flat.min.css" />
 
     <script src="bower_components/ckeditor/ckeditor.js"></script>
 </head>
@@ -173,10 +177,10 @@ $(document).keydown(function(event){
   var api = require('./digitalBrain');
   var path = __dirname + "/"
 
+  api.modules.load(path + "modules/quick-search/quick-search")
   api.modules.load(path + "modules/details/details")
   api.modules.load(path + "modules/visual/visual")
   api.modules.load(path + "modules/persistence")
-  api.modules.load(path + "modules/quick-search/quick-search")
   api.modules.load(path + "modules/notifications/notifications")
   api.modules.load(path + "modules/editor/editor")
 

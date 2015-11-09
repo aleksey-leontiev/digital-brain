@@ -1,23 +1,20 @@
 // Link Nodes
 // draw links between nodes
 
-var moduleInfo = {
-  id: "digitalBrain.visualization.links"
-}
-
 function init(app, config) {
   commitView("view.html", __dirname)
 
   subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
-    { id: "visual.frame",          handler: onVisualFrame },
+    { id: "key.down",              handler: onKeyDown },
     { id: "brain.links.create",    handler: onBrainLinksCreate }
   ])
 
   layer = request("visual.layer", "links")
 
   var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared", "links/shared", "links/features/create", "links/features/load"
+    "shared", "links/shared", "links/features/create", "links/features/load",
+    "links/features/list", "links/features/open"
   ], config)
   shared = modules[0]
   sharedLinks = modules[1]
@@ -40,14 +37,13 @@ function onBrainLinksCreate(link) {
   notify("brain.thought.changed", link.to)
 }
 
-function onVisualFrame(event) {
-  if (Key.isDown("l") && selectedThought != null)
+function onKeyDown(event) {
+  if (event.char == "L" && event.ctrlKey && selectedThought != null)
     setLinkingState(true)
 }
 
 function setLinkingState(value) {
   isLinking = value
-  $("#links").html(value)
 }
 
 var selectedThought = null
@@ -55,6 +51,8 @@ var isLinking = false
 var layer = null
 
 module.exports = {
-  info: moduleInfo,
+  info: {
+    id: "digitalBrain.visualization.links"
+  },
   init: init
 }
