@@ -33,7 +33,7 @@ function clearView() {
 function getListView(thought, link) {
   return  "<div class='thought-link uk-panel uk-panel-hover' data-thougth-id='" +thought._id+ "'>" +
           "  <h3 class='uk-panel-title'>" + thought.title + "</h3>" +
-          "  <p>" + thought.description + "</p> " +
+          "  <p>" + (thought.description || "") + "</p> " +
           "  <small><em>" + (link.description || "")+ "</em></small> " +
           "</div>"
 }

@@ -21,28 +21,52 @@ function init(app, config) {
 }
 
 function onBrainThoughtSelect(thought) {
+  var underscore = require('underscore');
+
   if (isLinking) {
+    var result = false
+
     // create forward link
     if (selectedThought.links == null) {
       selectedThought.links = {}
     }
-    selectedThought.links.push({
-      to: thought._id,
-      type: "forward"
+
+    var linksToIds = underscore.map(selectedThought.links, function(link) {
+      return link.to
     })
+    if (!underscore.contains(linksToIds, thought._id)) {
+      selectedThought.links.push({
+        to: thought._id,
+        type: "forward"
+      })
+      result = true
+    } else {
+      notify("notification", { message: "Already linked" })
+    }
 
     // create backward link
     backwardThougth = shared.getThoughtById(thought._id)
     if (backwardThougth.links == null) {
       backwardThougth.links = {}
     }
-    backwardThougth.links.push({
-      to: selectedThought._id,
-      type: "backward",
-      description: "Backward link"
-    })
 
-    notify("brain.links.create", { from: selectedThought, to: thought })
+    var linksToIds = underscore.map(thought.links, function(link) {
+      return link.to
+    })
+    if (!underscore.contains(linksToIds, selectedThought._id)) {
+      backwardThougth.links.push({
+        to: selectedThought._id,
+        type: "backward",
+        description: "Backward link"
+      })
+      result = true
+    } else {
+      notify("notification", { message: "Backward link already exist" })
+    }
+
+    if (result) {
+      notify("brain.links.create", { from: selectedThought, to: thought })
+    }
   }
   selectedThought = thought
 }
