@@ -24,7 +24,12 @@ function createOverlay(id, path) {
 
 function appendView(path, root) {
   var fs = require('fs')
+  var npath = require('path')
   var view = fs.readFileSync(path, 'utf8')
+
+  var p = npath.parse(npath.normalize(path)).dir
+  view = view.replace(/{{root}}/g, p)
+
   $(root).append(view)
 }
 

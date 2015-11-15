@@ -5,6 +5,10 @@ body {
     height: 100%;
 }
 
+body {
+  background: radial-gradient(white, lightgrey);
+}
+
 /* Scale canvas with resize attribute to full size */
 canvas[resize] {
     width: 100%;
