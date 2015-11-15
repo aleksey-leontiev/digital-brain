@@ -30,8 +30,12 @@ function loadJSAsync(path, onload) {
   return script
 }
 
+function loadJSSync(path) {
+  return require(path)
+}
+
 var rootPath = ""
 
 module.exports = {
-  init: init, loadJs: loadJs, loadCss: loadCss, loadJSAsync: loadJSAsync
+  init: init, loadJs: loadJs, loadCss: loadCss, loadJSAsync: loadJSAsync, loadJSSync: loadJSSync
 }

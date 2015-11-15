@@ -1,11 +1,11 @@
 {
-  "name": "editor",
-  "main": "editor.js",
+  "name": "visual",
+  "main": "visual.js",
   "homepage": "https://github.com/aleksey-leontiev/digital-brain",
   "authors": [
     "Aleksey Leontiev <aleksey.leontiev@icloud.com>"
   ],
-  "description": "Editor module for digitalBrain",
+  "description": "Visualization module for digitalBrain app",
   "moduleType": [],
   "license": "MIT",
   "private": true,
@@ -17,6 +17,6 @@
     "tests"
   ],
   "dependencies": {
-    "ckeditor": "~4.5.5"
+    "paper": "~0.9.25"
   }
 }

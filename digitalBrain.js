@@ -23,3 +23,5 @@ loadModules = this.modules.loadModules
 createOverlay = this.views.createOverlay
 
 loadJSAsync = this.assets.loadJSAsync
+loadJSSync  = this.assets.loadJSSync
+loadCSS     = this.assets.loadCss

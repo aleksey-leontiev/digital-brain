@@ -2,8 +2,8 @@
 
 function init(app, config) {
   // install paper.js
-  paper = app.assets.loadJs("bower_components/paper/dist/paper-full.js");
-  css   = app.assets.loadCss("assets/style.css");
+  paper = loadJSSync(config.moduleRootPath + "bower_components/paper/dist/paper-full.js");
+
   paper.install(window);
   paper.setup('canvas');
 
