@@ -37,21 +37,6 @@ $(document).keydown(function(event){
     <div id="panel" class="float-panel noselect">
     </div>
 
-    <div id="details" class="float-details">
-      <textarea name="editor1" id="editor1" rows="10" cols="80">
-      </textarea>
-      <script>
-                // Replace the <textarea id="editor1"> with a CKEditor
-                // instance, using default configuration.
-                CKEDITOR.config.toolbarCanCollapse = true;
-                CKEDITOR.config.toolbarStartupExpanded = false;
-                /*CKEDITOR.config.toolbar = [
-                  [ 'Source', '-', 'Bold', 'Italic' ]
-                ];*/
-                CKEDITOR.replace( 'editor1' );
-            </script>
-    </div>
-
     <div id="left-titlebar" class="left-titlebar">
       <div class="left-titlebar-icon">
         <img id="left-titlebaricon" src="assets/logo.png"></div>
@@ -62,7 +47,6 @@ $(document).keydown(function(event){
         <div class="left-titlebar-divider"></div>
       </div>
     </div>
-
 </body>
 
 <style>
@@ -171,6 +155,18 @@ $(document).keydown(function(event){
   height: 100%;
   background-color: #2a2c2c;
 }
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: white; /*rgba(51,51,51,0.7);*/
+    /*left:-100%;*/
+    -webkit-transition: all 0.5s ease;
+    display: none;
+  }
 </style>
 
 <script type="text/javascript">
