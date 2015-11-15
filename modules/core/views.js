@@ -22,10 +22,17 @@ function createOverlay(id, path) {
   return $("#" + id)
 }
 
+function appendView(path, root) {
+  var fs = require('fs')
+  var view = fs.readFileSync(path, 'utf8')
+  $(root).append(view)
+}
+
 var rootPath = ""
 
 module.exports = {
   init: init,
   commitView: commitView,
+  appendView: appendView,
   createOverlay: createOverlay
 }

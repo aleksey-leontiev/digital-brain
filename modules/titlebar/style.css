@@ -1,0 +1,49 @@
+.left-titlebar {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 32px;
+  height: 100%;
+  background-color: #3a3d3d;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.left-titlebar-icon {
+  position: absolute;
+  bottom: 6px;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.left-titlebar-text {
+  position: absolute;
+  bottom: 32px;
+  width: 100px;
+  margin-left: 6px;
+  margin-right: 6px;
+  font-family: Arial;
+  font-size: 12pt;
+  color: #ffffff;
+  -webkit-transform: rotate(-90deg) translate(0, 100%);
+  -webkit-transform-origin: 0% 100%;
+}
+
+.left-titlebar-close-button {
+  position: absolute;
+  top: 11px;
+  width: 17px;
+  height: 17px;
+  margin-left: 6px;
+  margin-right: 6px;
+  -webkit-app-region: no-drag;
+}
+
+.left-titlebar-divider {
+  position: absolute;
+  left: 31px;
+  top: 0px;
+  width: 1px;
+  height: 100%;
+  background-color: #2a2c2c;
+}
