@@ -20,8 +20,18 @@ function loadCss(path) {
   return ref
 }
 
+function loadJSAsync(path, onload) {
+  var head      = document.getElementsByTagName('head')[0]
+  var script    = document.createElement('script')
+  script.type   = 'text/javascript'
+  script.src    = path
+  script.onload = onload
+  head.appendChild(script)
+  return script
+}
+
 var rootPath = ""
 
 module.exports = {
-  init: init, loadJs: loadJs, loadCss: loadCss
+  init: init, loadJs: loadJs, loadCss: loadCss, loadJSAsync: loadJSAsync
 }

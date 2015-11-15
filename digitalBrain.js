@@ -21,3 +21,5 @@ commitView  = this.views.commitView
 loadModule  = this.modules.load
 loadModules = this.modules.loadModules
 createOverlay = this.views.createOverlay
+
+loadJSAsync = this.assets.loadJSAsync

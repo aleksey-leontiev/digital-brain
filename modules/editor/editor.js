@@ -7,14 +7,15 @@ function init(app, config) {
     { id: "brain.thought.select", handler: onBrainThoughtSelect },
   ])
 
-  // Configure ckeditor
-  CKEDITOR.config.toolbarCanCollapse = true;
+  // Load dependencies
+  loadJSAsync(
+    config.moduleRootPath + "bower_components/ckeditor/ckeditor.js",
+    configureEditor)
 
   // Create overlay
   overlay = createOverlay(
     "editor-overlay",
     config.moduleRootPath + "view.html")
-  editor = CKEDITOR.instances.em_ThoughtEditor
 }
 
 function onKeyDown(event) {
@@ -52,6 +53,11 @@ function isShortcutPressed(event) {
 function save() {
   activeThought.content = editor.getData()
   notify("brain.thought.changed", activeThought)
+}
+
+function configureEditor(argument) {
+  CKEDITOR.replace('em_ThoughtEditor');
+  editor = CKEDITOR.instances.em_ThoughtEditor
 }
 
 var activeThought = null
