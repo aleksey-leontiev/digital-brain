@@ -28,6 +28,14 @@ $(document).keydown(function(event){
   var char = String.fromCharCode(event.which)
   notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
 })
+
+$(window).resize(function(event) {
+  notify("window.resize", {})
+})
+
+$(window).mousemove(function (event) {
+  notify("mouse.move", event)
+})
 </script>
 
 <body id="body">
@@ -36,42 +44,6 @@ $(document).keydown(function(event){
     <div id="panel" class="float-panel noselect">
     </div>
 </body>
-
-<style>
-.float-panel {
-  margin: 10px;
-  margin-left: 42px;
-  padding: 10px;
-  position: absolute;
-  width: 200px;
-  height: auto;
-  left: 0px;
-  top: 0px;
-  background: rgba(252, 252, 252, 0.95);
-  border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
-}
-
-.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background: white; /*rgba(51,51,51,0.7);*/
-    /*left:-100%;*/
-    -webkit-transition: all 0.5s ease;
-    display: none;
-  }
-</style>
 
 <script type="text/javascript">
   var api = require('./digitalBrain');
@@ -83,6 +55,7 @@ $(document).keydown(function(event){
   api.modules.load(path + "modules/persistence")
   api.modules.load(path + "modules/notifications/notifications")
   api.modules.load(path + "modules/editor/editor")
+
   api.modules.load(path + "modules/titlebar/titlebar")
 
   notify("brain.open", { path: "brain" });

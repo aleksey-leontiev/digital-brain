@@ -5,6 +5,7 @@ function init(app, config) {
     { id: "brain.thought.open",   handler: onBrainThoughtOpen },
     { id: "brain.thought.close",  handler: onBrainThoughtClose },
     { id: "brain.thought.select", handler: onBrainThoughtSelect },
+    { id: "window.resize",        handler: onWindowResize }
   ])
 
   // Load dependencies
@@ -46,6 +47,12 @@ function onBrainThoughtSelect(thought) {
   activeThought = thought
 }
 
+function onWindowResize() {
+  editor.resize(
+    overlay.width(),
+    overlay.height())
+}
+
 function isShortcutPressed(event) {
   return (event.char == "O") && event.ctrlKey
 }
@@ -56,7 +63,7 @@ function save() {
 }
 
 function configureEditor(argument) {
-  CKEDITOR.replace('em_ThoughtEditor');
+  CKEDITOR.replace('em_ThoughtEditor', { width:"100%", height: "100%"});
   editor = CKEDITOR.instances.em_ThoughtEditor
 }
 

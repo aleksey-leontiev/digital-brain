@@ -7,6 +7,7 @@
   background-color: #3a3d3d;
   -webkit-user-select: none;
   -webkit-app-region: drag;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .left-titlebar-icon {
