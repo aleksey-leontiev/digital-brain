@@ -13,9 +13,14 @@ function onVisualThoughtCreate(event) {
     source: event.thought.image
   })
 
-  event.node.imageMask = new Path.Circle({
+  event.node.imageStroke = new Path.Circle({
     radius: 15,
-    fillColor: "LightSlateGray"
+    strokeColor: "black",
+    opacity: .75
+  })
+
+  event.node.imageMask = new Path.Circle({
+    radius: 15
   });
 
   event.node.imageGroup = new Group([event.node.imageMask, event.node.image]);
@@ -26,7 +31,8 @@ function onVisualThoughtCreate(event) {
     event.node.path.opacity = 0
   }
 
-  event.node.group.addChild(event.node.imageGroup);
+  event.node.group.addChild(event.node.imageGroup)
+  event.node.group.addChild(event.node.imageStroke)
 }
 
 module.exports = { init: init }
