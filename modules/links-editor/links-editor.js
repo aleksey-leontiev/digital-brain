@@ -9,6 +9,7 @@ function init(app, config) {
   linkTitle       = $("#lem_link-title")
   linkDescription = $("#lem_link-description")
   linkToId        = $("#lem_link-to-id")
+  linkTo          = $("#lem_link-to-text")
 
   subscribe([
     { id: "key.down",             handler: onKeyDown },
@@ -47,6 +48,12 @@ function onBrainThoughtSelect(thought) {
 }
 
 function openOverlay(thought) {
+  linksList.val("")
+  linkTitle.val("")
+  linkDescription.val("")
+  linkToId.val("")
+  linkTo.val("")
+
   updateLinksList(thought)
   overlay.show()
 }
@@ -57,12 +64,20 @@ function closeOverlay(thought) {
 }
 
 function onLinkClick(event) {
-  var linkId = $(event.target).closest(".lem_link-item").data("link-id")
-  var link   = activeThought.links[linkId]
+  $(".uk-panel-box-primary", $("#lem_root")).removeClass("uk-panel-box-primary")
+  $(event.target).closest(".lem_link-item").addClass("uk-panel-box-primary")
+
+  var linkId  = $(event.target).closest(".lem_link-item").data("link-id")
+  var link    = activeThought.links[linkId]
+  var thought = shared.getThoughtById(link.to)
   activeLink = link
 
+  if (thought != null) {
+    linkTo.val(thought.title || "")
+  }
+  linkToId.val(link.to)
   linkTitle.val(link.title)
-  linkDescription.val(link.description)
+  linkDescription.val(link.description || "")
 }
 
 function onChnaged() {
@@ -73,6 +88,7 @@ function onChnaged() {
   }
 
   save()
+  updateLinksList(activeThought)
 }
 
 function onAddNew(event) {
@@ -143,5 +159,6 @@ var linksList = null
 var linkTitle = null
 var linkDescription = null
 var linkToId = null
+var linkTo = null
 
 module.exports = { init: init }

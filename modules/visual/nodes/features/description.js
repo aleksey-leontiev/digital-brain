@@ -13,7 +13,7 @@ function onVisualThoughtCreate(event) {
     justification: 'left',
     fontSize: 12,
     fillColor: 'slategray',
-    content: event.thought.description.substring(0, 50)
+    content: (event.thought.description || "").substring(0, 50)
   });
 
   event.node.group.addChild(event.node.description);
