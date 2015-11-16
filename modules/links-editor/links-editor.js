@@ -1,44 +1,32 @@
 
 function init(app, config) {
-  // Create overlay
+  // create overlay
   overlay = createOverlay(
     "links-editor-overlay",
     config.moduleRootPath + "view.html")
 
+  linksList       = $("#lem_links-list")
+  linkTitle       = $("#lem_link-title")
+  linkDescription = $("#lem_link-description")
+  linkToId        = $("#lem_link-to-id")
+
   subscribe([
     { id: "key.down",             handler: onKeyDown },
     { id: "brain.thought.select", handler: onBrainThoughtSelect },
-    { id: "brain.open.completed",           handler: buildAutocomplete},
+    { id: "brain.open.completed", handler: onBrainOpenCompleted },
 
-    { view: "#lem_link-title", id: "change", handler: onChnaged },
+    { view: "#lem_link-title",       id: "change", handler: onChnaged },
     { view: "#lem_link-description", id: "change", handler: onChnaged },
+    { view: "#lem_add-new",          id: "click", handler: onAddNew },
 
-    { view: "#lem_add-new", id: "click", handler: onAddNew },
-
-
-    { delegate: "#lem_links", view: ".lem_link-item", id: "click", handler: onLinkClick }
+    { delegate: "#lem_links-list", view: ".lem_link-item", id: "click", handler: onLinkClick }
   ])
 
-  // Load additional modules
+  // load additional modules
   var loaded = loadModules(config.appRootPath, ["modules/shared"], config)
   shared = loaded[0]
 
   // prepare autocomplete
-}
-
-function buildAutocomplete(argument) {
-  var e = document.getElementById("lem_link-to2")
-  var s = shared.getThoughts()
-
-  var _ = require("underscore")
-
-  var s = _.map(s, function(z,x) { return {id:z._id, value:z.title, text:z.description} })
-  UIkit.autocomplete(e, { source: s });
-
-  UIkit.$('#lem_link-to2').on('selectitem.uk.autocomplete', function (e, data, ac) {
-    $("#lem_link-id").val(data.id) //console.log(data)
-    onChnaged(null)
-  });
 }
 
 function onKeyDown(event) {
@@ -46,64 +34,52 @@ function onKeyDown(event) {
 
   if (isShortcutPressed(event)) {
     isThoughtOpen = !isThoughtOpen
-
     if (isThoughtOpen) {
-      onBrainThoughtOpen(activeThought)
-      //notify("brain.thought.open", activeThought)
+      openOverlay(activeThought)
     } else {
-      onBrainThoughtClose(activeThought)
-      //notify("brain.thought.close", activeThought)
+      closeOverlay(activeThought)
     }
   }
-}
-
-function onBrainThoughtOpen(thought) {
-  $("#lem_links").html("")
-
-  thought.links.forEach(function(link, index) {
-    $("#lem_links").append(
-      linkView(link, index)
-    )
-  })
-
-  overlay.show()
-}
-
-function onBrainThoughtClose(thought) {
-  save()
-  overlay.hide()
 }
 
 function onBrainThoughtSelect(thought) {
   activeThought = thought
 }
 
-function onLinkClick(event) {
-  var linkId = $(event.target).closest(".lem_link-item").data("link-id")
-  var link = activeThought.links[linkId]
-  activeLink = link
-
-  $("#lem_link-title").val(link.title)
-  $("#lem_link-description").val(link.description)
+function openOverlay(thought) {
+  updateLinksList(thought)
+  overlay.show()
 }
 
-function onChnaged(event) {
-  activeLink.title = $("#lem_link-title").val()
-  activeLink.description = $("#lem_link-description").val()
-  if ($("#lem_link-id").val() != "") {
-    activeLink.to = $("#lem_link-id").val()
+function closeOverlay(thought) {
+  save()
+  overlay.hide()
+}
+
+function onLinkClick(event) {
+  var linkId = $(event.target).closest(".lem_link-item").data("link-id")
+  var link   = activeThought.links[linkId]
+  activeLink = link
+
+  linkTitle.val(link.title)
+  linkDescription.val(link.description)
+}
+
+function onChnaged() {
+  activeLink.title       = linkTitle.val()
+  activeLink.description = linkDescription.val()
+  if (linkToId.val() != "") {
+    activeLink.to = linkToId.val()
   }
 
-  notify("brain.thought.changed", activeThought)
-
-  console.log(activeThought);
+  save()
 }
 
 function onAddNew(event) {
   activeThought.links.push({
-    type: "ref", title: "Untitled"
+    type: "ref"
   })
-  onBrainThoughtOpen(activeThought)
+  updateLinksList(activeThought)
 }
 
 function isShortcutPressed(event) {
@@ -125,10 +101,47 @@ function linkView(link, id) {
     "</div>"
 }
 
+// events
+function onBrainOpenCompleted(argument) {
+  upadteAutocomplete()
+}
+
+// TODO: Create once on open completed. Push to hashed array
+//       when new thought created
+function upadteAutocomplete() {
+  var thoughts     = shared.getThoughts()
+  var autocomplete = $("#lem_link-to")
+  var underscore   = require("underscore")
+  var data         = underscore.map(thoughts, function(t) {
+    return { id: t._id, value: t.title, text:t.description}
+  })
+
+  UIkit.autocomplete(autocomplete, { source: data });
+
+  UIkit.$('#lem_link-to').on('selectitem.uk.autocomplete', function (e, data, ac) {
+    linkToId.val(data.id) //console.log(data)
+    onChnaged(null)
+  });
+}
+
+function updateLinksList(thought) {
+  linksList.html("")
+  thought.links.forEach(function(link, index) {
+    linksList.append(linkView(link, index))
+  })
+}
+
+//
+
 var activeThought = null
 var overlay = null
 var isThoughtOpen = false
 var shared = null
 var activeLink = null
+
+var linksList = null
+var linkTitle = null
+var linkDescription = null
+var linkToId = null
 
 module.exports = { init: init }
