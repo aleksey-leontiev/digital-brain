@@ -25,14 +25,14 @@ function init(app, config) {
   shared = loaded[0]
 }
 
-function onBrainThoughtNewOrLoad(thought) {
+function onBrainThoughtNewOrLoad(event) {
   var layerOffset = shared.getLayerOffset()
   var node = {};
 
   node.group = new Group();
   layer.bringToFront() // TODO: bring to front
 
-  notify("visual.thought.create", { node: node, thought: thought })
+  notify("visual.thought.create", { node: node, thought: event.thought })
 
   node.path = new Path.Circle({
     radius: 15,
@@ -44,26 +44,26 @@ function onBrainThoughtNewOrLoad(thought) {
     justification: 'left',
     fontSize: 16,
     fillColor: 'red',
-    content: thought.title
+    content: event.thought.title
   });
 
   node.group.addChildren([node.path, node.text])
-  node.group.position = new Point(thought.x - layerOffset.x, thought.y - layerOffset.y);
+  node.group.position = new Point(event.thought.x - layerOffset.x, event.thought.y - layerOffset.y);
 
   node.group.onMouseDown = function() {
-    notify("brain.thought.select", thought)
+    notify("brain.thought.select", event.thought)
     notify("visual.thought.select", node)
   };
-  node.group.onMouseDrag = function(event) {
+  node.group.onMouseDrag = function(e) {
     notify("visual.thought.drag",
-    {node: node, thought: thought, point:event.point})
+    {node: node, thought: event.thought, point:e.point})
   }
-  node.group.onMouseUp = function(event) {
+  node.group.onMouseUp = function(e) {
     notify("visual.thought.mouse.up",
-    {node: node, thought: thought, point:event.point})
+    {node: node, thought: event.thought, point:e.point})
   }
 
-  hash[thought._id] = node
+  hash[event.thought._id] = node
 
   layer.addChild(node.group)
 }

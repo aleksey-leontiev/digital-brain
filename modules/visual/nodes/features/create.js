@@ -16,11 +16,11 @@ function onMouseDown(event) {
     id = Math.random().toString(36).substr(2)
     layerOffset = shared.getLayerOffset()
 
-    notify("brain.thought.new", {
+    notify("brain.thought.new", { thought: {
       _id: id, title: "new",
       x: event.point.x + layerOffset.x,
       y: event.point.y + layerOffset.y,
-      links: [] })
+      links: [] }})
   }
 }
 

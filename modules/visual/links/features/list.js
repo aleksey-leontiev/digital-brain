@@ -18,7 +18,9 @@ function onBrainThoughtSelect(thought) {
 
   thought.links.forEach(function (link) {
     var thought = shared.getThoughtById(link.to)
-    appendView(thought, link)
+    if (thought != null) {
+      appendView(thought, link)
+    }
   })
 }
 

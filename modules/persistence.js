@@ -13,10 +13,10 @@ function init(app) {
   ])
 }
 
-function onBrainThoughtNew(thought) {
-  dataBase.put(thought).then(function(result) {
-    thought._id  = result.id
-    thought._rev = result.rev
+function onBrainThoughtNew(event) {
+  dataBase.put(event.thought).then(function(result) {
+    event.thought._id  = result.id
+    event.thought._rev = result.rev
   }).catch(function(err) {
     notifyError("Unable to save thought", err)
   });
@@ -36,7 +36,7 @@ function onBrainOpen(event) {
 
   dataBase.allDocs(options).then(function(result) {
     result.rows.forEach(function(row) {
-      notify("brain.thought.load", row.doc)
+      notify("brain.thought.load", { thought: row.doc })
     })
     notify("brain.open.completed", result.rows)
   }).catch(function (err) {

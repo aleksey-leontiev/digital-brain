@@ -15,6 +15,9 @@ function load(modulePath, data) {
   if (moduleConfig.moduleRootPath == null) {
     moduleConfig.moduleRootPath = nodePath.join(path.root, path.dir) + nodePath.sep
   }
+  if (moduleConfig.appRootPath == null) {
+    moduleConfig.appRootPath = _app.config.root
+  }
 
   if (loadingModule == null) {
     loadingModule = require(moduleId)

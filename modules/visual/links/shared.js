@@ -4,10 +4,15 @@ function init(app) {
   layer = request("visual.layer", "links")
 }
 
-function createVisualLink(fromNode, toNode) {
+function createVisualLink(fromNode, toNode, type) {
   var linkNode         = new Path();
   linkNode.strokeColor = 'black';
   linkNode.strokeWidth = 1
+
+  if (type == "ref") {
+    linkNode.strokeColor = "green"
+    linkNode.strokeWidth = .1
+  }
 
   linkNode.add(fromNode.path.position);
   linkNode.add(toNode.path.position);

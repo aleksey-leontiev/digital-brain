@@ -1,0 +1,50 @@
+<div style="width:100%;height:100%;background-color:white">
+  Add new link: <button id="lem_add-new" class="uk-button">+</button>
+
+  <div id="lem_links"></div>
+
+  <div class="uk-form">
+    <legend>Details</legend>
+
+    <!-- Link title input box -->
+    <div class="uk-form-row">
+      <div class="uk-autocomplete uk-form" id="lem_link-to2">
+        <input id="lem_link-to"
+          type="text"
+          class="uk-width-1-1"
+          placeholder="To"></input>
+        <script type="text/autocomplete">
+          <ul class="uk-nav uk-nav-autocomplete uk-autocomplete-results">
+              {{~items}}
+              <li data-value="{{ $item.value }}" data-id="{{ $item.id }}">
+                  <a>
+                      {{ $item.value }}
+                      <div>{{{ $item.text }}}</div>
+                  </a>
+              </li>
+              {{/items}}
+            </ul>
+          </script>
+      </div>
+
+    </div>
+
+
+    <!-- Link title input box -->
+    <div class="uk-form-row">
+      <input id="lem_link-title"
+        type="text"
+        class="uk-width-1-1"
+        placeholder="Title"></input>
+    </div>
+
+    <!-- Link description input box -->
+    <div class="uk-form-row">
+      <textarea id="lem_link-description"
+        class="uk-width-1-1"
+        placeholder="Description"
+        rows="8"></textarea>
+  </div>
+
+  <input id="lem_link-id" type="hidden"></input>
+</div>
