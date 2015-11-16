@@ -20,7 +20,7 @@ function init(app, config) {
   view.onMouseDown = onMouseDown
 
   var loaded = loadModules(config.moduleRootPath, [
-    "shared", "nodes/nodes", "links/links", "layer/move", "layer/center"
+    "shared", "nodes/nodes", "links/links", "layer/move", "layer/center", "zoom/zoom"
   ], config)
   shared = loaded[0]
 }
