@@ -20,7 +20,11 @@ function onVisualThoughtCreated(event) {
     if (s == "small") {
       node.group.scale(.75)
     }
-    if (s == "important") node.path.fillColor = "red"
+    if (s == "important") {
+      node.path.fillColor = "red"
+      node.text.fillColor = "red"
+      if (node.description) node.description.fillColor = "darkred"
+    }
   })
 }
 

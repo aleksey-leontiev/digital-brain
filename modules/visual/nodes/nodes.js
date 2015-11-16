@@ -7,6 +7,7 @@ function init(app, config) {
     "nodes/features/select",
     "nodes/features/update",
     "nodes/features/description",
+    "nodes/features/image",
     "nodes/features/style"
   ], config)
 }

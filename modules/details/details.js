@@ -7,6 +7,7 @@ function init(app) {
   thoughtTitle       = $("#thought-title")
   thoughtDescription = $("#thought-description")
   thoughtStyle       = $("#thought-style")
+  thoughtImage       = $("#thought-image")
 
   subscribe([
     { id: "brain.thought.select",   handler: onBrainThoughtSelect },
@@ -14,6 +15,7 @@ function init(app) {
     { view: "#thought-title",       id: "change", handler: onThoughtChanged },
     { view: "#thought-description", id: "change", handler: onThoughtChanged },
     { view: "#thought-style",       id: "change", handler: onThoughtChanged },
+    { view: "#thought-image",       id: "change", handler: onThoughtChanged },
 
     { view: "#thought-title",       id: "input",  handler: onThoughtChanging },
     { view: "#thought-description", id: "input",  handler: onThoughtChanging }
@@ -41,17 +43,20 @@ function updateFieldsFromThought(thought) {
   thoughtTitle.val(thought.title || "")
   thoughtDescription.val(thought.description || "")
   thoughtStyle.val(thought.style || "")
+  thoughtImage.val(thought.image || "")
 }
 
 function updateThoughtFromFields(thought) {
   thought.title       = thoughtTitle.val()
   thought.description = thoughtDescription.val()
   thought.style       = thoughtStyle.val()
+  thought.image       = thoughtImage.val()
 }
 
 var selectedThought    = null
 var thoughtTitle       = null
 var thoughtDescription = null
 var thoughtStyle       = null
+var thoughtImage       = null
 
 module.exports = { init: init }
