@@ -6,8 +6,9 @@ function init(app) {
 
 function createVisualLink(fromNode, toNode, type) {
   var linkNode         = new Path();
-  linkNode.strokeColor = 'black';
-  linkNode.strokeWidth = 1
+  linkNode.strokeColor = 'LightSteelBlue';
+  linkNode.strokeWidth = 5
+  linkNode.opacity     = .5
 
   if (type == "ref") {
     linkNode.strokeColor = "green"

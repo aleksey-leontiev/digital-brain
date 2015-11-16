@@ -36,14 +36,13 @@ function onBrainThoughtNewOrLoad(event) {
 
   node.path = new Path.Circle({
     radius: 15,
-    fillColor: "green"
+    fillColor: "LightSlateGray"
   });
 
   node.text = new PointText({
     point: [20, 5],
     justification: 'left',
     fontSize: 16,
-    fillColor: 'red',
     content: event.thought.title
   });
 
