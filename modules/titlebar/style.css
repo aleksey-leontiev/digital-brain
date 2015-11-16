@@ -8,6 +8,11 @@
   -webkit-user-select: none;
   -webkit-app-region: drag;
   transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.left-titlebar:hover {
+  opacity: 1;
 }
 
 .left-titlebar-icon {
