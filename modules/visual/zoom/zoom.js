@@ -14,7 +14,6 @@ function onKeyDown(event) {
     zoom -= .25
   if (zoom < .25)
     zoom = .25
-  console.log(event);
 }
 
 function onVisualFrame() {

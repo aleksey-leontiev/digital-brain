@@ -3,13 +3,13 @@
 
 function init(app) {
   subscribe([
-    { id: "visual.thought.create",         handler: onVisualThoughtCreate }
+    { id: "visual.thought.create", handler: onVisualThoughtCreate }
   ])
 }
 
 function onVisualThoughtCreate(event) {
   event.node.description = new PointText({
-    point: [20, 20],
+    point: [20, 12],
     justification: 'left',
     fontSize: 12,
     fillColor: 'slategray',

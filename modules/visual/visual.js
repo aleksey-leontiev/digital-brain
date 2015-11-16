@@ -40,7 +40,7 @@ function onBrainThoughtNewOrLoad(event) {
   });
 
   node.text = new PointText({
-    point: [20, 5],
+    point: [20, 0],
     justification: 'left',
     fontSize: 16,
     content: event.thought.title
@@ -61,6 +61,8 @@ function onBrainThoughtNewOrLoad(event) {
     notify("visual.thought.mouse.up",
     {node: node, thought: event.thought, point:e.point})
   }
+
+  notify("visual.thought.created", { node: node, thought: event.thought })
 
   hash[event.thought._id] = node
 
