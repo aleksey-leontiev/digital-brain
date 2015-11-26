@@ -1,18 +1,19 @@
 // Link Nodes
 // draw links between nodes
 
-function init(app, config) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "brain.open.completed",  handler: onBrainOpenCompleted }
   ])
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared", "links/shared"
-  ], config)
-  shared = modules[0]
-  sharedLinks = modules[1]
+  shared = api.module.request("shared")
+  sharedLinks = api.module.request("links/shared")
 
-  layer       = request("visual.layer", "links")
+  layer       = api.events.request("visual.layer", "links")
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainOpenCompleted(brainThoughts) {
@@ -35,4 +36,11 @@ var layer = null
 var shared = null
 var sharedLinks = null
 
-module.exports = { init: init }
+module.exports = {
+  info: {
+    id:      "digitalBrain.visual.links.load",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load: load, unload: unload
+}

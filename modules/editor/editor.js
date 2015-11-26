@@ -1,6 +1,9 @@
 
-function init(app, config) {
-  subscribe([
+function load(mapi, config) {
+  api = mapi
+
+  // Subscribe for events
+  api.events.subscribe([
     { id: "key.down",             handler: onKeyDown },
     { id: "brain.thought.open",   handler: onBrainThoughtOpen },
     { id: "brain.thought.close",  handler: onBrainThoughtClose },
@@ -9,14 +12,17 @@ function init(app, config) {
   ])
 
   // Load dependencies
-  loadJSAsync(
-    config.moduleRootPath + "bower_components/ckeditor/ckeditor.js",
-    configureEditor)
+  api.assets.loadJSAsync("bower_components/ckeditor/ckeditor.js", configureEditor)
 
   // Create overlay
-  overlay = createOverlay(
-    "editor-overlay",
-    config.moduleRootPath + "view.html")
+  view = {
+    overlay: api.views.createOverlay("view.html")
+  }
+}
+
+function unload(api) {
+  api.events.unsubscribe()
+  view.overlay.remove()
 }
 
 function onKeyDown(event) {
@@ -26,21 +32,21 @@ function onKeyDown(event) {
     isThoughtOpen = !isThoughtOpen
 
     if (isThoughtOpen) {
-      notify("brain.thought.open", activeThought)
+      api.events.notify("brain.thought.open", activeThought)
     } else {
-      notify("brain.thought.close", activeThought)
+      api.events.notify("brain.thought.close", activeThought)
     }
   }
 }
 
 function onBrainThoughtOpen(thought) {
-  overlay.show()
-  editor.setData(activeThought.content || "")
+  view.overlay.show()
+  view.editor.setData(activeThought.content || "")
 }
 
 function onBrainThoughtClose(thought) {
   save()
-  overlay.hide()
+  view.overlay.hide()
 }
 
 function onBrainThoughtSelect(thought) {
@@ -48,9 +54,9 @@ function onBrainThoughtSelect(thought) {
 }
 
 function onWindowResize() {
-  editor.resize(
-    overlay.width(),
-    overlay.height())
+  view.editor.resize(
+    view.overlay.width(),
+    view.overlay.height())
 }
 
 function isShortcutPressed(event) {
@@ -58,18 +64,26 @@ function isShortcutPressed(event) {
 }
 
 function save() {
-  activeThought.content = editor.getData()
-  notify("brain.thought.changed", activeThought)
+  activeThought.content = view.editor.getData()
+  api.events.notify("brain.thought.changed", activeThought)
 }
 
 function configureEditor(argument) {
   CKEDITOR.replace('em_ThoughtEditor', { width:"100%", height: "100%"});
-  editor = CKEDITOR.instances.em_ThoughtEditor
+  view.editor = CKEDITOR.instances.em_ThoughtEditor
 }
 
+var api
+var view
 var activeThought = null
-var overlay = null
-var editor = null
 var isThoughtOpen = false
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.editor",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

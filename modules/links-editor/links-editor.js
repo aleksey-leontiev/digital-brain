@@ -1,33 +1,36 @@
 
-function init(app, config) {
+function load(mapi, config) {
+  api = mapi
+
   // create overlay
-  overlay = createOverlay(
-    "links-editor-overlay",
-    config.moduleRootPath + "view.html")
+  view = {
+    overlay:         api.views.createOverlay("view.html"),
+    linksList:       $("#lem_links-list"),
+    linkTitle:       $("#lem_link-title"),
+    linkDescription: $("#lem_link-description"),
+    linkToId:        $("#lem_link-to-id"),
+    linkTo:          $("#lem_link-to-text")
+  }
 
-  linksList       = $("#lem_links-list")
-  linkTitle       = $("#lem_link-title")
-  linkDescription = $("#lem_link-description")
-  linkToId        = $("#lem_link-to-id")
-  linkTo          = $("#lem_link-to-text")
-
-  subscribe([
-    { id: "key.down",             handler: onKeyDown },
-    { id: "brain.thought.select", handler: onBrainThoughtSelect },
-    { id: "brain.open.completed", handler: onBrainOpenCompleted },
+  api.events.subscribe([
+    { id: "key.down",                handler: onKeyDown },
+    { id: "brain.thought.select",    handler: onBrainThoughtSelect },
+    { id: "brain.open.completed",    handler: onBrainOpenCompleted },
 
     { view: "#lem_link-title",       id: "change", handler: onChnaged },
     { view: "#lem_link-description", id: "change", handler: onChnaged },
     { view: "#lem_add-new",          id: "click", handler: onAddNew },
 
-    { delegate: "#lem_links-list", view: ".lem_link-item", id: "click", handler: onLinkClick }
+    { delegate: "#lem_links-list",   view: ".lem_link-item", id: "click", handler: onLinkClick }
   ])
 
   // load additional modules
-  var loaded = loadModules(config.appRootPath, ["modules/shared"], config)
-  shared = loaded[0]
+  shared = api.app.request("modules/shared", config)
+}
 
-  // prepare autocomplete
+function unload(api) {
+  api.events.unsubscribe()
+  view.overlay.remove()
 }
 
 function onKeyDown(event) {
@@ -48,19 +51,19 @@ function onBrainThoughtSelect(thought) {
 }
 
 function openOverlay(thought) {
-  linksList.val("")
-  linkTitle.val("")
-  linkDescription.val("")
-  linkToId.val("")
-  linkTo.val("")
+  view.linksList.val("")
+  view.linkTitle.val("")
+  view.linkDescription.val("")
+  view.linkToId.val("")
+  view.linkTo.val("")
 
   updateLinksList(thought)
-  overlay.show()
+  view.overlay.show()
 }
 
 function closeOverlay(thought) {
   save()
-  overlay.hide()
+  view.overlay.hide()
 }
 
 function onLinkClick(event) {
@@ -73,18 +76,18 @@ function onLinkClick(event) {
   activeLink = link
 
   if (thought != null) {
-    linkTo.val(thought.title || "")
+    view.linkTo.val(thought.title || "")
   }
-  linkToId.val(link.to)
-  linkTitle.val(link.title)
-  linkDescription.val(link.description || "")
+  view.linkToId.val(link.to)
+  view.linkTitle.val(link.title)
+  view.linkDescription.val(link.description || "")
 }
 
 function onChnaged() {
-  activeLink.title       = linkTitle.val()
-  activeLink.description = linkDescription.val()
-  if (linkToId.val() != "") {
-    activeLink.to = linkToId.val()
+  activeLink.title       = view.linkTitle.val()
+  activeLink.description = view.linkDescription.val()
+  if (view.linkToId.val() != "") {
+    activeLink.to = view.linkToId.val()
   }
 
   save()
@@ -103,7 +106,7 @@ function isShortcutPressed(event) {
 }
 
 function save() {
-  notify("brain.thought.changed", activeThought)
+  api.events.notify("brain.thought.changed", activeThought)
 }
 
 function linkView(link, id) {
@@ -135,30 +138,31 @@ function upadteAutocomplete() {
   UIkit.autocomplete(autocomplete, { source: data });
 
   UIkit.$('#lem_link-to').on('selectitem.uk.autocomplete', function (e, data, ac) {
-    linkToId.val(data.id) //console.log(data)
+    view.linkToId.val(data.id) //console.log(data)
     onChnaged(null)
   });
 }
 
 function updateLinksList(thought) {
-  linksList.html("")
+  view.linksList.html("")
   thought.links.forEach(function(link, index) {
-    linksList.append(linkView(link, index))
+    view.linksList.append(linkView(link, index))
   })
 }
 
-//
-
+var api
+var view
 var activeThought = null
-var overlay = null
 var isThoughtOpen = false
 var shared = null
 var activeLink = null
 
-var linksList = null
-var linkTitle = null
-var linkDescription = null
-var linkToId = null
-var linkTo = null
+module.exports = {
+  load: load, unload: unload,
 
-module.exports = { init: init }
+  info: {
+    id:      "digitalBrain.links-editor",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

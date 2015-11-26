@@ -1,15 +1,16 @@
 // Brain visualization module
 
-function init(app, config) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "brain.thought.changed",  handler: onBrainThoughtChanged },
     { id: "brain.thought.changing", handler: onBrainThoughtChanged }
   ])
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared"
-  ], config)
-  shared = modules[0]
+  shared = api.module.request("shared", config)
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtChanged(thought) {
@@ -19,4 +20,12 @@ function onBrainThoughtChanged(thought) {
 
 var shared = null
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.nodes.update",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

@@ -1,13 +1,28 @@
 // Titlebar Module
 // Creates stylish titlebar
 
-function init(app, config) {
-  loadCSS(config.moduleRootPath + "style.css")
-  appendView(config.moduleRootPath + "view.html", "body")
+function load(api, config) {
+  api.assets.loadCSS("style.css")
+  api.views.appendView("view.html", "body")
 
-  titlebar = $("#left-titlebar")
+  view = {
+    titlebar: $("#left-titlebar")
+  }
 }
 
-var titlebar = null
+function unload(api) {
+  view.titlebar.remove()
+}
 
-module.exports = { init: init }
+var view
+
+module.exports = {
+  load: load,
+  unload: unload,
+
+  info: {
+    id:      "digitalBrain.titlebar",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

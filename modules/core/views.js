@@ -1,43 +1,61 @@
 // Views Module
+// Provides functionality to manipulate UI
 
-function init(app) {
-  rootPath = app.config.root
+function load(api, config) {
+  fs      = require("fs")
+  shortid = require("shortid")
+  npath   = require('path')
 }
 
-function commitView(path, root) {
-  var fs = require('fs')
-  var view = fs.readFileSync((root || rootPath) + "/" + path, 'utf8')
-  $("#panel").append(view)
+function commitToPanel(path) {
+  var view = fs.readFileSync(path, 'utf8')
+  var dom  = $(view)
+  dom.appendTo("#panel")
+  return dom
 }
 
-function createOverlay(id, path) {
+function createOverlay(path) {
+  var id   = shortid.generate()
+  var view = fs.readFileSync(path, 'utf8')
+
   $("body").append(
     "<div id='" + id + "' class='overlay'></div>"
   )
 
-  var fs = require('fs')
-  var view = fs.readFileSync(path, 'utf8')
-  $("#" + id).append(view)
-
-  return $("#" + id)
+  return $("#" + id).append(view)
 }
 
 function appendView(path, root) {
-  var fs = require('fs')
-  var npath = require('path')
   var view = fs.readFileSync(path, 'utf8')
-
   var p = npath.parse(npath.normalize(path)).dir
   view = view.replace(/{{root}}/g, p)
 
   $(root).append(view)
 }
 
-var rootPath = ""
+function commitToApi(data) {
+  return {
+    views: {
+      createOverlay: function(path)       { return createOverlay(data.rootPath+path) },
+      commitToPanel: function(path)       { return commitToPanel(data.rootPath+path) },
+      appendView:    function(path, root) { return appendView(data.rootPath + path, root ) }
+    }
+  }
+}
+
+var fs
+var shortid
+var npath
 
 module.exports = {
-  init: init,
-  commitView: commitView,
-  appendView: appendView,
-  createOverlay: createOverlay
+  info: {
+    id:          "digitalBrain.core.views",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "Provides functionality to manipulate UI.",
+    core:        true
+  },
+  
+  load: load,
+  commitToApi: commitToApi
 }

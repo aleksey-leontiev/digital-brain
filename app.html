@@ -22,44 +22,34 @@
     <link rel="stylesheet" href="bower_components/uikit/css/components/autocomplete.almost-flat.min.css" />
 </head>
 
-<script>
-$(document).keydown(function(event){
-  //alert(String.fromCharCode(event.which));
-  var char = String.fromCharCode(event.which)
-  notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
-})
-
-$(window).resize(function(event) {
-  notify("window.resize", {})
-})
-
-$(window).mousemove(function (event) {
-  notify("mouse.move", event)
-})
-</script>
-
 <body id="body">
-    <canvas id="canvas" resize></canvas>
-
-    <div id="panel" class="float-panel noselect">
+  <div class="uk-grid uk-grid-collapse uk-height-1-1">
+    <div class="uk-width-7-10 uk-height-1-1">
+      <canvas id="canvas" resize></canvas>
     </div>
+
+    <div class="uk-width-3-10 uk-height-1-1">
+      <div id="panel" class="panel noselect uk-height-1-1"></div>
+    </div>
+  </div>
 </body>
 
 <script type="text/javascript">
-  var api = require('./digitalBrain');
+  var api  = require('./digitalBrain');
   var path = __dirname + "/"
 
-  api.modules.load(path + "modules/quick-search/quick-search")
-  api.modules.load(path + "modules/details/details")
+  api.modules.load(path + "modules/quick/quick-search/quick-search")
+  api.modules.load(path + "modules/quick/quick-details/quick-details")
   api.modules.load(path + "modules/visual/visual")
-  api.modules.load(path + "modules/persistence")
+  api.modules.load(path + "modules/persistence/persistence")
   api.modules.load(path + "modules/notifications/notifications")
   api.modules.load(path + "modules/editor/editor")
   api.modules.load(path + "modules/links-editor/links-editor")
-
   api.modules.load(path + "modules/titlebar/titlebar")
 
-  notify("brain.open", { path: "brain" });
+  api.modules.load(path + "modules/app-events")
+
+  api.modules.load(path + "modules/brains")
 </script>
 
 </script>

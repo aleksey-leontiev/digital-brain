@@ -1,9 +1,13 @@
 // Visual Module :: Image
 
-function init(app) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "visual.thought.create", handler: onVisualThoughtCreate }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onVisualThoughtCreate(event) {
@@ -35,4 +39,12 @@ function onVisualThoughtCreate(event) {
   event.node.group.addChild(event.node.imageStroke)
 }
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.nodes.image",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

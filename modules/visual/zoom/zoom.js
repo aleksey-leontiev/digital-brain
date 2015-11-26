@@ -1,10 +1,14 @@
 // Visual Nodes Module
 
-function init(app, config) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "key.down", handler: onKeyDown },
     { id: "visual.frame", handler: onVisualFrame }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onKeyDown(event) {
@@ -22,4 +26,12 @@ function onVisualFrame() {
 
 var zoom = 1
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.zoom",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

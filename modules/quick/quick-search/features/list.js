@@ -1,13 +1,17 @@
 // Search Module :: List Search Results
 // Lists Serch Result
 
-function init(app) {
+function load(api, config) {
   searchResults = $("#search-results")
 
-  subscribe([
+  api.events.subscribe([
     { id: "brain.thought.search",          handler: onBrainThoughtSearch },
     { id: "brain.thought.search.response", handler: onBrainThoughtSearchResponse }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtSearch(event) {
@@ -41,4 +45,12 @@ function getSearchResultView(id, title, description) {
 
 var searchResults = null
 
-module.exports = { init: init }
+module.exports = {
+  load: load,
+  unload: unload,
+  info: {
+    id: "digitalBrain.quick.search.list",
+    version: "0.1",
+    author: "Alexey Leontiev"
+  }
+}

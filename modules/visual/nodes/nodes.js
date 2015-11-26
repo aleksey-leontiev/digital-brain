@@ -1,15 +1,20 @@
 // Visual Nodes Module
 
-function init(app, config) {
-  app.modules.loadModules(config.moduleRootPath, [
-    "nodes/features/create",
-    "nodes/features/drag",
-    "nodes/features/select",
-    "nodes/features/update",
-    "nodes/features/description",
-    "nodes/features/image",
-    "nodes/features/style"
-  ], config)
+function load(api, config) {
+  api.module.request("nodes/features/create", config)
+  api.module.request("nodes/features/drag", config)
+  api.module.request("nodes/features/select", config)
+  api.module.request("nodes/features/update", config)
+  api.module.request("nodes/features/description", config)
+  api.module.request("nodes/features/image", config)
 }
 
-module.exports = { init: init }
+module.exports = {
+  load: load,
+
+  info: {
+    id:      "digitalBrain.visual.nodes",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

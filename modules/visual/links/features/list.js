@@ -1,16 +1,17 @@
 // Link Nodes :: List
 
-function init(app, config) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
   ])
 
   linksList = $("#links")
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared"
-  ], config)
-  shared = modules[0]
+  shared = api.module.request("shared")
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtSelect(thought) {
@@ -44,5 +45,10 @@ var shared = null
 var linksList = null
 
 module.exports = {
-  init: init
+  info: {
+    id:      "digitalBrain.visual.links.list",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load: load, unload: unload
 }

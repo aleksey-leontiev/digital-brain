@@ -1,23 +1,28 @@
 // Link Nodes
 // draw links between nodes
 
-function init(app, config) {
-  commitView("view.html", __dirname)
+function load(mapi, config) {
+  api = mapi
 
-  subscribe([
+  api.views.commitToPanel("links/view.html")
+
+  api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "key.down",              handler: onKeyDown },
     { id: "brain.links.create",    handler: onBrainLinksCreate }
   ])
 
-  layer = request("visual.layer", "links")
+  layer = api.events.request("visual.layer", "links")
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared", "links/shared", "links/features/create", "links/features/load",
-    "links/features/list", "links/features/open"
-  ], config)
-  shared = modules[0]
-  sharedLinks = modules[1]
+  shared      = api.module.request("shared", config)
+  sharedLinks = api.module.request("links/shared", config)
+  api.module.request("links/features/load", config)
+  api.module.request("links/features/list", config)
+  api.module.request("links/features/open", config)
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtSelect(thought) {
@@ -41,7 +46,7 @@ function onBrainThoughtSelect(thought) {
       })
       result = true
     } else {
-      notify("notification", { message: "Already linked" })
+      api.events.notify("notification", { message: "Already linked" })
     }
 
     // create backward link
@@ -61,11 +66,11 @@ function onBrainThoughtSelect(thought) {
       })
       result = true
     } else {
-      notify("notification", { message: "Backward link already exist" })
+      api.events.notify("notification", { message: "Backward link already exist" })
     }
 
     if (result) {
-      notify("brain.links.create", { from: selectedThought, to: thought })
+      api.events.notify("brain.links.create", { from: selectedThought, to: thought })
     }
   }
   selectedThought = thought
@@ -76,8 +81,8 @@ function onBrainLinksCreate(link) {
   node2 = shared.getVisualNodeByThoughtId(link.to._id)
   sharedLinks.createVisualLink(node1, node2)
   setLinkingState(false)
-  notify("brain.thought.changed", link.from)
-  notify("brain.thought.changed", link.to)
+  api.events.notify("brain.thought.changed", link.from)
+  api.events.notify("brain.thought.changed", link.to)
 }
 
 function onKeyDown(event) {
@@ -89,13 +94,16 @@ function setLinkingState(value) {
   isLinking = value
 }
 
+var api
 var selectedThought = null
 var isLinking = false
 var layer = null
 
 module.exports = {
   info: {
-    id: "digitalBrain.visualization.links"
+    id:      "digitalBrain.visual.links",
+    version: "0.1",
+    author:  "Alexey Leontiev"
   },
-  init: init
+  load: load, unload: unload
 }

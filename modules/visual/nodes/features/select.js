@@ -1,18 +1,19 @@
 // Highlight Selected
 // highlights selected thought
 
-function init(app, config) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "visual.thought.select", handler: onVisualThoughtSelect },
     { id: "visual.thought.create", handler: onVisualThoughtCreate },
     { id: "visual.frame",          handler: onVisualFrame }
   ])
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared"
-  ], config)
-  shared = modules[0]
+  shared = api.module.request("shared", config)
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtSelect(event) {
@@ -58,4 +59,12 @@ function highlightNode(node) {
 
 var selectedVisualNode = null
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.nodes.select",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

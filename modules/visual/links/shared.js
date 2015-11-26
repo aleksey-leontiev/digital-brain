@@ -1,7 +1,7 @@
 // Shared Library
 
-function init(app) {
-  layer = request("visual.layer", "links")
+function load(api) {
+  layer = api.events.request("visual.layer", "links")
 }
 
 function createVisualLink(fromNode, toNode, type) {
@@ -30,6 +30,11 @@ function createVisualLink(fromNode, toNode, type) {
 var layer = null
 
 module.exports = {
-  init:             init,
+  info: {
+    id:      "digitalBrain.visual.links.shared",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load:             load,
   createVisualLink: createVisualLink
 }

@@ -1,10 +1,15 @@
-// Search Module :: Highlight Search Results
-// Highlights throughts
+// Visual :: Nodes :: Description
+// Adds description to the node
 
-function init(app) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "visual.thought.create", handler: onVisualThoughtCreate }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
+  // TODO: remove description nodes
 }
 
 function onVisualThoughtCreate(event) {
@@ -19,4 +24,12 @@ function onVisualThoughtCreate(event) {
   event.node.group.addChild(event.node.description);
 }
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.nodes.description",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

@@ -27,7 +27,9 @@
     "electron-prebuilt": "^0.34.1"
   },
   "dependencies": {
+    "merge": "^1.2.0",
     "pouchdb": "^5.0.0",
+    "shortid": "^2.2.4",
     "underscore": "^1.8.3"
   }
 }

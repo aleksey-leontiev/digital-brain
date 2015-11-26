@@ -1,10 +1,16 @@
 // Shared Library
 
-function init(app) {
-  subscribe([
+function load(mapi, config) {
+  api = mapi
+
+  api.events.subscribe([
     { id: "brain.thought.load", handler: onBrainThoughtLoadOrCreate },
     { id: "brain.thought.new",  handler: onBrainThoughtLoadOrCreate }
   ])
+}
+
+function unload(mapi) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtLoadOrCreate(event) {
@@ -19,10 +25,18 @@ function getThoughtById(id) {
   return thoughtById[id]
 }
 
+var api
 var thoughtById = {}
 
 module.exports = {
-  init:                     init,
-  getThoughtById:           getThoughtById,
-  getThoughts : getThoughts
+  info: {
+    id:      "digitalBrain.shared",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+
+  load:           load,
+  unload:         unload,
+  getThoughtById: getThoughtById,
+  getThoughts:    getThoughts
 }

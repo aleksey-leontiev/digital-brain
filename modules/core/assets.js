@@ -1,22 +1,14 @@
 // Assets Module
 // loads assets like js, css
 
-function init(app) {
-  rootPath = app.config.root
-}
+function load(api, config) { }
 
-function loadJs(path) {
-  return require(rootPath + path)
-}
-
-function loadCss(path) {
+function loadCSS(path) {
   var ref = document.createElement("link")
   ref.setAttribute("rel", "stylesheet")
   ref.setAttribute("type", "text/css")
   ref.setAttribute("href", path)
-
   document.getElementsByTagName("head")[0].appendChild(ref)
-
   return ref
 }
 
@@ -34,8 +26,24 @@ function loadJSSync(path) {
   return require(path)
 }
 
-var rootPath = ""
+function commitToApi(data) {
+  return {
+    assets: {
+      loadCSS:     function(path)         { return loadCSS(data.rootPath + path) },
+      loadJSAsync: function(path, onload) { return loadJSAsync(data.rootPath + path, onload) },
+      loadJSSync:  function(path)         { return loadJSSync(data.rootPath + path) }
+    }
+  }
+}
 
 module.exports = {
-  init: init, loadJs: loadJs, loadCss: loadCss, loadJSAsync: loadJSAsync, loadJSSync: loadJSSync
+  info: {
+    id:          "digitalBrain.core.assets",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "Provides functionality to manipulate assets."
+  },
+
+  load: load,
+  commitToApi: commitToApi
 }

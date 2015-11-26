@@ -1,16 +1,22 @@
 // Persistence Module
 // Stores the thoughts in the database.
 
-function init(app) {
+function load(mapi, config) {
+  api = mapi
+
   var PouchDB = require('pouchdb');
   dataBase    = new PouchDB(app.config.userDataPath + "_brain");
 
-  subscribe([
+  api.events.subscribe([
     { id: "brain.thought.new",     handler: onBrainThoughtNew },
     { id: "brain.thought.search",  handler: onBrainThoughtSearch },
     { id: "brain.open",            handler: onBrainOpen },
     { id: "brain.thought.changed", handler: onBrainThoughtChanged }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtNew(event) {
@@ -25,7 +31,7 @@ function onBrainThoughtNew(event) {
 function onBrainThoughtSearch(query) {
   var val = query.query.toLowerCase()
   dataBase.query(queryFunc).then(function(result) {
-    notify("brain.thought.search.response", result.rows)
+    api.events.notify("brain.thought.search.response", result.rows)
   }).catch(function(error) {
     notifyError("Unable to search", error)
   })
@@ -36,9 +42,9 @@ function onBrainOpen(event) {
 
   dataBase.allDocs(options).then(function(result) {
     result.rows.forEach(function(row) {
-      notify("brain.thought.load", { thought: row.doc })
+      api.events.notify("brain.thought.load", { thought: row.doc })
     })
-    notify("brain.open.completed", result.rows)
+    api.events.notify("brain.open.completed", result.rows)
   }).catch(function (err) {
     notifyError("Unable to open brain", err)
   })
@@ -59,12 +65,21 @@ function queryFunc(doc) {
 }
 
 function notifyError(message, err) {
-  notify("notification", {
+  api.events.notify("notification", {
     message: message + ": " + err.message,
     status:  "danger",
     data: err })
 }
 
-dataBase = null
+var api
+var dataBase = null
 
-module.exports = { init: init }
+module.exports = {
+  info: {
+    id:      "digitalBrain.persistence",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+
+  load: load, unload: unload
+}
