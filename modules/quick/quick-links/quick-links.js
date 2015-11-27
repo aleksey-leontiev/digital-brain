@@ -1,13 +1,15 @@
 // Link Nodes :: List
 
 function load(api, config) {
+  api.views.commitToPanel("view.html")
+
   api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
   ])
 
   linksList = $("#links")
 
-  shared = api.module.request("shared")
+  shared = api.app.request("modules/shared")
 }
 
 function unload(api) {
@@ -34,11 +36,20 @@ function clearView() {
 }
 
 function getListView(thought, link) {
-  return  "<div class='thought-link uk-panel uk-panel-hover' data-thougth-id='" +thought._id+ "'>" +
-          "  <h3 class='uk-panel-title'>" + thought.title + "</h3>" +
-          "  <p>" + (thought.description || "") + "</p> " +
-          "  <small><em>" + (link.description || "")+ "</em></small> " +
-          "</div>"
+  var result = ""
+
+  result += "<div class='thought-link uk-panel uk-panel-hover uk-panel-box' data-thougth-id='" +thought._id+ "'>"
+  if (thought.image && module.exports.config.showImage) {
+    result += "  <div class='uk-panel-teaser'>"
+    result += "    <img src='" + thought.image + "' class='center-cropped'>"
+    result += "  </div> "
+  }
+  result += "  <h3 class='uk-panel-title'>" + thought.title + "</h3>"
+  result += "  <p>" + (thought.description || "") + "</p> "
+  result += "  <small><em>" + (link.description || "")+ "</em></small> "
+  result += "</div>"
+
+  return result
 }
 
 var shared = null
@@ -46,9 +57,12 @@ var linksList = null
 
 module.exports = {
   info: {
-    id:      "digitalBrain.visual.links.list",
+    id:      "digitalBrain.quick.links",
     version: "0.1",
     author:  "Alexey Leontiev"
+  },
+  config: {
+    showImage: true
   },
   load: load, unload: unload
 }

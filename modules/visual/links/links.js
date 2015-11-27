@@ -4,8 +4,6 @@
 function load(mapi, config) {
   api = mapi
 
-  api.views.commitToPanel("links/view.html")
-
   api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "key.down",              handler: onKeyDown },
@@ -17,7 +15,6 @@ function load(mapi, config) {
   shared      = api.module.request("shared", config)
   sharedLinks = api.module.request("links/shared", config)
   api.module.request("links/features/load", config)
-  api.module.request("links/features/list", config)
   api.module.request("links/features/open", config)
 }
 
