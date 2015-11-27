@@ -76,7 +76,7 @@ function updateThoughtFromFields(thought) {
   thought.style       = view.style.data("thought-style")
   thought.image       = view.image.val()
 
-  var node = request("visual.get", thought._id)
+  var node = api.events.request("visual.get", thought._id)
   applyStyle(thought, node)
 }
 
