@@ -32,6 +32,7 @@ canvas[resize] {
   height: 100%;
   background: rgba(252, 252, 252, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
+  overflow: scroll;
 }
 
 .noselect {

@@ -23,12 +23,12 @@
 </head>
 
 <body id="body">
-  <div class="uk-grid uk-grid-collapse uk-height-1-1">
+  <div id="content" class="uk-grid uk-grid-collapse uk-height-1-1" style="opacity:0">
     <div class="uk-width-7-10 uk-height-1-1">
       <canvas id="canvas" resize></canvas>
     </div>
 
-    <div class="uk-width-3-10 uk-height-1-1">
+    <div class="uk-width-3-10 uk-height-1-1" style="padding-bottom:20px">
       <div id="panel" class="panel noselect uk-height-1-1"></div>
     </div>
   </div>
@@ -37,6 +37,8 @@
 <script type="text/javascript">
   var api  = require('./digitalBrain');
   var path = __dirname + "/"
+
+  api.modules.load(path + "modules/extras/loading/loading")
 
   api.modules.load(path + "modules/quick/quick-search/quick-search")
   api.modules.load(path + "modules/quick/quick-details/quick-details")
@@ -50,6 +52,8 @@
   api.modules.load(path + "modules/app-events")
 
   api.modules.load(path + "modules/brains")
+
+  $("#content").css("opacity", "1")
 </script>
 
 </script>

@@ -16,7 +16,7 @@ function commitToPanel(path) {
 
 function createOverlay(path) {
   var id   = shortid.generate()
-  var view = fs.readFileSync(path, 'utf8')
+  var view = processView(fs.readFileSync(path, 'utf8'), {path: path})
 
   $("body").append(
     "<div id='" + id + "' class='overlay'></div>"
@@ -31,6 +31,14 @@ function appendView(path, root) {
   view = view.replace(/{{root}}/g, p)
 
   $(root).append(view)
+}
+
+function processView(view, data) {
+  var p = npath.parse(npath.normalize(data.path)).dir
+
+  view = view.replace(/{{module.rootPath}}/g, p)
+
+  return view
 }
 
 function commitToApi(data) {
@@ -55,7 +63,7 @@ module.exports = {
     description: "Provides functionality to manipulate UI.",
     core:        true
   },
-  
+
   load: load,
   commitToApi: commitToApi
 }
