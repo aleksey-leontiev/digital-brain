@@ -5,11 +5,20 @@ function load(api, config) {
   fs      = require("fs")
   shortid = require("shortid")
   npath   = require('path')
+  handlebars = require('handlebars');
 }
 
-function commitToPanel(path) {
+function commitToPanel(path, templateData) {
   var view = fs.readFileSync(path, 'utf8')
-  var dom  = $(view)
+  var dom = ""
+
+  if (templateData) {
+    var template = handlebars.compile(view)
+    dom          = $(template(templateData))
+  } else {
+    dom = $(view)
+  }
+
   dom.appendTo("#panel")
   return dom
 }
@@ -45,7 +54,7 @@ function commitToApi(data) {
   return {
     views: {
       createOverlay: function(path)       { return createOverlay(data.rootPath+path) },
-      commitToPanel: function(path)       { return commitToPanel(data.rootPath+path) },
+      commitToPanel: function(path, templateData) { return commitToPanel(data.rootPath+path, templateData) },
       appendView:    function(path, root) { return appendView(data.rootPath + path, root ) }
     }
   }
@@ -54,6 +63,7 @@ function commitToApi(data) {
 var fs
 var shortid
 var npath
+var handlebars
 
 module.exports = {
   info: {

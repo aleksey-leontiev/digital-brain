@@ -4,9 +4,6 @@
 function load(mapi, config) {
   api = mapi
 
-  var PouchDB = require('pouchdb');
-  dataBase    = new PouchDB(app.config.userDataPath + "_brain");
-
   api.events.subscribe([
     { id: "brain.thought.new",     handler: onBrainThoughtNew },
     { id: "brain.thought.search",  handler: onBrainThoughtSearch },
@@ -38,6 +35,9 @@ function onBrainThoughtSearch(query) {
 }
 
 function onBrainOpen(event) {
+  var pouchdb = require('pouchdb');
+  dataBase    = new pouchdb(event.path);
+
   options = { include_docs: true }
 
   dataBase.allDocs(options).then(function(result) {

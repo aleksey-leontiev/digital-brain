@@ -22,13 +22,15 @@
   </div>
 
   <div class="uk-form-row">
-    <div id="qd-thought-style" class="uk-button-dropdown uk-width-1-1" data-uk-dropdown="{mode:'click'}">
+    <div id="qd-thought-style" class="uk-button-dropdown uk-width-1-1" data-uk-dropdown="{mode:'click', justify:'#qd-root'}">
       <button class="uk-button uk-width-1-1">Style <i class="uk-icon-caret-down"></i></button>
-        <div class="uk-dropdown">
+        <div class="uk-dropdown uk-dropdown-scrollable">
           <ul class="uk-nav uk-nav-dropdown">
-            <li><a href="#" class="thought-style" data-style-name="normal">Normal</a></li>
-            <li><a href="#" class="thought-style" data-style-name="big">Big</a></li>
-            <li><a href="#" class="thought-style" data-style-name="small">Small</a></li>
+            <li class="uk-nav-header">Predefined</li>
+            {{#each predefined}}
+            <li><a href="#" class="thought-style" data-style-name="{{id}}">{{displayName}}</a></li>
+            {{/each}}
+            <li class="uk-nav-header">User</li>
           </ul>
         </div>
       </div>

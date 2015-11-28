@@ -5,8 +5,12 @@
 function load(mapi, config) {
   api = mapi
 
+  modifiers = api.module.request("features/styles", config)
+
   view = {
-    root:        api.views.commitToPanel("view.html"),
+    root:        api.views.commitToPanel("view.html", {
+                   predefined: modifiers.getPredefinedStyles()
+                 }),
     title:       $("#qd-thought-title"),
     description: $("#qd-thought-description"),
     style:       $("#qd-thought-style"),
@@ -41,6 +45,8 @@ function unload(api) {
 function onBrainThoughtSelect(thought) {
   selectedThought = thought
   updateFieldsFromThought(selectedThought)
+
+  var node = api.events.request("visual.get", thought._id)
 }
 
 function onVisualThoughtCreated(event) {
@@ -85,24 +91,16 @@ function updateThoughtFromFields(thought) {
 }
 
 function applyStyle(thought, node) {
-  styles = thought.style
-
+  var styles = thought.style
   if (styles == null) return
 
   styles.split(' ').forEach(function (s) {
-    if (s == "big") {
-      node.group.scaling = new Point(2, 2)
-    }
-    if (s == "normal") {
-      node.group.scaling = new Point(1, 1)
-    }
-    if (s == "small") {
-      node.group.scaling = new Point(.75, .75)
-    }
-    if (s == "important") {
-      node.path.fillColor = "red"
-      node.text.fillColor = "red"
-      if (node.description) node.description.fillColor = "darkred"
+    var m = modifiers.getPredefinedStyles()[s]
+    if (m) {
+      node.group.scaling  = new Point(m.scaling, m.scaling)
+      node.path.fillColor = m.thoughtColor
+      node.text.fillColor = m.textColor
+      node.description.fillColor = m.descriptionColor
     }
   })
 }
@@ -138,6 +136,7 @@ function onImageDrag(event) {
 }
 
 var selectedThought = null
+var modifiers
 var view = {}
 var api
 
