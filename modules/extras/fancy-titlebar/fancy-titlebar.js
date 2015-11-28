@@ -7,8 +7,14 @@ function load(api, config) {
 
   view = {
     originalTitlebar: $("#titlebar"),
-    titlebar:         $("#left-titlebar")
+    titlebar:         $("#left-titlebar"),
+    window:           require("remote").getCurrentWindow()
   }
+
+  api.events.subscribe([
+    { view: "#fancy-titlebar-close-button", id: "click", handler: onCloseButtonClick },
+    { view: "#fancy-titlebar-max-button",   id: "click", handler: onMaximizeButtonClick }
+  ])
 
   view.originalTitlebar.fadeOut()
 }
@@ -16,6 +22,14 @@ function load(api, config) {
 function unload(api) {
   view.titlebar.remove()
   view.originalTitlebar.fadeIn()
+}
+
+function onCloseButtonClick() {
+  view.window.close()
+}
+
+function onMaximizeButtonClick() {
+  view.window.setFullScreen(!view.window.isFullScreen())
 }
 
 var view

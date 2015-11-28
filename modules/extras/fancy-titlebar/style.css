@@ -35,13 +35,12 @@
   -webkit-transform-origin: 0% 100%;
 }
 
-.fancy-titlebar-close-button {
+.fancy-titlebar-buttons {
   position: absolute;
   top: 11px;
-  width: 17px;
-  height: 17px;
-  margin-left: 6px;
-  margin-right: 6px;
+  width: 23x;
+  margin-left: 4px;
+  margin-right: 4px;
   -webkit-app-region: no-drag;
 }
 
