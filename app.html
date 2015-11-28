@@ -11,176 +11,60 @@
 
     <script src="bower_components/uikit/js/components/htmleditor.min.js"></script>
     <script src="bower_components/uikit/js/components/notify.min.js"></script>
+    <script src="bower_components/uikit/js/components/search.min.js"></script>
+    <script src="bower_components/uikit/js/components/autocomplete.min.js"></script>
 
 
     <link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/notify.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/htmleditor.almost-flat.min.css" />
-
-    <script src="bower_components/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="bower_components/uikit/css/components/search.almost-flat.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/autocomplete.almost-flat.min.css" />
 </head>
 
-<script>
-$(document).keydown(function(event){
-  //alert(String.fromCharCode(event.which));
-  var char = String.fromCharCode(event.which)
-  notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
-})
-</script>
-
 <body id="body">
-    <canvas id="canvas" resize></canvas>
-    <div id="panel" class="float-panel noselect">
+  <div id="content" class="uk-grid uk-grid-collapse uk-height-1-1" style="opacity:0;">
+    <div class="uk-width-7-10 uk-height-1-1">
+      <canvas id="canvas" resize></canvas>
     </div>
 
-    <div id="details" class="float-details">
-      <textarea name="editor1" id="editor1" rows="10" cols="80">
-      </textarea>
-      <script>
-                // Replace the <textarea id="editor1"> with a CKEditor
-                // instance, using default configuration.
-                CKEDITOR.config.toolbarCanCollapse = true;
-                CKEDITOR.config.toolbarStartupExpanded = false;
-                /*CKEDITOR.config.toolbar = [
-                  [ 'Source', '-', 'Bold', 'Italic' ]
-                ];*/
-                CKEDITOR.replace( 'editor1' );
-            </script>
-    </div>
-
-    <div id="left-titlebar" class="left-titlebar">
-      <div class="left-titlebar-icon">
-        <img id="left-titlebaricon" src="assets/logo.png"></div>
-        <div class="left-titlebar-text">Digital Brain</div>
-        <div class="left-titlebar-close-button">
-          <img id="left-titlebar-close-button" src="assets/button_close.png">
-        </div>
-        <div class="left-titlebar-divider"></div>
+    <div class="uk-width-3-10 uk-height-1-1" style="padding-bottom:20px;">
+      <div id="titlebar" class="noselect">digitalBrain</div>
+      <div id="panel" class="panel noselect uk-height-1-1">
       </div>
     </div>
-
+  </div>
 </body>
 
-<style>
-  html, body {
-    height: 100%
-  }
-
-  body {
-    background: radial-gradient(white, lightgrey);
-  }
-  /*div {
-    height:100%;
-      }*/
-  div canvas {
-    /*background-color: #0f0;*/
-  }
-
-.leftcol { /* Левая колонка */
-  float: left; /* Обтекание справа */
-  width: 80%; /* Ширина колонки */
-}
-.rightcol { /* Правая колонка */
-  background-color: #eeeeee;
-  float: right;
-  width: 20%;
-}
-.float-panel {
-  margin: 10px;
-  margin-left: 42px;
-  padding: 10px;
-  position: absolute;
-  width: 200px;
-  height: auto;
-  left: 0px;
-  top: 0px;
-  background: rgba(252, 252, 252, 0.95);
-  border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
-}
-.float-details {
-  margin: 10px;
-  /*padding: 10px;*/
-  position: absolute;
-  width: 600px;
-  height: auto;
-  left: 262px;
-  top: 0px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(200, 200, 200, 0.95); /* Параметры рамки */
-  display: none;
-}
-.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.left-titlebar {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 32px;
-  height: 100%;
-  background-color: #3a3d3d;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-}
-
-.left-titlebar-icon {
-  position: absolute;
-  bottom: 6px;
-  margin-left: 6px;
-  margin-right: 6px;
-}
-
-.left-titlebar-text {
-  position: absolute;
-  bottom: 32px;
-  width: 100px;
-  margin-left: 6px;
-  margin-right: 6px;
-  font-family: Arial;
-  font-size: 12pt;
-  color: #ffffff;
-  -webkit-transform: rotate(-90deg) translate(0, 100%);
-  -webkit-transform-origin: 0% 100%;
-}
-
-.left-titlebar-close-button {
-  position: absolute;
-  top: 11px;
-  width: 17px;
-  height: 17px;
-  margin-left: 6px;
-  margin-right: 6px;
-  -webkit-app-region: no-drag;
-}
-
-.left-titlebar-divider {
-  position: absolute;
-  left: 31px;
-  top: 0px;
-  width: 1px;
-  height: 100%;
-  background-color: #2a2c2c;
-}
-</style>
-
 <script type="text/javascript">
-  var api = require('./digitalBrain');
+  var api  = require('./digitalBrain');
   var path = __dirname + "/"
 
-  api.modules.load(path + "modules/details/details")
-  api.modules.load(path + "modules/visual/visual")
-  api.modules.load(path + "modules/persistence")
-  api.modules.load(path + "modules/quick-search/quick-search")
-  api.modules.load(path + "modules/notifications/notifications")
-  api.modules.load(path + "modules/editor/editor")
+  // core
+  api.modules.load(path + "modules/app-events")
 
-  notify("brain.open", { path: "brain" });
+  // load extras
+  api.modules.load(path + "modules/extras/loading/loading")
+  api.modules.load(path + "modules/extras/fancy-titlebar/fancy-titlebar")
+
+  // load quick modules
+  api.modules.load(path + "modules/quick/search/quick-search")
+  api.modules.load(path + "modules/quick/details/quick-details")
+  api.modules.load(path + "modules/quick/links/quick-links")
+
+  // load editors
+  api.modules.load(path + "modules/editors/notes-editor/notes-editor")
+  api.modules.load(path + "modules/editors/links-editor/links-editor")
+
+  // other modules
+  api.modules.load(path + "modules/visual/visual")
+  api.modules.load(path + "modules/persistence/persistence")
+  api.modules.load(path + "modules/notifications/notifications")
+
+  // open brain
+  api.modules.load(path + "modules/brains")
+
+  $("#content").css("opacity", "1")
 </script>
 
 </script>

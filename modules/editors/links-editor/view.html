@@ -1,0 +1,69 @@
+<style>
+  #lem_root {
+    background: rgba(252, 252, 252, 0.95);
+    padding: 10px;
+    height: 100%;
+  }
+</style>
+
+<div id="lem_root">
+  <div class="uk-grid">
+
+    <div class="uk-width-7-10">
+      <div class="uk-form">
+        <legend>
+          Details<i id="lem_add-new" class="uk-icon-plus" style="float:right"></i>
+        </legend>
+        <div id="lem_links-list"></div>
+      </div>
+    </div>
+
+    <div class="uk-width-3-10">
+      <div class="uk-form">
+        <legend>Details</legend>
+
+        <!-- Link title input box -->
+        <div class="uk-form-row">
+          <div class="uk-autocomplete uk-width-1-1" id="lem_link-to">
+            <input
+              id="lem_link-to-text"
+              type="text"
+              class="uk-width-1-1"
+              placeholder="To"></input>
+            <script type="text/autocomplete">
+              <ul class="uk-nav uk-nav-autocomplete uk-autocomplete-results">
+                {{~items}}
+                <li data-value="{{ $item.value }}" data-id="{{ $item.id }}">
+                  <a>
+                    {{ $item.value }}
+                    <div>{{{ $item.text }}}</div>
+                  </a>
+                </li>
+                {{/items}}
+              </ul>
+            </script>
+          </div>
+        </div>
+
+        <!-- Link title input box -->
+        <div class="uk-form-row">
+          <input id="lem_link-title"
+            type="text"
+            class="uk-width-1-1"
+            placeholder="Title"></input>
+        </div>
+
+        <!-- Link description input box -->
+        <div class="uk-form-row">
+          <textarea id="lem_link-description"
+            class="uk-width-1-1"
+            placeholder="Description"
+            rows="8"></textarea>
+        </div>
+
+        <input id="lem_link-to-id" type="hidden"></input>
+      </div>
+    </div>
+
+  </div>
+</div>

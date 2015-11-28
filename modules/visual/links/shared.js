@@ -1,13 +1,19 @@
 // Shared Library
 
-function init(app) {
-  layer = request("visual.layer", "links")
+function load(api) {
+  layer = api.events.request("visual.layer", "links")
 }
 
-function createVisualLink(fromNode, toNode) {
+function createVisualLink(fromNode, toNode, type) {
   var linkNode         = new Path();
-  linkNode.strokeColor = 'black';
-  linkNode.strokeWidth = 1
+  linkNode.strokeColor = 'LightSteelBlue';
+  linkNode.strokeWidth = 5
+  linkNode.opacity     = .5
+
+  if (type == "ref") {
+    linkNode.strokeColor = "green"
+    linkNode.strokeWidth = .1
+  }
 
   linkNode.add(fromNode.path.position);
   linkNode.add(toNode.path.position);
@@ -24,6 +30,11 @@ function createVisualLink(fromNode, toNode) {
 var layer = null
 
 module.exports = {
-  init:             init,
+  info: {
+    id:      "digitalBrain.visual.links.shared",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load:             load,
   createVisualLink: createVisualLink
 }

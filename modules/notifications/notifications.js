@@ -1,9 +1,13 @@
 // Notifications Module
 
-function init(app) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "notification", handler: onNotification }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onNotification(event) {
@@ -11,4 +15,12 @@ function onNotification(event) {
   console.log(event.data)
 }
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload,
+
+  info: {
+    id:      "digitalBrain.notification",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

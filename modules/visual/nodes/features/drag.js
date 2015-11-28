@@ -1,15 +1,18 @@
 // Brain visualization module
 
-function init(app, config) {
-  app.events.subscribeList([
+function load(_api, config) {
+  api = _api
+  
+  api.events.subscribe([
     { id: "visual.thought.drag",     handler: onVisualThoughtDrag },
     { id: "visual.thought.mouse.up", handler: onVisualThoughtMouseUp }
   ])
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared"
-  ], config)
-  shared = modules[0]
+  shared = api.module.request("shared", config)
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onVisualThoughtDrag(event) {
@@ -36,7 +39,7 @@ function onVisualThoughtDrag(event) {
 function onVisualThoughtMouseUp(event) {
   if (!isDragged(event.point)) return
 
-  notify("brain.thought.changed", event.thought) // TODO: don't save if was no drag
+  api.events.notify("brain.thought.changed", event.thought) // TODO: don't save if was no drag
   clearOriginalPosition()
 }
 
@@ -58,8 +61,17 @@ function clearOriginalPosition() {
   originalPosition = null
 }
 
+var api
 var originalPosition = null
 var isDirty = false
 var shared = null
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.nodes.drag",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

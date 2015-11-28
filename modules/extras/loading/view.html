@@ -1,0 +1,22 @@
+<style>
+#loading {
+  display:block;
+  z-index:9999;
+  background: radial-gradient(white, lightgrey);
+}
+
+#loading #logo {
+    width:365px;
+    height:365px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin-top:-182px;
+    margin-left:-182px;
+    background-image: url({{module.rootPath}}/logo.png);
+}
+</style>
+
+<div id="loading" class="overlay">
+  <div id="logo"></div>
+</div>

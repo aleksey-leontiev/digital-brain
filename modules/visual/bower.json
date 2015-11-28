@@ -1,0 +1,22 @@
+{
+  "name": "visual",
+  "main": "visual.js",
+  "homepage": "https://github.com/aleksey-leontiev/digital-brain",
+  "authors": [
+    "Aleksey Leontiev <aleksey.leontiev@icloud.com>"
+  ],
+  "description": "Visualization module for digitalBrain app",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper": "~0.9.25"
+  }
+}

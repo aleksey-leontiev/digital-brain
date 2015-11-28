@@ -1,12 +1,16 @@
 // Search Module :: Highlight Search Results
 // Highlights throughts
 
-function init(app) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "brain.open",                    handler: onBrainOpen },
     { id: "brain.thought.search.response", handler: onBrainThoughtSearchResponse },
     { id: "visual.thought.create",         handler: onVisualThoughtCreate }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainOpen(event) {
@@ -49,4 +53,12 @@ function highlightNode(visualNode) {
 var lastSearchResults = []
 var map = {}
 
-module.exports = { init: init }
+module.exports = {
+  load: load,
+  unload: unload,
+  info: {
+    id: "digitalBrain.quick.search.highlight",
+    version: "0.1",
+    author: "Alexey Leontiev"
+  }
+}

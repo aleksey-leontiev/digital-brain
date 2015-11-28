@@ -1,32 +1,74 @@
 // Link Nodes
 // draw links between nodes
 
-var moduleInfo = {
-  id: "digitalBrain.visualization.links"
-}
+function load(mapi, config) {
+  api = mapi
 
-function init(app, config) {
-  commitView("view.html", __dirname)
-
-  subscribe([
+  api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
-    { id: "visual.frame",          handler: onVisualFrame },
+    { id: "key.down",              handler: onKeyDown },
     { id: "brain.links.create",    handler: onBrainLinksCreate }
   ])
 
-  layer = request("visual.layer", "links")
+  layer = api.events.request("visual.layer", "links")
 
-  var modules = app.modules.loadModules(config.moduleRootPath, [
-    "shared", "links/shared", "links/features/create", "links/features/load"
-  ], config)
-  shared = modules[0]
-  sharedLinks = modules[1]
+  shared      = api.module.request("shared", config)
+  sharedLinks = api.module.request("links/shared", config)
+  api.module.request("links/features/load", config)
+  api.module.request("links/features/open", config)
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onBrainThoughtSelect(thought) {
+  var underscore = require('underscore');
+
   if (isLinking) {
-    selectedThought.links.push(thought._id)
-    notify("brain.links.create", {from: selectedThought, to: thought})
+    var result = false
+
+    // create forward link
+    if (selectedThought.links == null) {
+      selectedThought.links = {}
+    }
+
+    var linksToIds = underscore.map(selectedThought.links, function(link) {
+      return link.to
+    })
+    if (!underscore.contains(linksToIds, thought._id)) {
+      selectedThought.links.push({
+        to: thought._id,
+        type: "forward"
+      })
+      result = true
+    } else {
+      api.events.notify("notification", { message: "Already linked" })
+    }
+
+    // create backward link
+    backwardThougth = shared.getThoughtById(thought._id)
+    if (backwardThougth.links == null) {
+      backwardThougth.links = {}
+    }
+
+    var linksToIds = underscore.map(thought.links, function(link) {
+      return link.to
+    })
+    if (!underscore.contains(linksToIds, selectedThought._id)) {
+      backwardThougth.links.push({
+        to: selectedThought._id,
+        type: "backward",
+        description: "Backward link"
+      })
+      result = true
+    } else {
+      api.events.notify("notification", { message: "Backward link already exist" })
+    }
+
+    if (result) {
+      api.events.notify("brain.links.create", { from: selectedThought, to: thought })
+    }
   }
   selectedThought = thought
 }
@@ -36,25 +78,29 @@ function onBrainLinksCreate(link) {
   node2 = shared.getVisualNodeByThoughtId(link.to._id)
   sharedLinks.createVisualLink(node1, node2)
   setLinkingState(false)
-  notify("brain.thought.changed", link.from)
-  notify("brain.thought.changed", link.to)
+  api.events.notify("brain.thought.changed", link.from)
+  api.events.notify("brain.thought.changed", link.to)
 }
 
-function onVisualFrame(event) {
-  if (Key.isDown("l") && selectedThought != null)
+function onKeyDown(event) {
+  if (event.char == "L" && event.ctrlKey && selectedThought != null)
     setLinkingState(true)
 }
 
 function setLinkingState(value) {
   isLinking = value
-  $("#links").html(value)
 }
 
+var api
 var selectedThought = null
 var isLinking = false
 var layer = null
 
 module.exports = {
-  info: moduleInfo,
-  init: init
+  info: {
+    id:      "digitalBrain.visual.links",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load: load, unload: unload
 }

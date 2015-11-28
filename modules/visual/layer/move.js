@@ -1,11 +1,17 @@
 // Move Layer Module
 // allows to move layer
 
-function init(app) {
-  subscribe([
-    { id: "visual.frame", handler: onVisualFrame },
+function load(mapi, config) {
+  api = mapi
+
+  api.events.subscribe([
+    { id: "visual.frame",      handler: onVisualFrame },
     { id: "visual.layer.move", handler: onVisualLayerMove }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onVisualFrame() {
@@ -18,7 +24,7 @@ function onVisualFrame() {
   if (Key.isDown("down")) { dy = 10 }
 
   if (dx != 0 || dy != 0) {
-    notify("visual.layer.move", {delta:{x:dx, y:dy}})
+    api.events.notify("visual.layer.move", {delta:{x:dx, y:dy}})
   }
 }
 
@@ -37,10 +43,19 @@ function onVisualLayerMove(event) {
   layerOffset.x += event.delta.x
   layerOffset.y += event.delta.y
 
-  notify("visual.layer.moved", { offset: layerOffset })
+  api.events.notify("visual.layer.moved", { offset: layerOffset })
 }
 
+var api
 var startLayerPos = {}
 var layerOffset = { x:0, y:0 };
 
-module.exports = { init: init }
+module.exports = {
+  load: load, unload: unload,
+
+  info: {
+    id:      "digitalBrain.visual.layer.move",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  }
+}

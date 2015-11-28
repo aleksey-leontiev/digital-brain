@@ -1,10 +1,14 @@
 // Shared Library
 
-function init(app) {
-  subscribe([
+function load(api, config) {
+  api.events.subscribe([
     { id: "visual.thought.create", handler: onVisualThoughtCreate },
     { id: "visual.layer.moved",     handler: onVisualLayerMoved }
   ])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onVisualThoughtCreate(event) {
@@ -41,7 +45,13 @@ var visualNodeByThoughtId = {}
 var thoughtByVisualNode = {}
 
 module.exports = {
-  init:                     init,
+  info: {
+    id:      "digitalBrain.visual.shared",
+    version: "0.1",
+    author:  "Alexey Leontiev"
+  },
+  load:                     load,
+  unload: unload,
   getVisualNodeByThought:   getVisualNodeByThought,
   getThoughtByVisualNode:   getThoughtByVisualNode,
   getVisualNodeByThoughtId: getVisualNodeByThoughtId,
