@@ -1,4 +1,4 @@
-.left-titlebar {
+.fancy-titlebar {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -11,18 +11,18 @@
   opacity: 0;
 }
 
-.left-titlebar:hover {
+.fancy-titlebar:hover {
   opacity: 1;
 }
 
-.left-titlebar-icon {
+.fancy-titlebar-icon {
   position: absolute;
   bottom: 6px;
   margin-left: 6px;
   margin-right: 6px;
 }
 
-.left-titlebar-text {
+.fancy-titlebar-text {
   position: absolute;
   bottom: 32px;
   width: 100px;
@@ -35,7 +35,7 @@
   -webkit-transform-origin: 0% 100%;
 }
 
-.left-titlebar-close-button {
+.fancy-titlebar-close-button {
   position: absolute;
   top: 11px;
   width: 17px;
@@ -45,7 +45,7 @@
   -webkit-app-region: no-drag;
 }
 
-.left-titlebar-divider {
+.fancy-titlebar-divider {
   position: absolute;
   left: 31px;
   top: 0px;

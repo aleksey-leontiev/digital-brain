@@ -82,7 +82,8 @@ module.exports = {
   load: load, unload: unload,
 
   info: {
-    id:      "digitalBrain.editor",
+    id:      "digitalBrain.editors.notesEditor",
+    name:    "Thought Notes Editor",
     version: "0.1",
     author:  "Alexey Leontiev"
   }

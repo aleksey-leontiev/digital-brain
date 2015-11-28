@@ -161,7 +161,8 @@ module.exports = {
   load: load, unload: unload,
 
   info: {
-    id:      "digitalBrain.links-editor",
+    id:      "digitalBrain.editors.linksEditor",
+    name:    "Thougth Links Editor",
     version: "0.1",
     author:  "Alexey Leontiev"
   }

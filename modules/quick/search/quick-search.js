@@ -35,9 +35,10 @@ module.exports = {
   load: load,
   unload: unload,
   info: {
-    id: "digitalBrain.quick.search",
-    version: "0.1",
-    author: "Alexey Leontiev",
+    id:         "digitalBrain.quick.search",
+    name:       "Quick Search",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
     description: "Allows to search thougths"
   }
 }

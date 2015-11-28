@@ -6,12 +6,16 @@ function load(api, config) {
   api.views.appendView("view.html", "body")
 
   view = {
-    titlebar: $("#left-titlebar")
+    originalTitlebar: $("#titlebar"),
+    titlebar:         $("#left-titlebar")
   }
+
+  view.originalTitlebar.fadeOut()
 }
 
 function unload(api) {
   view.titlebar.remove()
+  view.originalTitlebar.fadeIn()
 }
 
 var view
@@ -21,7 +25,8 @@ module.exports = {
   unload: unload,
 
   info: {
-    id:      "digitalBrain.titlebar",
+    id:      "digitalBrain.extras.fancyTitlebar",
+    name:    "Fancy Titlebar",
     version: "0.1",
     author:  "Alexey Leontiev"
   }

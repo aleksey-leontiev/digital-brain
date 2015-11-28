@@ -143,6 +143,7 @@ var api
 module.exports = {
   info: {
     id:          "digitalBrain.quick.details",
+    name:        "Quick Details",
     version:     "0.1",
     author:      "Alexey Leontiev",
     description: "Allows to modify common fields like title, description, style or image of selected thought"

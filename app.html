@@ -23,13 +23,15 @@
 </head>
 
 <body id="body">
-  <div id="content" class="uk-grid uk-grid-collapse uk-height-1-1" style="opacity:0">
+  <div id="content" class="uk-grid uk-grid-collapse uk-height-1-1" style="opacity:0;">
     <div class="uk-width-7-10 uk-height-1-1">
       <canvas id="canvas" resize></canvas>
     </div>
 
-    <div class="uk-width-3-10 uk-height-1-1" style="padding-bottom:20px">
-      <div id="panel" class="panel noselect uk-height-1-1"></div>
+    <div class="uk-width-3-10 uk-height-1-1" style="padding-bottom:20px;">
+      <div id="titlebar" class="noselect">digitalBrain</div>
+      <div id="panel" class="panel noselect uk-height-1-1">
+      </div>
     </div>
   </div>
 </body>
@@ -38,23 +40,28 @@
   var api  = require('./digitalBrain');
   var path = __dirname + "/"
 
+  // core
+  api.modules.load(path + "modules/app-events")
+
+  // load extras
   api.modules.load(path + "modules/extras/loading/loading")
+  api.modules.load(path + "modules/extras/fancy-titlebar/fancy-titlebar")
 
   // load quick modules
-  api.modules.load(path + "modules/quick/quick-search/quick-search")
-  api.modules.load(path + "modules/quick/quick-details/quick-details")
-  api.modules.load(path + "modules/quick/quick-links/quick-links")
+  api.modules.load(path + "modules/quick/search/quick-search")
+  api.modules.load(path + "modules/quick/details/quick-details")
+  api.modules.load(path + "modules/quick/links/quick-links")
+
+  // load editors
+  api.modules.load(path + "modules/editors/notes-editor/notes-editor")
+  api.modules.load(path + "modules/editors/links-editor/links-editor")
 
   // other modules
   api.modules.load(path + "modules/visual/visual")
   api.modules.load(path + "modules/persistence/persistence")
   api.modules.load(path + "modules/notifications/notifications")
-  api.modules.load(path + "modules/editor/editor")
-  api.modules.load(path + "modules/links-editor/links-editor")
-  api.modules.load(path + "modules/titlebar/titlebar")
 
-  api.modules.load(path + "modules/app-events")
-
+  // open brain
   api.modules.load(path + "modules/brains")
 
   $("#content").css("opacity", "1")

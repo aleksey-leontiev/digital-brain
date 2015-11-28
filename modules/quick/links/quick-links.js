@@ -58,6 +58,7 @@ var linksList = null
 module.exports = {
   info: {
     id:      "digitalBrain.quick.links",
+    name:    "Quick Links",
     version: "0.1",
     author:  "Alexey Leontiev"
   },
