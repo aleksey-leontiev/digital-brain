@@ -17,15 +17,19 @@ function load(mapi, config) {
     { id: "brain.thought.select",      handler: onBrainThoughtSelect },
     { id: "visual.thought.created",    handler: onVisualThoughtCreated },
 
-    { view: "#qd-thought-title",       id: "change", handler: onFieldsChanged },
-    { view: "#qd-thought-description", id: "change", handler: onFieldsChanged },
-    { view: "#qd-thought-style",       id: "change", handler: onFieldsChanged },
-    { view: "#qd-thought-image",       id: "change", handler: onFieldsChanged },
+    { view: "#qd-thought-title",       id: "change",   handler: onFieldsChanged },
+    { view: "#qd-thought-description", id: "change",   handler: onFieldsChanged },
+    { view: "#qd-thought-style",       id: "change",   handler: onFieldsChanged },
+    { view: "#qd-thought-image",       id: "change",   handler: onFieldsChanged },
 
-    { view: "#qd-thought-title",       id: "input",  handler: onFieldsChanging },
-    { view: "#qd-thought-description", id: "input",  handler: onFieldsChanging },
+    { view: "#qd-thought-title",       id: "input",    handler: onFieldsChanging },
+    { view: "#qd-thought-description", id: "input",    handler: onFieldsChanging },
 
-    { view: ".thought-style",          id: "click",  handler: onStyleItemClicked }
+    { view: ".thought-style",          id: "click",    handler: onStyleItemClicked },
+
+    { view: "#qd-thought-image",       id: "dragover",  handler: onImageDragOver },
+    { view: "#qd-thought-image",       id: "dragleave", handler: onImageDragLeave },
+    { view: "#qd-thought-image",       id: "drop",      handler: onImageDrag },
   ])
 }
 
@@ -67,14 +71,14 @@ function updateFieldsFromThought(thought) {
   view.title.val(thought.title || "")
   view.description.val(thought.description || "")
   view.style.data(thought.style || "")
-  view.image.val(thought.image || "")
+  view.image.attr("src", thought.image || "assets/placeholder.jpg")
 }
 
 function updateThoughtFromFields(thought) {
   thought.title       = view.title.val()
   thought.description = view.description.val()
   thought.style       = view.style.data("thought-style")
-  thought.image       = view.image.val()
+  thought.image       = view.image.attr("src")
 
   var node = api.events.request("visual.get", thought._id)
   applyStyle(thought, node)
@@ -103,17 +107,47 @@ function applyStyle(thought, node) {
   })
 }
 
+function onImageDragOver(event) {
+  event = event.originalEvent
+  event.stopPropagation();
+  event.preventDefault();
+  event.dataTransfer.dropEffect = 'copy';
+  view.image.addClass('dragging');
+}
+
+function onImageDragLeave(event) {
+  event = event.originalEvent
+  event.stopPropagation();
+  event.preventDefault();
+  event.dataTransfer.dropEffect = 'none';
+  view.image.removeClass('dragging');
+}
+
+function onImageDrag(event) {
+  event = event.originalEvent
+  event.stopPropagation();
+  event.preventDefault();
+
+  var files = event.dataTransfer.files;
+  for (var i = 0, f; f = files[i]; i++) {
+    view.image.attr("src", "file://" + f.path)
+  }
+  updateThoughtFromFields(selectedThought)
+  api.events.notify("brain.thought.changed", selectedThought)
+  view.image.removeClass('dragging');
+}
+
 var selectedThought = null
 var view = {}
 var api
 
 module.exports = {
-  load: load,
-  unload: unload,
   info: {
-    id: "digitalBrain.quick.details",
-    version: "0.1",
-    author: "Alexey Leontiev",
+    id:          "digitalBrain.quick.details",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
     description: "Allows to modify common fields like title, description, style or image of selected thought"
-  }
+  },
+
+  load: load, unload: unload,
 }

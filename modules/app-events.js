@@ -12,6 +12,21 @@ function load(mapi, config) {
   $(window).mousemove(function (event) {
     mapi.events.notify("mouse.move", event)
   })
+
+  $("html").on("dragover", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
+  $("html").on("dragleave", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
+  $("html").on("drop", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
 }
 
 function unload(mapi) {

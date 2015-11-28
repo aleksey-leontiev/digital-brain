@@ -13,7 +13,11 @@ function subscribe(events, group) {
     if (event.view == null) {
       saveHandler(event.id, event.handler, group)
     } else {
-      $(document).on(event.id, event.view, function(d) { event.handler(d) })
+      if (event.delegate != null) {
+        $(event.delegate).on(event.id, event.view, function(d) { event.handler(d) })
+      } else {
+        $(event.view).on(event.id, function(d) { event.handler(d) })
+      }
     }
   })
 }
@@ -29,7 +33,11 @@ function unsubscribe(group) {
   // delete view handlers
   metas[group].forEach(function (meta) {
     meta.forEach(function (event) {
-      if (event.view) { $(document).off(event.id, event.view) }
+      if (event.delegate != null) {
+        $(event.delegate).off(event.id, event.view)
+      } else {
+        $(event.view).off(event.id)
+      }
     })
   })
 
