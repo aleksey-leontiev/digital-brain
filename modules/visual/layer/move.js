@@ -1,7 +1,7 @@
 // Move Layer Module
 // allows to move layer
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   api.events.subscribe([

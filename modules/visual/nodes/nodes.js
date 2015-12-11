@@ -1,12 +1,12 @@
 // Visual Nodes Module
 
-function load(api, config) {
-  api.module.request("nodes/features/create", config)
-  api.module.request("nodes/features/drag", config)
-  api.module.request("nodes/features/select", config)
-  api.module.request("nodes/features/update", config)
-  api.module.request("nodes/features/description", config)
-  api.module.request("nodes/features/image", config)
+function load(api) {
+  api.module.request("nodes/features/create")
+  api.module.request("nodes/features/drag")
+  api.module.request("nodes/features/select")
+  api.module.request("nodes/features/update")
+  api.module.request("nodes/features/description")
+  api.module.request("nodes/features/image")
 }
 
 module.exports = {

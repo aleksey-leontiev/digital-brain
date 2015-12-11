@@ -1,5 +1,5 @@
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   // Subscribe for events

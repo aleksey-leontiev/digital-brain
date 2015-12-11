@@ -1,5 +1,12 @@
 
 function load(mapi, config) {
+
+  mapi.events.subscribe([
+    { id: "app.close", handler: onAppClose },
+    { id: "app.fullscreen", handler: onAppFullscreen }
+
+  ])
+
   $(document).keydown(function(event){
     var char = String.fromCharCode(event.which)
     mapi.events.notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
@@ -31,6 +38,19 @@ function load(mapi, config) {
 
 function unload(mapi) {
   // body...
+}
+
+function onAppClose(event) {
+  var remote = require('remote')
+  var window = remote.getCurrentWindow()
+  app.modules.saveConfigs()
+  window.close()
+}
+
+function onAppFullscreen(event) {
+  var remote = require('remote')
+  var window = remote.getCurrentWindow()
+  window.setFullScreen(event.value)
 }
 
 module.exports = {

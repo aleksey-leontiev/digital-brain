@@ -1,7 +1,7 @@
 // Highlight Selected
 // highlights selected thought
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
     { id: "visual.thought.select", handler: onVisualThoughtSelect },
@@ -9,7 +9,7 @@ function load(api, config) {
     { id: "visual.frame",          handler: onVisualFrame }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared")
 }
 
 function unload(api) {

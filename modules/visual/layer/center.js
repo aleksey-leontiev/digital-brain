@@ -1,7 +1,7 @@
 // Move Layer Module
 // allows to move layer
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   api.events.subscribe([
@@ -9,7 +9,7 @@ function load(mapi, config) {
     { id: "visual.frame", handler: onVisualFrame }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared")
 }
 
 function unload(api) {

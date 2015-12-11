@@ -1,7 +1,7 @@
 // Visual :: Nodes :: Description
 // Adds description to the node
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "visual.thought.create", handler: onVisualThoughtCreate }
   ])

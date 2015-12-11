@@ -1,5 +1,5 @@
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   // create overlay
@@ -25,7 +25,7 @@ function load(mapi, config) {
   ])
 
   // load additional modules
-  shared = api.app.request("modules/shared", config)
+  shared = api.app.request("modules/shared")
 }
 
 function unload(api) {

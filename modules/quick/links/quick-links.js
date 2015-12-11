@@ -1,6 +1,6 @@
 // Link Nodes :: List
 
-function load(api, config) {
+function load(api) {
   api.views.commitToPanel("view.html")
 
   api.events.subscribe([

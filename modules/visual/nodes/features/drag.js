@@ -1,14 +1,14 @@
 // Brain visualization module
 
-function load(_api, config) {
-  api = _api
-  
+function load(mapi) {
+  api = mapi
+
   api.events.subscribe([
     { id: "visual.thought.drag",     handler: onVisualThoughtDrag },
     { id: "visual.thought.mouse.up", handler: onVisualThoughtMouseUp }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared")
 }
 
 function unload(api) {

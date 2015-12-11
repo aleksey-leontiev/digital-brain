@@ -1,7 +1,7 @@
 // Link Nodes
 // draw links between nodes
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "brain.open.completed",  handler: onBrainOpenCompleted }
   ])
@@ -9,7 +9,7 @@ function load(api, config) {
   shared = api.module.request("shared")
   sharedLinks = api.module.request("links/shared")
 
-  layer       = api.events.request("visual.layer", "links")
+  layer = api.events.request("visual.layer", "links")
 }
 
 function unload(api) {

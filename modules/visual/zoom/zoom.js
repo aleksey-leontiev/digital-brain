@@ -1,6 +1,6 @@
 // Visual Nodes Module
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "key.down", handler: onKeyDown },
     { id: "visual.frame", handler: onVisualFrame }

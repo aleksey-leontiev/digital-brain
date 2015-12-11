@@ -1,7 +1,7 @@
 // Search Module
 // Allows to search thougths
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   view = {

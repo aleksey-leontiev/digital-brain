@@ -1,6 +1,6 @@
 // Brain Visualization Module
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   // install paper.js
@@ -21,12 +21,12 @@ function load(mapi, config) {
   view.onFrame     = onFrame
   view.onMouseDown = onMouseDown
 
-  shared = api.module.request("shared", config)
-  api.module.request("nodes/nodes", config)
-  api.module.request("links/links", config)
-  api.module.request("layer/move", config)
-  api.module.request("layer/center", config)
-  api.module.request("zoom/zoom", config)
+  shared = api.module.request("shared")
+  api.module.request("nodes/nodes")
+  api.module.request("links/links")
+  api.module.request("layer/move")
+  api.module.request("layer/center")
+  api.module.request("zoom/zoom")
 }
 
 function unload(api) {

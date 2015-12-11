@@ -1,11 +1,7 @@
 
-function load(mapi, config) {
-  // body...
-}
+function load(mapi) { }
 
-function unload(mapi) {
-
-}
+function unload(mapi) { }
 
 function getPredefinedStyles() {
   return {

@@ -1,12 +1,12 @@
 // Brain visualization module
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
   api.events.subscribe([
     { id: "visual.mouse.down",  handler: onMouseDown }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared")
 }
 
 function unload(api) {

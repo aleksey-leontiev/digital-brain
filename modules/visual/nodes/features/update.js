@@ -1,12 +1,12 @@
 // Brain visualization module
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "brain.thought.changed",  handler: onBrainThoughtChanged },
     { id: "brain.thought.changing", handler: onBrainThoughtChanged }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared")
 }
 
 function unload(api) {

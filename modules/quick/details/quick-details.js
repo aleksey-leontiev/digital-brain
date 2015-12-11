@@ -2,10 +2,10 @@
 // Allows to modify common fields like title, description, style or image of
 // selected thought
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
-  modifiers = api.module.request("features/styles", config)
+  modifiers = api.module.request("features/styles")
 
   view = {
     root:        api.views.commitToPanel("view.html", {

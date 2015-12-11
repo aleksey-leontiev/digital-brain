@@ -1,6 +1,6 @@
 // Shared Library
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   api.events.subscribe([

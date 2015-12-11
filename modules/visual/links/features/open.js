@@ -1,7 +1,7 @@
 // links Module :: Open Links
 // Open thought
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   searchResults = $("#links")

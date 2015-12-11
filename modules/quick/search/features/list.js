@@ -1,7 +1,7 @@
 // Search Module :: List Search Results
 // Lists Serch Result
 
-function load(api, config) {
+function load(api) {
   searchResults = $("#search-results")
 
   api.events.subscribe([

@@ -1,14 +1,15 @@
 // Titlebar Module
 // Creates stylish titlebar
 
-function load(api, config) {
+function load(mapi) {
+  api = mapi
+
   api.assets.loadCSS("style.css")
   api.views.appendView("view.html", "body")
 
   view = {
     originalTitlebar: $("#titlebar"),
-    titlebar:         $("#left-titlebar"),
-    window:           require("remote").getCurrentWindow()
+    titlebar:         $("#left-titlebar")
   }
 
   api.events.subscribe([
@@ -25,14 +26,15 @@ function unload(api) {
 }
 
 function onCloseButtonClick() {
-  view.window.close()
+  api.events.notify("app.close")
 }
 
 function onMaximizeButtonClick() {
-  view.window.setFullScreen(!view.window.isFullScreen())
+  api.events.notify("app.fullscreen", { value: true })
 }
 
 var view
+var api
 
 module.exports = {
   load: load,

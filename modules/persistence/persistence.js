@@ -1,7 +1,7 @@
 // Persistence Module
 // Stores the thoughts in the database.
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   api.events.subscribe([

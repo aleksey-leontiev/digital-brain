@@ -1,6 +1,6 @@
 // Notifications Module
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "notification", handler: onNotification }
   ])

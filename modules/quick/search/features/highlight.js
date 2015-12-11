@@ -1,7 +1,7 @@
 // Search Module :: Highlight Search Results
 // Highlights throughts
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "brain.open",                    handler: onBrainOpen },
     { id: "brain.thought.search.response", handler: onBrainThoughtSearchResponse },
