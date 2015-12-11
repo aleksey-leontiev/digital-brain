@@ -2,23 +2,18 @@
 
 // Creates API for specified module
 function createModuleApi(module, config, modules) {
-  var merge    = require("merge");
-  var rootPath = config.moduleRootPath;
+  var merge    = require("merge")
+  var rootPath = config.moduleRootPath
   var moduleId = module.info.id
 
   // generic API
   var api = {
-    app: {
-      request: function(path, customConfig) {
-        // TODO: app.config.appRootPath + "/modules/" + path
-        return app.modules.load(app.config.appRootPath + path, customConfig || config)
-      }
-    },
     module: {
-      rootPath: rootPath,
       config: config,
       request: function(path, customConfig) {
-        return app.modules.load(rootPath + path, customConfig || config)
+        return app.modules.load(
+          getModuleAbsolutePath(path, config),
+          customConfig || config)
       }
     }
   }
@@ -38,6 +33,14 @@ function createModuleApi(module, config, modules) {
 // Returns module API by module Id
 function getModuleApi(moduleId) {
   return apis[moduleId]
+}
+
+function getModuleAbsolutePath(path, config) {
+  var npath  = require("path")
+  var prefix = "app:" // used to locate app shared modules
+  return (path.startsWith(prefix)) ?
+    npath.join(app.config.appRootPath, "modules", path.substring(prefix.length)) :
+    npath.join(config.moduleRootPath, path)
 }
 
 var apis = {}

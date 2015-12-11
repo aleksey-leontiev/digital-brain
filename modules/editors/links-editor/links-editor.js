@@ -25,7 +25,7 @@ function load(mapi) {
   ])
 
   // load additional modules
-  shared = api.app.request("modules/shared")
+  shared = api.module.request("app:shared")
 }
 
 function unload(api) {

@@ -9,7 +9,7 @@ function load(api) {
 
   linksList = $("#links")
 
-  shared = api.app.request("modules/shared")
+  shared = api.module.request("app:shared")
 }
 
 function unload(api) {
