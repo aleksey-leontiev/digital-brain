@@ -14,7 +14,7 @@ function loadConfigs() {
     var npath    = require("path")
     var jsonfile = require("jsonfile")
     var path     = npath.join(userDataPath, fileName)
-    var configs  = jsonfile.readFileSync(path)
+    configs      = jsonfile.readFileSync(path)
 
     return configs
   } catch(err) {

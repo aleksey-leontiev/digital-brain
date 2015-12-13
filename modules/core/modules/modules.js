@@ -47,7 +47,7 @@ function get(moduleId) {
 }
 
 function saveConfigs() {
-  configs.saveConfigs(loadedModules)
+  return configs.saveConfigs(loadedModules)
 }
 
 function list() {

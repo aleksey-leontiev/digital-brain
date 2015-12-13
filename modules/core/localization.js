@@ -9,7 +9,8 @@ function unload(api) {
 function commitToApi(data) {
   return {
     l10n: {
-      get: function(fileName) { return get(data.rootPath + fileName)["en"] }
+      locale: getLocale(),
+      get: function(fileName) { return get(data.rootPath + fileName) }
     }
   }
 }
@@ -17,12 +18,23 @@ function commitToApi(data) {
 
 function get(path) {
   var jsonfile = require("jsonfile")
-  var l10n     = jsonfile.readFileSync(path)
+  var hash     = jsonfile.readFileSync(path)
+  var locale   = getLocale()
+  var lhash    = hash[locale]
 
-  return l10n
+  // no translation found for specified locale
+  // return default
+  if (lhash == null) return hash[defaultLocale]
+
+  return lhash
+}
+
+function getLocale() {
+  return module.exports.config.locale || navigator.language
 }
 
 var api
+var defaultLocale = "en"
 
 module.exports = {
   info: {
@@ -31,7 +43,9 @@ module.exports = {
     author:      "Alexey Leontiev",
     description: "It provides localization functionality."
   },
-
+  config: {
+    locale: undefined
+  },
   load:        load,
   unload:      unload,
   commitToApi: commitToApi
