@@ -19,8 +19,6 @@ function get(path) {
   var jsonfile = require("jsonfile")
   var l10n     = jsonfile.readFileSync(path)
 
-  console.log(l10n)
-
   return l10n
 }
 

@@ -1,13 +1,16 @@
 // Link Nodes :: List
 
 function load(api) {
-  api.views.commitToPanel("view.html")
+
+  view = {
+    root:      api.views.commitToPanel("assets/view.html", {
+                 t: api.l10n.get("assets/translation.json") }),
+    linksList: $("#links")
+  }
 
   api.events.subscribe([
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
   ])
-
-  linksList = $("#links")
 
   shared = api.module.request("app:shared.js")
 }
@@ -28,11 +31,11 @@ function onBrainThoughtSelect(thought) {
 }
 
 function appendView(thought, link) {
-  linksList.append(getListView(thought, link))
+  view.linksList.append(getListView(thought, link))
 }
 
 function clearView() {
-  linksList.html("")
+  view.linksList.html("")
 }
 
 function getListView(thought, link) {
@@ -53,7 +56,7 @@ function getListView(thought, link) {
 }
 
 var shared = null
-var linksList = null
+var view
 
 module.exports = {
   info: {
