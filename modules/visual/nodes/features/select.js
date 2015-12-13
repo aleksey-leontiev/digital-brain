@@ -24,16 +24,14 @@ function onBrainThoughtSelect(event) {
 
 function onVisualThoughtCreate(event) {
   event.node.selectionHighlight = new Path.Circle({
-    radius: 50,
-    fillColor: "yellow",
-    opacity: 0
-  })
-  event.node.selectionHighlight.style = {
-    strokeColor: 'red',
-    dashArray: [15,25],
+    radius:      25,
+    fillColor:   "yellow",
+    dashArray:   [15],
+    strokeColor: "red",
+    strokeCap:   "round",
     strokeWidth: 4,
-    strokeCap: 'round'
-  }
+    opacity:     0,
+  })
   event.node.group.addChild(event.node.selectionHighlight)
 }
 

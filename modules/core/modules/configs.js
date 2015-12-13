@@ -10,12 +10,16 @@ function getConfig(moduleId) {
 }
 
 function loadConfigs() {
-  var npath    = require("path")
-  var jsonfile = require("jsonfile")
-  var path     = npath.join(userDataPath, fileName)
-  var configs  = jsonfile.readFileSync(path)
+  try {
+    var npath    = require("path")
+    var jsonfile = require("jsonfile")
+    var path     = npath.join(userDataPath, fileName)
+    var configs  = jsonfile.readFileSync(path)
 
-  return configs
+    return configs
+  } catch(err) {
+    return {}
+  }
 }
 
 function saveConfigs(modules) {

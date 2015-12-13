@@ -37,7 +37,7 @@ function resolveRoot(path, config) {
     .replace(appPrefix,    appModuleRootPath)
     .replace(modulePrefix, moduleRootPath)
 
-  // path without prefix points on module root path
+  // path without prefix points on module root path (default)
   // shared.js => /module/root/shared.js
   if (!isPathContainsPrefix(path)) {
     result = (config.moduleRootPath + result)
