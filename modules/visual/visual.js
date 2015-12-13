@@ -25,7 +25,6 @@ function load(mapi) {
   api.module.request("nodes")
   api.module.request("links")
   api.module.request("layer")
-  api.module.request("layer")
   api.module.request("zoom")
 }
 

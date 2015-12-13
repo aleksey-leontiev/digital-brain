@@ -49,13 +49,11 @@ function saveConfigs() {
   configs.saveConfigs(loadedModules)
 }
 
-function getRootPath(path) {
-  var _path = require("path")
-  var p = _path.parse(_path.normalize(path))
-  return _path.join(
-    p.root,
-    p.dir) + _path.sep
+function list() {
+  return loadedModules
 }
+
+// private
 
 function apiModules(modules) {
   var underscore = require("underscore")
@@ -74,5 +72,6 @@ module.exports = {
   load: load,
   unload: unload,
   saveConfigs: saveConfigs,
-  get: get
+  get: get,
+  list: list
 }
