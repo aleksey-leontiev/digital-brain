@@ -8,12 +8,13 @@ function init(app) {
 }
 
 function load(path, config) {
+  var shared = require("./shared")
   var moduleConfig = (config == null ? {} : config)
   if (moduleConfig.moduleRootPath == null) {
-    moduleConfig.moduleRootPath = getRootPath(path)
+    moduleConfig.moduleRootPath = shared.getModuleRootPath(path)
   }
 
-  var loadingModule = require(path)
+  var loadingModule = require(shared.getModuleAbsolutePath(path, config))
   if (loadingModule.info == null) {
     throw "Module info is not defined"
   }

@@ -6,7 +6,7 @@ function load(mapi) {
     { id: "visual.mouse.down",  handler: onMouseDown }
   ])
 
-  shared = api.module.request("shared")
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {

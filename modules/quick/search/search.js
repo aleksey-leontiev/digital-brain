@@ -13,9 +13,9 @@ function load(mapi) {
     { view: "#search-query",  id: "change", handler: onSearchChange },
   ])
 
-  api.module.request("features/highlight")
-  api.module.request("features/list")
-  api.module.request("features/open")
+  api.module.request("features/highlight.js")
+  api.module.request("features/list.js")
+  api.module.request("features/open.js")
 }
 
 function unload(api) {

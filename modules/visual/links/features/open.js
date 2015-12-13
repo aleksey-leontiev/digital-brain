@@ -10,7 +10,7 @@ function load(mapi) {
     { delegate: "#links", view: ".thought-link", id: "click", handler: onThoughtLinkClick }
   ])
 
-  shared = api.module.request("shared")
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {

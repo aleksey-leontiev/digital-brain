@@ -1,4 +1,4 @@
-// Modules Management Module
+// Modules Management Module :: Configs
 
 function getConfig(moduleId) {
   return configs[moduleId]

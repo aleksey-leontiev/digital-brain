@@ -5,7 +5,7 @@
 function load(mapi) {
   api = mapi
 
-  modifiers = api.module.request("features/styles")
+  modifiers = api.module.request("features/styles.js")
 
   view = {
     root:        api.views.commitToPanel("view.html", {

@@ -8,7 +8,7 @@ function load(mapi) {
     { id: "visual.thought.mouse.up", handler: onVisualThoughtMouseUp }
   ])
 
-  shared = api.module.request("shared")
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {

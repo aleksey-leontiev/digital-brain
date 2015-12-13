@@ -9,7 +9,7 @@ function load(api) {
     { id: "visual.frame",          handler: onVisualFrame }
   ])
 
-  shared = api.module.request("shared")
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {

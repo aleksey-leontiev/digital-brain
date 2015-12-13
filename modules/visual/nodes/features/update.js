@@ -6,7 +6,7 @@ function load(api) {
     { id: "brain.thought.changing", handler: onBrainThoughtChanged }
   ])
 
-  shared = api.module.request("shared")
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {

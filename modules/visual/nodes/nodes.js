@@ -1,12 +1,12 @@
 // Visual Nodes Module
 
 function load(api) {
-  api.module.request("nodes/features/create")
-  api.module.request("nodes/features/drag")
-  api.module.request("nodes/features/select")
-  api.module.request("nodes/features/update")
-  api.module.request("nodes/features/description")
-  api.module.request("nodes/features/image")
+  api.module.request("nodes/features/create.js")
+  api.module.request("nodes/features/drag.js")
+  api.module.request("nodes/features/select.js")
+  api.module.request("nodes/features/update.js")
+  api.module.request("nodes/features/description.js")
+  api.module.request("nodes/features/image.js")
 }
 
 module.exports = {

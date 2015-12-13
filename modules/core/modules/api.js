@@ -1,4 +1,4 @@
-// Modules Management Module
+// Modules Management Module :: APIs
 
 // Creates API for specified module
 function createModuleApi(module, config, modules) {
@@ -12,8 +12,7 @@ function createModuleApi(module, config, modules) {
       config: config,
       request: function(path, customConfig) {
         return app.modules.load(
-          getModuleAbsolutePath(path, config),
-          customConfig || config)
+          path, customConfig || config)
       }
     }
   }
@@ -33,14 +32,6 @@ function createModuleApi(module, config, modules) {
 // Returns module API by module Id
 function getModuleApi(moduleId) {
   return apis[moduleId]
-}
-
-function getModuleAbsolutePath(path, config) {
-  var npath  = require("path")
-  var prefix = "app:" // used to locate app shared modules
-  return (path.startsWith(prefix)) ?
-    npath.join(app.config.appRootPath, "modules", path.substring(prefix.length)) :
-    npath.join(config.moduleRootPath, path)
 }
 
 var apis = {}

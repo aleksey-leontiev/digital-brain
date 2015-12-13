@@ -6,8 +6,8 @@ function load(api) {
     { id: "brain.open.completed",  handler: onBrainOpenCompleted }
   ])
 
-  shared = api.module.request("shared")
-  sharedLinks = api.module.request("links/shared")
+  shared = api.module.request("shared.js")
+  sharedLinks = api.module.request("links/shared.js")
 
   layer = api.events.request("visual.layer", "links")
 }

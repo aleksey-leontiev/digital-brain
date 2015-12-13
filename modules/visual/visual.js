@@ -21,12 +21,12 @@ function load(mapi) {
   view.onFrame     = onFrame
   view.onMouseDown = onMouseDown
 
-  shared = api.module.request("shared")
-  api.module.request("nodes/nodes")
-  api.module.request("links/links")
-  api.module.request("layer/move")
-  api.module.request("layer/center")
-  api.module.request("zoom/zoom")
+  shared = api.module.request("shared.js")
+  api.module.request("nodes")
+  api.module.request("links")
+  api.module.request("layer")
+  api.module.request("layer")
+  api.module.request("zoom")
 }
 
 function unload(api) {

@@ -12,10 +12,10 @@ function load(mapi, config) {
 
   layer = api.events.request("visual.layer", "links")
 
-  shared      = api.module.request("shared")
-  sharedLinks = api.module.request("links/shared")
-  api.module.request("links/features/load")
-  api.module.request("links/features/open")
+  shared      = api.module.request("shared.js")
+  sharedLinks = api.module.request("links/shared.js")
+  api.module.request("links/features/load.js")
+  api.module.request("links/features/open.js")
 }
 
 function unload(api) {
