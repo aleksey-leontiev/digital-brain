@@ -14,26 +14,18 @@ function init(app) {
 function getModuleAbsolutePath(path, config) {
   var result = path
   result = resolveRoot(result, config)
-  result = resolveFile(result, config)
+  result = resolveFile(result)
   return result
 }
 
 function getModuleRootPath(path) {
-  return resolveRoot2(resolveRoot(path)) + "/"
+  var result = path
+  result = resolveRoot(result)
+  result = getStepBackPath(result)
+  return result + "/"
 }
 
 // private
-
-function resolveRoot2(path) {
-  var npath   = require("path")
-  var extname = npath.extname(path)
-  if (extname == "") {
-    return path
-  } else {
-    return npath.parse(path).dir
-  }
-
-}
 
 function resolveRoot(path, config) {
   var moduleRootPath = (config != null ? config.moduleRootPath || "" : "")
@@ -54,13 +46,25 @@ function resolveRoot(path, config) {
   return result
 }
 
-function resolveFile(path, config) {
+function resolveFile(path) {
   if (!isPointsOnFile(path)) {
     var fileName = (getLastDirName(path) + ".js")
                     .replace(appPrefix, "").replace(modulePrefix, "")
     return npath.join(path, fileName)
   } else
     return path
+}
+
+function getLastDirName(path) {
+  return path.split("/").splice(-1)
+}
+
+function getStepBackPath(path) {
+  if (!isPointsOnFile(path)) {
+    return path
+  } else {
+    return npath.parse(path).dir
+  }
 }
 
 function isPathContainsPrefix(path) {
@@ -70,10 +74,6 @@ function isPathContainsPrefix(path) {
 function isPointsOnFile(path) {
   var extname = npath.extname(path)
   return extname != ""
-}
-
-function getLastDirName(path) {
-  return path.split("/").splice(-1)
 }
 
 var appPrefix    = "app:"
