@@ -1,9 +1,9 @@
 // Modules Management Module
 
 function init(app) {
-  configs = require("./configs").init(app.config.userDataPath)
-  apis    = require("./api").init(app)
-  shared  = require("./shared").init(app)
+  configs      = require("./configs").init(app.config.userDataPath)
+  apis         = require("./api").init(app)
+  pathResolver = require("./path-resolver").init(app)
 
   configs.loadConfigs()
   return this
@@ -12,10 +12,10 @@ function init(app) {
 function load(path, config) {
   var moduleConfig = (config == null ? {} : config)
   if (moduleConfig.moduleRootPath == null) {
-    moduleConfig.moduleRootPath = shared.getModuleRootPath(path)
+    moduleConfig.moduleRootPath = pathResolver.getModuleRootPath(path)
   }
 
-  var loadingModule = require(shared.getModuleAbsolutePath(path, config))
+  var loadingModule = require(pathResolver.getModuleAbsolutePath(path, config))
   if (loadingModule.info == null) {
     throw "Module info is not defined"
   }
@@ -66,7 +66,7 @@ function apiModules(modules) {
 
 var apis = {}
 var configs
-var shared
+var pathResolver
 var loadedModules = {}
 
 module.exports = {
