@@ -53,11 +53,12 @@ var isDragged = false
 var shared    = null
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
-    id:      "digitalBrain.visual.nodes.drag",
-    version: "0.1",
-    author:  "Alexey Leontiev"
-  }
+    id:          "digitalBrain.visual.nodes.drag",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "It provides dragging functionality of thought."
+  },
+
+  load: load, unload: unload
 }
