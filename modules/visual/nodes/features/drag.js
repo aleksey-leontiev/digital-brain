@@ -16,25 +16,29 @@ function unload(api) {
 }
 
 function onVisualThoughtDrag(event) {
-  isDragged = true
+  var circle    = event.node.path
+  var group     = event.node.group
+  var selection = event.node.selectionHighlight
+  var segments  = event.node.segments
+  var thought   = event.thought
+  var point     = event.point
 
   // move node
-  event.node.group.position = event.point
-  event.node.group.position.x +=
-    (event.node.group.bounds.width / 2) -
-    (event.node.selectionHighlight.bounds.width / 2)
+  group.position = point
+  group.position.x += (group.bounds.width / 2) - (selection.bounds.width / 2)
 
   // move links
-  if (event.node.segments != null) {
-    event.node.segments.forEach(function (segment) {
-      segment.point = event.node.path.position
-    })
+  if (segments != null) {
+    segments.forEach(function (s) { s.point = circle.position })
   }
 
   // update thought
   layerOffset = shared.getLayerOffset()
-  event.thought.x = event.point.x + layerOffset.x
-  event.thought.y = event.point.y + layerOffset.y
+  thought.x = point.x + layerOffset.x
+  thought.y = point.y + layerOffset.y
+
+  // set dragged flag
+  isDragged = true
 }
 
 function onVisualThoughtMouseUp(event) {
