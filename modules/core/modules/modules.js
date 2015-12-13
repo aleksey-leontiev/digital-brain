@@ -1,14 +1,15 @@
 // Modules Management Module
 
 function init(app) {
-  configs = require("./configs")
-  apis    = require("./api")
+  configs = require("./configs").init(app.config.userDataPath)
+  apis    = require("./api").init(app)
+  shared  = require("./shared").init(app)
+
   configs.loadConfigs()
   return this
 }
 
 function load(path, config) {
-  var shared = require("./shared")
   var moduleConfig = (config == null ? {} : config)
   if (moduleConfig.moduleRootPath == null) {
     moduleConfig.moduleRootPath = shared.getModuleRootPath(path)
@@ -65,6 +66,7 @@ function apiModules(modules) {
 
 var apis = {}
 var configs
+var shared
 var loadedModules = {}
 
 module.exports = {

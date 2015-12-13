@@ -4,6 +4,11 @@
 // module:group/features => /module/group/features/features.js
 // module:shared.js      => /module/shared.js
 
+function init(application) {
+  app = application
+  return this
+}
+
 function getModuleAbsolutePath(path, config) {
   return resolve(path, config)
 }
@@ -42,7 +47,7 @@ function resolveRoot2(path) {
 
 function resolveRoot(path, config) {
   var result = path
-    .replace(appPrefix, app.config.appRootPath + "modules/") // TODO: FIX
+    .replace(appPrefix, app.config.moduleRootPath) // TODO: FIX
     .replace(modulePrefix, config != null ? config.moduleRootPath : "")
 
   if (config != null && config.moduleRootPath != null) {
@@ -54,52 +59,15 @@ function resolveRoot(path, config) {
   return result
 }
 
-// return (config != null && config.moduleRootPath != null) ?
-//        config.moduleRootPath + path : path
-//
-/*function getModuleAbsolutePath(path, config) {
-  var npath = require("path")
-  var moduleRootPath = (config != null && config.moduleRootPath != null ?
-                        config.moduleRootPath : "")
-
-  if (path.startsWith(appPrefix)) {
-    return npath.join(
-      app.config.appRootPath, "modules", getFolder(path.substring(appPrefix.length)))
-  } else {
-    return npath.join(
-      moduleRootPath || "", getFolder(path))
-  }
-}
-
-function getModuleRootPath(path) {
-  if (path.startsWith(appPrefix)) {
-    return npath.join(
-      app.config.appRootPath, "modules", path.substring(appPrefix.length))
-  } else {
-    return npath.join(
-      moduleRootPath || "", getFolder(path))
-  }
-}
-
-function getFolder(path) {
-  var npath   = require("path")
-  var extname = npath.extname(path)
-  if (extname == "") {
-    var lastDir  = path.split("/").splice(-1)
-    var fileName = lastDir + ".js"
-    return npath.join(path, fileName)
-  } else
-    return path
-}
-*/
-
 var appPrefix    = "app:"
 var modulePrefix = "module:"
+var app
 
 ap = getModuleAbsolutePath
 rp = getModuleRootPath
 
 module.exports = {
+  init:                  init,
   getModuleAbsolutePath: getModuleAbsolutePath,
-  getModuleRootPath: getModuleRootPath
+  getModuleRootPath:     getModuleRootPath
 }

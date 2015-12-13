@@ -1,21 +1,27 @@
 // Modules Management Module :: Configs
 
+function init(userDataFolderPath) {
+  userDataPath = userDataFolderPath
+  return this
+}
+
 function getConfig(moduleId) {
   return configs[moduleId]
 }
 
 function loadConfigs() {
+  var npath    = require("path")
   var jsonfile = require("jsonfile")
-  var util     = require("util")
-  var path     = app.config.userDataPath + "/moduleConfigs.json"
-  configs      = jsonfile.readFileSync(path)
+  var path     = npath.join(userDataPath, fileName)
+  var configs  = jsonfile.readFileSync(path)
 
   return configs
 }
 
 function saveConfigs(modules) {
+  var npath    = require("path")
   var jsonfile = require("jsonfile")
-  var path     = app.config.userDataPath + "/moduleConfigs.json"
+  var path     = npath.join(userDataPath, fileName)
   var result   = {}
 
   for (var moduleId in modules) {
@@ -27,8 +33,11 @@ function saveConfigs(modules) {
 }
 
 var configs = {}
+var userDataPath = ""
+var fileName = "moduleConfigs.json"
 
 module.exports = {
+  init:        init,
   loadConfigs: loadConfigs,
   saveConfigs: saveConfigs,
   getConfig:   getConfig

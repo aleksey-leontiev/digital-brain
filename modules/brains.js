@@ -1,7 +1,7 @@
 // Shared Library
 
 function load(api) {
-  api.events.notify("brain.open", { path: app.config.userDataPath + "_brain" })
+  api.events.notify("brain.open", { path: api.app.config.userDataPath + "_brain" })
 }
 
 module.exports = {

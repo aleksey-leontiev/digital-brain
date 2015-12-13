@@ -1,5 +1,10 @@
 // Modules Management Module :: APIs
 
+function init(application) {
+  app = application
+  return this
+}
+
 // Creates API for specified module
 function createModuleApi(module, config, modules) {
   var merge    = require("merge")
@@ -8,6 +13,9 @@ function createModuleApi(module, config, modules) {
 
   // generic API
   var api = {
+    app: {
+      config: app.config,
+    },
     module: {
       config: config,
       request: function(path, customConfig) {
@@ -35,8 +43,10 @@ function getModuleApi(moduleId) {
 }
 
 var apis = {}
+var app
 
 module.exports = {
+  init:            init,
   createModuleApi: createModuleApi,
-  getModuleApi: getModuleApi
+  getModuleApi:    getModuleApi
 }
