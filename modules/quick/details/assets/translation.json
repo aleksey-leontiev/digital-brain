@@ -1,0 +1,14 @@
+{
+  "ru": {
+    "title": "Заголовок",
+    "description": "Описание",
+    "predefinedStyles": "Стандартные стили",
+    "userStyles": "Пользовательские стили"
+  },
+  "en": {
+    "title": "Title",
+    "description": "Description",
+    "predefinedStyles": "Predefined Styles",
+    "userStyles": "Users Styles"
+  }
+}

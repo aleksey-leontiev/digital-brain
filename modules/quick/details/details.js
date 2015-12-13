@@ -8,8 +8,9 @@ function load(mapi) {
   modifiers = api.module.request("features/styles.js")
 
   view = {
-    root:        api.views.commitToPanel("view.html", {
-                   predefined: modifiers.getPredefinedStyles()
+    root:        api.views.commitToPanel("assets/view.html", {
+                   predefined: modifiers.getPredefinedStyles(),
+                   t: api.l10n.get("assets/translation.json")
                  }),
     title:       $("#qd-thought-title"),
     description: $("#qd-thought-description"),

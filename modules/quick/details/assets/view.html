@@ -4,14 +4,14 @@
     <input id="qd-thought-title"
       type="text"
       class="uk-width-1-1"
-      placeholder="Title"></input>
+      placeholder="{{t.title}}"></input>
   </div>
 
   <!-- Thought description input box -->
   <div class="uk-form-row">
     <textarea id="qd-thought-description"
       class="uk-width-1-1"
-      placeholder="Description"
+      placeholder="{{t.description}}"
       rows="8"></textarea>
   </div>
 
@@ -26,11 +26,11 @@
       <button class="uk-button uk-width-1-1">Style <i class="uk-icon-caret-down"></i></button>
         <div class="uk-dropdown uk-dropdown-scrollable">
           <ul class="uk-nav uk-nav-dropdown">
-            <li class="uk-nav-header">Predefined</li>
+            <li class="uk-nav-header">{{t.predefinedStyles}}</li>
             {{#each predefined}}
             <li><a href="#" class="thought-style" data-style-name="{{id}}">{{displayName}}</a></li>
             {{/each}}
-            <li class="uk-nav-header">User</li>
+            <li class="uk-nav-header">{{t.userStyles}}</li>
           </ul>
         </div>
       </div>
