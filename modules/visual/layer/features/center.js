@@ -5,8 +5,10 @@ function load(mapi) {
   api = mapi
 
   api.events.subscribe([
-    { id: "brain.thought.select", handler: onBrainThoughtSelect },
-    { id: "visual.frame", handler: onVisualFrame }
+    { id: "visual.thought.mouse.up",   handler: onVisualThoughtMouseUp },
+    { id: "visual.thought.mouse.down", handler: onVisualThoughtMouseDown },
+    { id: "brain.thought.select",      handler: onBrainThoughtSelect },
+    { id: "visual.frame",              handler: onVisualFrame }
   ])
 
   shared = api.module.request("shared.js")
@@ -21,6 +23,14 @@ function onBrainThoughtSelect(thought) {
   if (module.exports.config.speed == 1) move();
 }
 
+function onVisualThoughtMouseDown(event) {
+  preventCentering = true
+}
+
+function onVisualThoughtMouseUp(event) {
+  preventCentering = false
+}
+
 function onVisualFrame() {
   if (selectedThought == null) return;
   if (module.exports.config.speed == 1) return;
@@ -29,8 +39,10 @@ function onVisualFrame() {
 }
 
 function move() {
+  if (preventCentering) return
+
   var layerOffset = shared.getLayerOffset()
-  var centerX     = view.center.x + 100
+  var centerX     = view.center.x
   var centerY     = view.center.y
 
   var dx = (selectedThought.x - layerOffset.x - centerX)
@@ -38,6 +50,7 @@ function move() {
 
   if (isNumeric(dx) && isNumeric(dy)) {
     if (Math.abs(dx) + Math.abs(dy) < 5) {
+      preventCentering = false
       selectedThought = null
       return
     }
@@ -54,6 +67,7 @@ function isNumeric(n) {
 var api
 var shared = null
 var selectedThought = null
+var preventCentering = false
 
 module.exports = {
   load: load, unload: unload,
@@ -65,6 +79,6 @@ module.exports = {
   },
 
   config: {
-    speed: .5
+    speed: .1
   }
 }

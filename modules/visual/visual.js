@@ -56,9 +56,13 @@ function onBrainThoughtNewOrLoad(event) {
   node.group.addChildren([node.path, node.text])
   node.group.position = new Point(event.thought.x - layerOffset.x, event.thought.y - layerOffset.y);
 
-  node.path.onMouseDown = function() {
+  node.path.onClick = function() {
     api.events.notify("brain.thought.select", event.thought)
     api.events.notify("visual.thought.select", node)
+  };
+  node.path.onMouseDown = function(e) {
+    api.events.notify("visual.thought.mouse.down",
+    {node: node, thought: event.thought, point:e.point})
   };
   node.path.onMouseDrag = function(e) {
     api.events.notify("visual.thought.drag",

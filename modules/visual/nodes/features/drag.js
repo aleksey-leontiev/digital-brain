@@ -16,12 +16,13 @@ function unload(api) {
 }
 
 function onVisualThoughtDrag(event) {
-  startDragFrom(event.point)
+  isDragged = true
 
   // move node
   event.node.group.position = event.point
   event.node.group.position.x +=
-    (event.node.text.position.x - event.node.path.position.x) - 35
+    (event.node.group.bounds.width / 2) -
+    (event.node.selectionHighlight.bounds.width / 2)
 
   // move links
   if (event.node.segments != null) {
@@ -37,34 +38,15 @@ function onVisualThoughtDrag(event) {
 }
 
 function onVisualThoughtMouseUp(event) {
-  if (!isDragged(event.point)) return
-
-  api.events.notify("brain.thought.changed", event.thought) // TODO: don't save if was no drag
-  clearOriginalPosition()
-}
-
-function startDragFrom(point) {
-  if (originalPosition == null)
-    originalPosition = point
-}
-
-function isDragged(point) {
-  if (originalPosition != null) {
-    if (point.x != originalPosition.x || point.y != originalPosition.y) {
-      return true
-    }
+  if (isDragged) {
+    api.events.notify("brain.thought.changed", event.thought)
+    isDragged = false
   }
-  return false
-}
-
-function clearOriginalPosition() {
-  originalPosition = null
 }
 
 var api
-var originalPosition = null
-var isDirty = false
-var shared = null
+var isDragged = false
+var shared    = null
 
 module.exports = {
   load: load, unload: unload,
