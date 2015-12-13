@@ -1,38 +1,28 @@
+// Modules Management Module :: Shared
 
 // app:group/module      => /app/modules/group/module/module.js
 // app:group/module.js   => /app/modules/group/module.js
 // module:group/features => /module/group/features/features.js
 // module:shared.js      => /module/shared.js
 
-function init(application) {
-  app = application
+function init(app) {
+  npath = require("path")
+  appModuleRootPath = app.config.moduleRootPath
   return this
 }
 
 function getModuleAbsolutePath(path, config) {
-  return resolve(path, config)
+  var result = path
+  result = resolveRoot(result, config)
+  result = resolveFile(result, config)
+  return result
 }
 
 function getModuleRootPath(path) {
   return resolveRoot2(resolveRoot(path)) + "/"
 }
 
-function resolve(path, config) {
-  return resolveRoot(resolveFile(path, config), config)
-}
-
-function resolveFile(path, config) {
-  var npath   = require("path")
-  var extname = npath.extname(path)
-  if (extname == "") {
-    var lastDir  = path.split("/").splice(-1)
-    var fileName = lastDir + ".js"
-    fileName = fileName.replace(appPrefix, "").replace(modulePrefix, "")
-
-    return npath.join(path, fileName)
-  } else
-    return path
-}
+// private
 
 function resolveRoot2(path) {
   var npath   = require("path")
@@ -46,22 +36,50 @@ function resolveRoot2(path) {
 }
 
 function resolveRoot(path, config) {
-  var result = path
-    .replace(appPrefix, app.config.moduleRootPath) // TODO: FIX
-    .replace(modulePrefix, config != null ? config.moduleRootPath : "")
+  var moduleRootPath = (config != null ? config.moduleRootPath || "" : "")
 
-  if (config != null && config.moduleRootPath != null) {
-    if (!path.startsWith(appPrefix) && !path.startsWith(modulePrefix)) {
-      result = (config.moduleRootPath + result)
-    }
+  // replaces appRefix and modulePrefix to the real paths
+  // app:module.js      => /app/modules/module.js
+  // module:features.js => /module/features.js
+  var result = path
+    .replace(appPrefix,    appModuleRootPath)
+    .replace(modulePrefix, moduleRootPath)
+
+  // path without prefix points on module root path
+  // shared.js => /module/root/shared.js
+  if (!isPathContainsPrefix(path)) {
+    result = (config.moduleRootPath + result)
   }
 
   return result
 }
 
+function resolveFile(path, config) {
+  if (!isPointsOnFile(path)) {
+    var fileName = (getLastDirName(path) + ".js")
+                    .replace(appPrefix, "").replace(modulePrefix, "")
+    return npath.join(path, fileName)
+  } else
+    return path
+}
+
+function isPathContainsPrefix(path) {
+  return path.startsWith(appPrefix) || path.startsWith(modulePrefix)
+}
+
+function isPointsOnFile(path) {
+  var extname = npath.extname(path)
+  return extname != ""
+}
+
+function getLastDirName(path) {
+  return path.split("/").splice(-1)
+}
+
 var appPrefix    = "app:"
 var modulePrefix = "module:"
-var app
+var appModuleRootPath
+var npath
 
 ap = getModuleAbsolutePath
 rp = getModuleRootPath
