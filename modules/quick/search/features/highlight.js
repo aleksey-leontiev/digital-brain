@@ -1,5 +1,4 @@
-// Search Module :: Highlight Search Results
-// Highlights throughts
+// Quick Search Module :: Highlight Search Results
 
 function load(api) {
   api.events.subscribe([
@@ -54,11 +53,10 @@ var lastSearchResults = []
 var map = {}
 
 module.exports = {
-  load: load,
-  unload: unload,
   info: {
     id: "digitalBrain.quick.search.highlight",
     version: "0.1",
     author: "Alexey Leontiev"
-  }
+  },
+  load: load,  unload: unload,
 }
