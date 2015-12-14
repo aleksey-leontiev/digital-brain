@@ -21,6 +21,7 @@ function load(mapi) {
   view.onFrame     = onFrame
   view.onMouseDown = onMouseDown
 
+  meta   = api.module.request("app:meta.js")
   shared = api.module.request("shared.js")
   api.module.request("nodes")
   api.module.request("links")
@@ -75,7 +76,7 @@ function onBrainThoughtNewOrLoad(event) {
 
   api.events.notify("visual.thought.created", { node: node, thought: event.thought })
 
-  hash[event.thought._id] = node
+  meta.set(event.thought._id, "visual", node)
 
   layer.addChild(node.group)
 }
@@ -89,7 +90,7 @@ function onMouseDown(event) {
 }
 
 function onVisualGet(thoughtId) {
-  return hash[thoughtId]
+  return meta.get(thoughtId, "visual")
 }
 
 function onVisualLayerRequest(layerId) {
@@ -101,19 +102,18 @@ function onVisualLayerRequest(layerId) {
 }
 
 var api
-var hash   = {}
 var paper  = null
 var layers = {}
 var layer  = null
 var shared = null
+var meta
 
 module.exports = {
-  load: load,
-  unload: unload,
-
   info: {
     id:      "digitalBrain.visual",
     version: "0.1",
     author:  "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload,
 }

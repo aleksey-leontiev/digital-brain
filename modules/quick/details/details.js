@@ -46,8 +46,6 @@ function unload(api) {
 function onBrainThoughtSelect(thought) {
   selectedThought = thought
   updateFieldsFromThought(selectedThought)
-
-  var node = api.events.request("visual.get", thought._id)
 }
 
 function onVisualThoughtCreated(event) {
