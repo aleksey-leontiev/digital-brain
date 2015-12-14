@@ -12,6 +12,7 @@ function load(mapi, config) {
 
   layer = api.events.request("visual.layer", "links")
 
+  brain       = api.module.request("app:brain.js")
   shared      = api.module.request("shared.js")
   sharedLinks = api.module.request("links/shared.js")
   api.module.request("links/features/load.js")
@@ -47,7 +48,7 @@ function onBrainThoughtSelect(thought) {
     }
 
     // create backward link
-    backwardThougth = shared.getThoughtById(thought._id)
+    backwardThougth = brain.getThoughtById(thought._id)
     if (backwardThougth.links == null) {
       backwardThougth.links = {}
     }
@@ -95,6 +96,7 @@ var api
 var selectedThought = null
 var isLinking = false
 var layer = null
+var brain
 
 module.exports = {
   info: {

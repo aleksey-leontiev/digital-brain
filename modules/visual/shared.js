@@ -2,37 +2,18 @@
 
 function load(api) {
   api.events.subscribe([
-    { id: "visual.thought.create", handler: onVisualThoughtCreate },
     { id: "visual.layer.moved",     handler: onVisualLayerMoved }
   ])
+
+  meta = api.module.request("app:meta.js")
 }
 
 function unload(api) {
   api.events.unsubscribe()
 }
 
-function onVisualThoughtCreate(event) {
-  thoughtById[event.thought._id]           = event.thought
-  thoughtByVisualNode[event.node]          = event.thought
-
-  visualNodeByThoughtId[event.thought._id] = event.node
-  //visualNodeByThought[event.thought]       = event.node
-}
-
-function getThoughtById(id) {
-  return thoughtById[id]
-}
-
 function getVisualNodeByThoughtId(id) {
-  return visualNodeByThoughtId[id]
-}
-
-function getVisualNodeByThought(thought) {
-  return visualNodeByThoughtId[thought._id]
-}
-
-function getThoughtByVisualNode(visualNode) {
-  return thoughtByVisualNode[visualNode]
+  return meta.get(id, "visual")
 }
 
 function onVisualLayerMoved(event) {
@@ -40,9 +21,8 @@ function onVisualLayerMoved(event) {
 }
 
 var layerOffset = { x:0, y:0 }
-var thoughtById = {}
-var visualNodeByThoughtId = {}
-var thoughtByVisualNode = {}
+var meta
+
 
 module.exports = {
   info: {
@@ -52,9 +32,6 @@ module.exports = {
   },
   load:                     load,
   unload: unload,
-  getVisualNodeByThought:   getVisualNodeByThought,
-  getThoughtByVisualNode:   getThoughtByVisualNode,
   getVisualNodeByThoughtId: getVisualNodeByThoughtId,
-  getThoughtById:           getThoughtById,
   getLayerOffset:           function () { return layerOffset }
 }

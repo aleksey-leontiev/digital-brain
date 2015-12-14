@@ -14,18 +14,22 @@ function unload(api) {
 }
 
 function onBrainThoughtChanged(thought) {
-  var visualNode = shared.getVisualNodeByThought(thought)
-  visualNode.text.content = thought.title
+  var node = shared.getVisualNodeByThoughtId(thought._id)
+  node.text.content = thought.title
+
+  if (node.description) {
+    node.description.content = thought.description
+  }
 }
 
 var shared = null
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
     id:      "digitalBrain.visual.nodes.update",
     version: "0.1",
     author:  "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload
 }
