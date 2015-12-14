@@ -78,14 +78,14 @@ function updateFieldsFromThought(thought) {
   view.title.val(thought.title || "")
   view.description.val(thought.description || "")
   view.style.data(thought.style || "")
-  view.image.attr("src", thought.image || "assets/placeholder.jpg")
+  view.image.attr("src", thought.image || imagePlaceholderPath)
 }
 
 function updateThoughtFromFields(thought) {
   thought.title       = view.title.val()
   thought.description = view.description.val()
   thought.style       = view.style.data("thought-style")
-  thought.image       = view.image.attr("src")
+  thought.image       = view.image.attr("src") != imagePlaceholderPath ? view.image.attr("src") : undefined;
 
   var node = api.events.request("visual.get", thought._id)
   applyStyle(thought, node)
@@ -140,6 +140,7 @@ var selectedThought = null
 var modifiers
 var view = {}
 var api
+var imagePlaceholderPath = "assets/placeholder.jpg"
 
 module.exports = {
   info: {
