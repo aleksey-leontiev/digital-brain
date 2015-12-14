@@ -1,3 +1,4 @@
+// Quick Details Module :: Predefined Styles
 
 function load(mapi) { }
 

@@ -2,12 +2,14 @@
   "ru": {
     "title": "Заголовок",
     "description": "Описание",
+    "style": "Стиль",
     "predefinedStyles": "Стандартные стили",
     "userStyles": "Пользовательские стили"
   },
   "en": {
     "title": "Title",
     "description": "Description",
+    "style": "Style",
     "predefinedStyles": "Predefined Styles",
     "userStyles": "Users Styles"
   }

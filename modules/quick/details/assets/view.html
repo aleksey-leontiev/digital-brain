@@ -23,12 +23,12 @@
 
   <div class="uk-form-row">
     <div id="qd-thought-style" class="uk-button-dropdown uk-width-1-1" data-uk-dropdown="{mode:'click', justify:'#qd-root'}">
-      <button class="uk-button uk-width-1-1">Style <i class="uk-icon-caret-down"></i></button>
+      <button class="uk-button uk-width-1-1">{{t.style}} <i class="uk-icon-caret-down"></i></button>
         <div class="uk-dropdown uk-dropdown-scrollable">
           <ul class="uk-nav uk-nav-dropdown">
             <li class="uk-nav-header">{{t.predefinedStyles}}</li>
             {{#each predefined}}
-            <li><a href="#" class="thought-style" data-style-name="{{id}}">{{displayName}}</a></li>
+              <li><a href="#" class="thought-style" data-style-name="{{id}}">{{displayName}}</a></li>
             {{/each}}
             <li class="uk-nav-header">{{t.userStyles}}</li>
           </ul>

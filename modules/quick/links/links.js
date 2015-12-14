@@ -48,7 +48,7 @@ module.exports = {
     id:          "digitalBrain.quick.links",
     name:        "Quick Links",
     version:     "0.1",
-    author:      "Alexey Leontiev"
+    author:      "Alexey Leontiev",
     description: "Allows to view linked thoughts"
   },
   config: {
