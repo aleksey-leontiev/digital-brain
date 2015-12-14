@@ -1,11 +1,11 @@
-// Link Nodes :: List
+// Quick Links Module
 
 function load(api) {
-
   view = {
-    root:      api.views.commitToPanel("assets/view.html", {
-                 t: api.l10n.get("assets/translation.json") }),
-    linksList: $("#links")
+    root: api.views.commitToPanel("assets/view.html", {
+            t: api.l10n.get("assets/translation.json") }),
+    card: api.views.template("assets/thought-card.html"),
+    list: $("#links")
   }
 
   api.events.subscribe([
@@ -24,46 +24,32 @@ function onBrainThoughtSelect(thought) {
 
   thought.links.forEach(function (link) {
     var thought = shared.getThoughtById(link.to)
-    if (thought != null) {
-      appendView(thought, link)
-    }
+    if (thought != null) { appendView(thought, link) }
   })
 }
 
 function appendView(thought, link) {
-  view.linksList.append(getListView(thought, link))
+  var html = view.card({
+    thought: thought, link: link,
+    showImage: module.exports.config.showImage && thought.image
+  })
+  view.list.append(html)
 }
 
 function clearView() {
-  view.linksList.html("")
+  view.list.html("")
 }
 
-function getListView(thought, link) {
-  var result = ""
-
-  result += "<div class='thought-link uk-panel uk-panel-hover uk-panel-box' data-thougth-id='" +thought._id+ "'>"
-  if (thought.image && module.exports.config.showImage) {
-    result += "  <div class='uk-panel-teaser'>"
-    result += "    <img src='" + thought.image + "' class='center-cropped'>"
-    result += "  </div> "
-  }
-  result += "  <h3 class='uk-panel-title'>" + thought.title + "</h3>"
-  result += "  <p>" + (thought.description || "") + "</p> "
-  result += "  <small><em>" + (link.description || "")+ "</em></small> "
-  result += "</div>"
-
-  return result
-}
-
-var shared = null
+var shared
 var view
 
 module.exports = {
   info: {
-    id:      "digitalBrain.quick.links",
-    name:    "Quick Links",
-    version: "0.1",
-    author:  "Alexey Leontiev"
+    id:          "digitalBrain.quick.links",
+    name:        "Quick Links",
+    version:     "0.1",
+    author:      "Alexey Leontiev"
+    description: "Allows to view linked thoughts"
   },
   config: {
     showImage: true

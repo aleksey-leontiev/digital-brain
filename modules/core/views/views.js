@@ -8,6 +8,11 @@ function load(api, config) {
   handlebars = require('handlebars');
 }
 
+function template(path) {
+  var view = fs.readFileSync(path, 'utf8')
+  return handlebars.compile(view)
+}
+
 function commitToPanel(path, templateData) {
   var view = fs.readFileSync(path, 'utf8')
   var dom = ""
@@ -55,7 +60,8 @@ function commitToApi(data) {
     views: {
       createOverlay: function(path)       { return createOverlay(data.rootPath+path) },
       commitToPanel: function(path, templateData) { return commitToPanel(data.rootPath+path, templateData) },
-      appendView:    function(path, root) { return appendView(data.rootPath + path, root ) }
+      appendView:    function(path, root) { return appendView(data.rootPath + path, root ) },
+      template:      function(path) { return template(data.rootPath + path ) }
     }
   }
 }
