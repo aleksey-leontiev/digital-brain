@@ -7,7 +7,7 @@ function load(mapi) {
     { delegate: "#search-results", view: ".search-result", id: "click", handler: onSearchResultClick },
   ])
 
-  shared = api.module.request("app:shared.js")
+  brain = api.module.request("app:brain.js")
 }
 
 function unload(api) {
@@ -18,12 +18,12 @@ function onSearchResultClick(event) {
   var t   = $(event.target)
   var tid = t.data("thougth-id") ||
             t.parent(".search-result").data("thougth-id")
-  var th  = shared.getThoughtById(tid)
+  var th  = brain.getThoughtById(tid)
   api.events.notify("brain.thought.select", th)
 }
 
 var api
-var shared
+var brain
 
 module.exports = {
   info: {

@@ -12,7 +12,7 @@ function load(api) {
     { id: "brain.thought.select",  handler: onBrainThoughtSelect },
   ])
 
-  shared = api.module.request("app:shared.js")
+  brain = api.module.request("app:brain.js")
 }
 
 function unload(api) {
@@ -23,7 +23,7 @@ function onBrainThoughtSelect(thought) {
   clearView()
 
   thought.links.forEach(function (link) {
-    var thought = shared.getThoughtById(link.to)
+    var thought = brain.getThoughtById(link.to)
     if (thought != null) { appendView(thought, link) }
   })
 }
@@ -40,7 +40,7 @@ function clearView() {
   view.list.html("")
 }
 
-var shared
+var brain
 var view
 
 module.exports = {

@@ -1,16 +1,19 @@
-// Shared Library
+// Shared Brain Library
 
-function load(mapi) {
-  api = mapi
-
+function load(api) {
   api.events.subscribe([
+    { id: "brain.open",         handler: onBrainOpen },
     { id: "brain.thought.load", handler: onBrainThoughtLoadOrCreate },
     { id: "brain.thought.new",  handler: onBrainThoughtLoadOrCreate }
   ])
 }
 
-function unload(mapi) {
+function unload(api) {
   api.events.unsubscribe()
+}
+
+function onBrainOpen(event) {
+  thoughtById = {}
 }
 
 function onBrainThoughtLoadOrCreate(event) {
@@ -25,7 +28,6 @@ function getThoughtById(id) {
   return thoughtById[id]
 }
 
-var api
 var thoughtById = {}
 
 module.exports = {
