@@ -7,9 +7,14 @@ function load(mapi, config) {
 
   ])
 
-  $(document).keydown(function(event){
+  $(document).keydown(function(event) {
     var char = String.fromCharCode(event.which)
-    mapi.events.notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which })
+    mapi.events.notify("key.down", { char: char, ctrlKey: event.ctrlKey, which: event.which, target:event.target })
+  })
+
+  $(document).keyup(function(event) {
+    var char = String.fromCharCode(event.which)
+    mapi.events.notify("key.up", { char: char, ctrlKey: event.ctrlKey, which: event.which, target:event.target })
   })
 
   $(window).resize(function(event) {

@@ -1,8 +1,9 @@
-// Visual Layer Module
+// Visual Module :: Layer
 
 function load(api, config) {
-  api.module.request("module:layer/features/center.js")
-  api.module.request("module:layer/features/move.js")
+  api.module.request("layer/features/center.js")
+  api.module.request("layer/features/move.js")
+  api.module.request("layer/features/zoom.js")
 
   api.events.subscribe([
     { id: "visual.layer", handler: onVisualLayerRequest }

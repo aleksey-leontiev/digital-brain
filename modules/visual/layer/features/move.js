@@ -1,11 +1,12 @@
-// Move Layer Module
-// allows to move layer
+// Visual Module :: Layer :: Move
 
 function load(mapi) {
   api = mapi
 
   api.events.subscribe([
     { id: "visual.frame",      handler: onVisualFrame },
+    { id: "key.down",          handler: onKeyDown },
+    { id: "key.up",            handler: onKeyUp },
     { id: "visual.layer.move", handler: onVisualLayerMove }
   ])
 }
@@ -14,30 +15,39 @@ function unload(api) {
   api.events.unsubscribe()
 }
 
-function onVisualFrame() {
-  dx = 0
-  dy = 0
+function onKeyDown(event) {
+  if (event.target.id != "body") return
 
-  if (Key.isDown("left")) { dx = -10 }
-  if (Key.isDown("right")) { dx = 10 }
-  if (Key.isDown("up")) { dy = -10 }
-  if (Key.isDown("down")) { dy = 10 }
+  pressed[event.which] = true
+}
 
-  if (dx != 0 || dy != 0) {
-    api.events.notify("visual.layer.move", {delta:{x:dx, y:dy}})
+function onKeyUp(event) {
+  pressed[event.which] = false
+}
+
+function onVisualFrame(event) {
+  var speed = module.exports.config.speed
+
+  if (pressed[37]) { dx -= speed } // left
+  if (pressed[39]) { dx += speed } // right
+  if (pressed[38]) { dy -= speed } // up
+  if (pressed[40]) { dy += speed } // down
+
+  if (!isNear(dx, dy)) {
+    api.events.notify("visual.layer.move", { delta: { x:dx, y:dy } })
   }
+
+  dx *= .9; dy *= .9
+}
+
+function isNear(dx, dy) {
+  return Math.abs(dx) + Math.abs(dy) < .1
 }
 
 function onVisualLayerMove(event) {
   project.layers.forEach(function (layer) {
-    //if (startLayerPos[layer] == null) {
-    //  startLayerPos[layer] = layer.position
-    //}
-
     layer.position.x -= event.delta.x
     layer.position.y -= event.delta.y
-    //layer.position.x = startLayerPos[layer].x - event.offset.x
-    //layer.position.y = startLayerPos[layer].y - event.offset.y
   })
 
   layerOffset.x += event.delta.x
@@ -47,15 +57,21 @@ function onVisualLayerMove(event) {
 }
 
 var api
-var startLayerPos = {}
-var layerOffset = { x:0, y:0 };
+var layerOffset = { x:0, y:0 }
+var dx = 0
+var dy = 0
+var pressed = {}
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
     id:      "digitalBrain.visual.layer.move",
     version: "0.1",
     author:  "Alexey Leontiev"
-  }
+  },
+
+  config: {
+    speed: 2
+  },
+
+  load: load, unload: unload
 }

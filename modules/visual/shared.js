@@ -2,7 +2,7 @@
 
 function load(api) {
   api.events.subscribe([
-    { id: "visual.layer.moved",     handler: onVisualLayerMoved }
+    { id: "visual.layer.moved", handler: onVisualLayerMoved }
   ])
 
   meta = api.module.request("app:meta.js")
@@ -30,8 +30,8 @@ module.exports = {
     version: "0.1",
     author:  "Alexey Leontiev"
   },
-  load:                     load,
+  load:   load,
   unload: unload,
   getVisualNodeByThoughtId: getVisualNodeByThoughtId,
-  getLayerOffset:           function () { return layerOffset }
+  getLayerOffset: function () { return layerOffset }
 }

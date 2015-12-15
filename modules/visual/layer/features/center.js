@@ -1,5 +1,4 @@
-// Move Layer Module
-// allows to move layer
+// Visual Module :: Layer :: Center
 
 function load(mapi) {
   api = mapi
@@ -41,6 +40,7 @@ function onVisualFrame() {
 function move() {
   if (preventCentering) return
 
+  var speed       = module.exports.config.speed
   var layerOffset = shared.getLayerOffset()
   var centerX     = view.center.x
   var centerY     = view.center.y
@@ -48,20 +48,25 @@ function move() {
   var dx = (selectedThought.x - layerOffset.x - centerX)
   var dy = (selectedThought.y - layerOffset.y - centerY)
 
-  if (isNumeric(dx) && isNumeric(dy)) {
-    if (Math.abs(dx) + Math.abs(dy) < 5) {
-      preventCentering = false
-      selectedThought = null
-      return
-    }
-
-    var speed = module.exports.config.speed
+  if (isNear(dx, dy)) {
+    preventCentering = false
+    selectedThought = null
+  } else {
     api.events.notify("visual.layer.move", {delta: {x:dx*speed, y:dy*speed}})
   }
 }
 
 function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+  return !isNaN(parseFloat(n)) && isFinite(n)
+}
+
+function isNear(dx, dy) {
+  if (isNumeric(dx) && isNumeric(dy)) {
+    if (Math.abs(dx) + Math.abs(dy) < 5) {
+      return true
+    }
+  }
+  return false
 }
 
 var api
@@ -70,8 +75,6 @@ var selectedThought = null
 var preventCentering = false
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
     id:      "digitalBrain.visual.layer.center",
     version: "0.1",
@@ -80,5 +83,7 @@ module.exports = {
 
   config: {
     speed: .1
-  }
+  },
+
+  load: load, unload: unload
 }
