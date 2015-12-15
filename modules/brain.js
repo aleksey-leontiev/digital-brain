@@ -6,7 +6,8 @@ function load(mapi) {
   api.events.subscribe([
     { id: "brain.open",         handler: onBrainOpen },
     { id: "brain.thought.load", handler: onBrainThoughtLoadOrCreate },
-    { id: "brain.thought.new",  handler: onBrainThoughtLoadOrCreate }
+    { id: "brain.thought.new",  handler: onBrainThoughtLoadOrCreate },
+    { id: "brain.links.create", handler: onBrainLinksCreate }
   ])
 }
 
@@ -20,6 +21,17 @@ function onBrainOpen(event) {
 
 function onBrainThoughtLoadOrCreate(event) {
   thoughtById[event.thought._id] = event.thought
+}
+
+function onBrainLinksCreate(event) {
+  var forwardLinkCreated  = linkThoughts(event.from, event.to)
+  var backwardLinkCreated = linkThoughts(event.to,   event.from, "backward")
+
+  api.events.notify("brain.links.created", {
+    from: event.from, to: event.to,
+    forwardLinkCreated:  forwardLinkCreated,
+    backwardLinkCreated: backwardLinkCreated
+  })
 }
 
 function getThoughts() {

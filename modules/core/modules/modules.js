@@ -26,6 +26,10 @@ function load(path, config) {
     throw "Module load(api, config) function is not defined"
   }
 
+  // check module already loaded
+  var cached = loadedModules[loadingModule.info.id]
+  if (cached != null) { return cached }
+
   var api = apis.createModuleApi(loadingModule, moduleConfig, apiModules(loadedModules))
   loadingModule.load(api, moduleConfig)
   loadedModules[loadingModule.info.id] = loadingModule
