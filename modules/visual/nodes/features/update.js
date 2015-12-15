@@ -18,7 +18,7 @@ function onBrainThoughtChanged(thought) {
   node.text.content = thought.title
 
   if (node.description) {
-    node.description.content = thought.description
+    node.description.content = (thought.description || "").substring(0, 50)
   }
 }
 

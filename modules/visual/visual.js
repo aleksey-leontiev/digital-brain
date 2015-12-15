@@ -4,10 +4,11 @@ function load(mapi) {
   api = mapi
 
   // install paper.js
-  paper = api.assets.loadJSSync("bower_components/paper/dist/paper-full.js");
-  paper.install(window);
-  paper.setup('canvas');
-  view.onFrame = onFrame
+  paper = api.assets.loadJSSync("bower_components/paper/dist/paper-full.js")
+  paper.install(window)
+  paper.setup("canvas")
+  view.onFrame     = onFrame
+  view.onMouseDown = onMouseDown
 
   // request submodules
   api.module.request("layer")
@@ -21,6 +22,10 @@ function unload(api) {
 
 function onFrame(event) {
   api.events.notify("visual.frame")
+}
+
+function onMouseDown(event) {
+  api.events.notify("visual.mouse.down", event)
 }
 
 var api

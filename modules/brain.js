@@ -1,6 +1,8 @@
 // Shared Brain Library
 
-function load(api) {
+function load(mapi) {
+  api = mapi
+
   api.events.subscribe([
     { id: "brain.open",         handler: onBrainOpen },
     { id: "brain.thought.load", handler: onBrainThoughtLoadOrCreate },
@@ -28,6 +30,26 @@ function getThoughtById(id) {
   return thoughtById[id]
 }
 
+function hasLinkTo(thought, thoughtToId) {
+  var underscore = require("underscore")
+  var ids = underscore.map(thought.links, function(link) { return link.to })
+  return underscore.contains(ids, thoughtToId)
+}
+
+function linkThoughts(thoughtFrom, thoughtTo, type) {
+  if (thoughtFrom.links == null) { thoughtFrom.links = {} }
+
+  var linkAlreadyExists = hasLinkTo(thoughtFrom, thoughtTo._id)
+  if (!linkAlreadyExists) {
+    thoughtFrom.links.push({ to: thoughtTo._id, type: type || "forward" })
+    api.events.notify("brain.thought.changed", thoughtFrom)
+    return true
+  } else {
+    return false
+  }
+}
+
+var api
 var thoughtById = {}
 
 module.exports = {
@@ -40,5 +62,7 @@ module.exports = {
   load:           load,
   unload:         unload,
   getThoughtById: getThoughtById,
-  getThoughts:    getThoughts
+  getThoughts:    getThoughts,
+  linkThoughts: linkThoughts,
+  hasLinkTo: hasLinkTo
 }

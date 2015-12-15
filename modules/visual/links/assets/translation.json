@@ -1,0 +1,12 @@
+{
+  "ru": {
+    "linkCreated": "Связь создана",
+    "linkAlreadyExists": "Связь уже существует",
+    "linkUpdated": "Связь обновлена"
+  },
+  "en": {
+    "linkCreated": "Link created",
+    "linkAlreadyExists": "link already exists",
+    "linkUpdated": "Link updated"
+  }
+}
