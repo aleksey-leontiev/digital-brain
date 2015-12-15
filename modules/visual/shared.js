@@ -12,7 +12,7 @@ function unload(api) {
   api.events.unsubscribe()
 }
 
-function getVisualNodeByThoughtId(id) {
+function getVisualNode(id) {
   return meta.get(id, "visual")
 }
 
@@ -32,6 +32,6 @@ module.exports = {
   },
   load:   load,
   unload: unload,
-  getVisualNodeByThoughtId: getVisualNodeByThoughtId,
+  getVisualNode: getVisualNode,
   getLayerOffset: function () { return layerOffset }
 }

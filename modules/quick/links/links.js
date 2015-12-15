@@ -13,6 +13,7 @@ function load(api) {
   ])
 
   brain = api.module.request("app:brain.js")
+  api.module.request("features/open.js")
 }
 
 function unload(api) {

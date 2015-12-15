@@ -14,7 +14,7 @@ function unload(api) {
 }
 
 function onBrainThoughtChanged(thought) {
-  var node = shared.getVisualNodeByThoughtId(thought._id)
+  var node = shared.getVisualNode(thought._id)
   node.text.content = thought.title
 
   if (node.description) {

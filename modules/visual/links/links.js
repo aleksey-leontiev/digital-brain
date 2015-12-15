@@ -1,5 +1,4 @@
-// Link Nodes
-// draw links between nodes
+// Visual Module :: Links
 
 function load(mapi, config) {
   api = mapi
@@ -10,13 +9,12 @@ function load(mapi, config) {
     { id: "brain.links.create",    handler: onBrainLinksCreate }
   ])
 
-  layer = api.events.request("visual.layer", "links")
+  layer  = api.events.request("visual.layer", "links")
 
-  brain       = api.module.request("app:brain.js")
-  shared      = api.module.request("shared.js")
-  sharedLinks = api.module.request("links/shared.js")
+  brain  = api.module.request("app:brain.js")
+  shared = api.module.request("shared.js")
+  links  = api.module.request("links/shared.js")
   api.module.request("links/features/load.js")
-  api.module.request("links/features/open.js")
 }
 
 function unload(api) {
@@ -75,9 +73,9 @@ function onBrainThoughtSelect(thought) {
 }
 
 function onBrainLinksCreate(link) {
-  node1 = shared.getVisualNodeByThoughtId(link.from._id)
-  node2 = shared.getVisualNodeByThoughtId(link.to._id)
-  sharedLinks.createVisualLink(node1, node2)
+  node1 = shared.getVisualNode(link.from._id)
+  node2 = shared.getVisualNode(link.to._id)
+  links.create(node1, node2)
   setLinkingState(false)
   api.events.notify("brain.thought.changed", link.from)
   api.events.notify("brain.thought.changed", link.to)
@@ -97,12 +95,14 @@ var selectedThought = null
 var isLinking = false
 var layer = null
 var brain
+var links
 
 module.exports = {
   info: {
-    id:      "digitalBrain.visual.links",
-    version: "0.1",
-    author:  "Alexey Leontiev"
+    id:          "digitalBrain.visual.links",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "Draw links between nodes"
   },
   load: load, unload: unload
 }

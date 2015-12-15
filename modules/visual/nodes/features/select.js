@@ -18,7 +18,7 @@ function unload(api) {
 
 function onBrainThoughtSelect(event) {
   clearSelection()
-  selectedVisualNode = shared.getVisualNodeByThoughtId(event._id)
+  selectedVisualNode = shared.getVisualNode(event._id)
   highlightNode(selectedVisualNode)
 }
 

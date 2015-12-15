@@ -1,5 +1,4 @@
-// links Module :: Open Links
-// Open thought
+// Quick Links Module :: Open
 
 function load(mapi) {
   api = mapi
@@ -28,7 +27,7 @@ var brain
 
 module.exports = {
   info: {
-    id:      "digitalBrain.visual.links.open",
+    id:      "digitalBrain.quick.links.open",
     version: "0.1",
     author:  "Alexey Leontiev"
   },

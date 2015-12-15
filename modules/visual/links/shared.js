@@ -1,30 +1,33 @@
-// Shared Library
+// Visual Module :: Links :: Shared
 
 function load(api) {
   layer = api.events.request("visual.layer", "links")
 }
 
-function createVisualLink(fromNode, toNode, type) {
-  var linkNode         = new Path();
-  linkNode.strokeColor = 'LightSteelBlue';
-  linkNode.strokeWidth = 5
-  linkNode.opacity     = .5
+function create(nodeFrom, nodeTo, type) {
+  // create node
+  var nodeLink = new Path({
+    strokeColor: 'LightSteelBlue',
+    strokeWidth: 5,
+    opacity:    .5,
+  })
 
+  // apply style based on link type
   if (type == "ref") {
-    linkNode.strokeColor = "green"
-    linkNode.strokeWidth = .1
+    nodeLink.strokeColor = "green"
+    nodeLink.strokeWidth = .1
   }
 
-  linkNode.add(fromNode.path.position);
-  linkNode.add(toNode.path.position);
+  // add path points
+  nodeLink.add(nodeFrom.path.position)
+  nodeLink.add(nodeTo.path.position)
+  layer.addChild(nodeLink)
 
-  layer.addChild(linkNode)
-
-  if (fromNode.segments == null) fromNode.segments = []
-  if (toNode.segments == null)   toNode.segments = []
-
-  fromNode.segments.push(linkNode.firstSegment)
-  toNode.segments.push(linkNode.lastSegment)
+  // add segments property if required
+  if (nodeFrom.segments == null) nodeFrom.segments = []
+  if (nodeTo.segments   == null)   nodeTo.segments = []
+  nodeFrom.segments.push(nodeLink.firstSegment)
+  nodeTo.segments.push(nodeLink.lastSegment)
 }
 
 var layer = null
@@ -35,6 +38,7 @@ module.exports = {
     version: "0.1",
     author:  "Alexey Leontiev"
   },
-  load:             load,
-  createVisualLink: createVisualLink
+
+  load:   load,
+  create: create
 }
