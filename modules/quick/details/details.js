@@ -99,7 +99,10 @@ function applyStyle(thought, node) {
       node.group.scaling  = new Point(m.scaling, m.scaling)
       node.path.fillColor = m.thoughtColor
       node.text.fillColor = m.textColor
-      node.description.fillColor = m.descriptionColor
+
+      if (node.description) {
+        node.description.fillColor = m.descriptionColor
+      }
     }
   })
 }

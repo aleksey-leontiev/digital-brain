@@ -40,18 +40,18 @@ function onBrainThoughtNewOrLoad(event) {
   node.path = new Path.Circle({
     radius:    15,
     fillColor: "LightSlateGray"
-  });
+  })
 
   node.text = new PointText({
-    point:         [20, 0],
-    justification: 'left',
+    justification: "left",
     fontSize:      16,
     content:       thought.title
-  });
+  })
 
   node.group.addChildren([node.path, node.text])
-  node.group.pivot    = new Point(0, 0)
-  node.group.position = new Point(thought.x - offset.x, thought.y - offset.y);
+  node.group.pivot = new Point(0, 0)
+  node.text.pivot = new Point(0, 0)
+  node.text.position = new Point(20, 0)
 
   node.path.onClick = function() {
     api.events.notify("brain.thought.select", thought)
@@ -70,11 +70,13 @@ function onBrainThoughtNewOrLoad(event) {
       node: node, thought: thought, point: e.point })
   }
 
+  api.events.notify("visual.thought.created", {
+    node: node, thought: thought })
+    
   layer.addChild(node.group)
   meta.set(thought._id, "visual", node)
 
-  api.events.notify("visual.thought.created", {
-    node: node, thought: thought })
+  node.group.position = new Point(thought.x - offset.x, thought.y - offset.y)
 }
 
 var layer
