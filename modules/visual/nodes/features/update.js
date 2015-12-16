@@ -16,10 +16,6 @@ function unload(api) {
 function onBrainThoughtChanged(thought) {
   var node = shared.getVisualNode(thought._id)
   node.text.content = thought.title
-
-  if (node.description) {
-    node.description.content = (thought.description || "").substring(0, 50)
-  }
 }
 
 var shared = null

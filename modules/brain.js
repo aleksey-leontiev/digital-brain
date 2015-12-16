@@ -38,6 +38,11 @@ function getThoughts() {
   return thoughtById
 }
 
+function getThoughtsArray() {
+  var underscore = require("underscore")
+  return underscore.map(thoughtById)
+}
+
 function getThoughtById(id) {
   return thoughtById[id]
 }
@@ -61,6 +66,15 @@ function linkThoughts(thoughtFrom, thoughtTo, type) {
   }
 }
 
+function createThought(title, x, y) {
+  var thought = { _id: generateId(), title: title, x: x, y: y }
+  api.events.notify("brain.thought.new", { thought: thought })
+}
+
+function generateId() {
+  return require("shortid").generate()
+}
+
 var api
 var thoughtById = {}
 
@@ -75,6 +89,8 @@ module.exports = {
   unload:         unload,
   getThoughtById: getThoughtById,
   getThoughts:    getThoughts,
+  getThoughtsArray: getThoughtsArray,
   linkThoughts: linkThoughts,
-  hasLinkTo: hasLinkTo
+  hasLinkTo: hasLinkTo,
+  createThought: createThought
 }

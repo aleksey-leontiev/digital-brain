@@ -23,6 +23,8 @@ function unload(api) {
 function onBrainThoughtSelect(thought) {
   clearView()
 
+  if (thought.links == null) return
+  
   thought.links.forEach(function (link) {
     var thought = brain.getThoughtById(link.to)
     if (thought != null) { appendView(thought, link) }

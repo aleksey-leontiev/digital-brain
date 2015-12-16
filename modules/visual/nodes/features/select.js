@@ -14,48 +14,62 @@ function load(api) {
 
 function unload(api) {
   api.events.unsubscribe()
+
+  // remove all image nodes
+  shared.getNodes().forEach(function (node) {
+    removeSelectionHighlight(node)
+  })
 }
 
 function onBrainThoughtSelect(event) {
   clearSelection()
-  selectedVisualNode = shared.getVisualNode(event._id)
-  highlightNode(selectedVisualNode)
+  selectedNode = shared.getVisualNode(event._id)
+  highlightNode(selectedNode)
 }
 
 function onVisualThoughtCreate(event) {
-  event.node.selectionHighlight = new Path.Circle({
-    radius:      25,
-    fillColor:   "yellow",
-    dashArray:   [15],
-    strokeColor: "red",
-    strokeCap:   "round",
-    strokeWidth: 4,
-    opacity:     0,
-  })
-  event.node.group.addChild(event.node.selectionHighlight)
+  createSelectionHighlight(event.node)
 }
 
 function onVisualThoughtSelect(node) {
   clearSelection()
-  selectedVisualNode = node
+  selectedNode = node
   highlightNode(node)
 }
 
 function onVisualFrame() {
-  if (selectedVisualNode != null)
-    selectedVisualNode.selectionHighlight.rotate(1)
+  if (selectedNode != null)
+    selectedNode.selectionHighlight.rotate(1)
 }
 
 function clearSelection() {
-  if (selectedVisualNode != null)
-    selectedVisualNode.selectionHighlight.opacity = 0
+  if (selectedNode != null)
+    selectedNode.selectionHighlight.opacity = 0
 }
 
 function highlightNode(node) {
   node.selectionHighlight.opacity = .2
 }
 
-var selectedVisualNode = null
+function createSelectionHighlight(node) {
+  node.selectionHighlight = new Path.Circle({
+    radius:      25,
+    dashArray:   [15],
+    fillColor:   "yellow",
+    strokeColor: "red",
+    strokeCap:   "round",
+    strokeWidth: 4,
+    opacity:     0,
+  })
+  node.group.addChild(node.selectionHighlight)
+}
+
+function removeSelectionHighlight(node) {
+  node.selectionHighlight.remove()
+}
+
+var brain
+var selectedNode = null
 
 module.exports = {
   load: load, unload: unload,

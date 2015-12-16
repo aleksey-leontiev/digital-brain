@@ -1,4 +1,4 @@
-// Brain visualization module
+// Visual :: Nodes :: Drag
 
 function load(mapi) {
   api = mapi
@@ -22,10 +22,10 @@ function onVisualThoughtDrag(event) {
   var segments  = event.node.segments
   var thought   = event.thought
   var point     = event.point
+  var offset    = shared.getLayerOffset()
 
   // move node
   group.position = point
-  group.position.x += (group.bounds.width / 2) - (selection.bounds.width / 2)
 
   // move links
   if (segments != null) {
@@ -33,24 +33,23 @@ function onVisualThoughtDrag(event) {
   }
 
   // update thought
-  layerOffset = shared.getLayerOffset()
-  thought.x = point.x + layerOffset.x
-  thought.y = point.y + layerOffset.y
+  thought.x = point.x + offset.x
+  thought.y = point.y + offset.y
 
   // set dragged flag
   isDragged = true
 }
 
 function onVisualThoughtMouseUp(event) {
-  if (isDragged) {
-    api.events.notify("brain.thought.changed", event.thought)
-    isDragged = false
-  }
+  if (!isDragged) return
+
+  api.events.notify("brain.thought.changed", event.thought)
+  isDragged = false
 }
 
 var api
 var isDragged = false
-var shared    = null
+var shared
 
 module.exports = {
   info: {
