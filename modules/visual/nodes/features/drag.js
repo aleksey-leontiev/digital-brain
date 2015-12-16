@@ -33,8 +33,8 @@ function onVisualThoughtDrag(event) {
   }
 
   // update thought
-  thought.x = point.x + offset.x
-  thought.y = point.y + offset.y
+  thought.location.x = point.x + offset.x
+  thought.location.y = point.y + offset.y
 
   // set dragged flag
   isDragged = true

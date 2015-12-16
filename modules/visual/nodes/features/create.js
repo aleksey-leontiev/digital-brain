@@ -72,11 +72,11 @@ function onBrainThoughtNewOrLoad(event) {
 
   api.events.notify("visual.thought.created", {
     node: node, thought: thought })
-    
+
   layer.addChild(node.group)
   meta.set(thought._id, "visual", node)
 
-  node.group.position = new Point(thought.x - offset.x, thought.y - offset.y)
+  node.group.position = new Point(thought.location.x - offset.x, thought.location.y - offset.y)
 }
 
 var layer

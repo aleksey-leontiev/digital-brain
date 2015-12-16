@@ -67,7 +67,12 @@ function linkThoughts(thoughtFrom, thoughtTo, type) {
 }
 
 function createThought(title, x, y) {
-  var thought = { _id: generateId(), title: title, x: x, y: y }
+  var thought = {
+    _id:      generateId(),
+    title:    title,
+    location: { x: x, y: y }
+  }
+
   api.events.notify("brain.thought.new", { thought: thought })
 }
 
@@ -85,12 +90,12 @@ module.exports = {
     author:  "Alexey Leontiev"
   },
 
-  load:           load,
-  unload:         unload,
-  getThoughtById: getThoughtById,
-  getThoughts:    getThoughts,
+  load:             load,
+  unload:           unload,
+  getThoughtById:   getThoughtById,
+  getThoughts:      getThoughts,
   getThoughtsArray: getThoughtsArray,
-  linkThoughts: linkThoughts,
-  hasLinkTo: hasLinkTo,
-  createThought: createThought
+  linkThoughts:     linkThoughts,
+  hasLinkTo:        hasLinkTo,
+  createThought:    createThought
 }

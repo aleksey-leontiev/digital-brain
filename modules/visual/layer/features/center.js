@@ -40,13 +40,13 @@ function onVisualFrame() {
 function move() {
   if (preventCentering) return
 
-  var speed       = module.exports.config.speed
-  var layerOffset = shared.getLayerOffset()
-  var centerX     = view.center.x
-  var centerY     = view.center.y
+  var speed    = module.exports.config.speed
+  var offset   = shared.getLayerOffset()
+  var centerX  = view.center.x
+  var centerY  = view.center.y
 
-  var dx = (selectedThought.x - layerOffset.x - centerX)
-  var dy = (selectedThought.y - layerOffset.y - centerY)
+  var dx = (selectedThought.location.x - offset.x - centerX)
+  var dy = (selectedThought.location.y - offset.y - centerY)
 
   if (isNear(dx, dy)) {
     preventCentering = false
