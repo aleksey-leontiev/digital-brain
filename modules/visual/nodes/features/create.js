@@ -32,13 +32,13 @@ function onBrainThoughtNewOrLoad(event) {
   var thought = event.thought
   var node    = {};
 
-  node.group = new Group();
-  node.group.pivot = new Point(0, 0)
+  node.root = new Group();
+  node.root.pivot = new Point(0, 0)
   layer.bringToFront() // TODO: bring to front
 
   api.events.notify("visual.thought.create", { node: node, thought: thought })
 
-  node.path = new Path.Circle({
+  node.target = new Path.Circle({
     radius:    15,
     fillColor: "LightSlateGray"
   })
@@ -50,21 +50,21 @@ function onBrainThoughtNewOrLoad(event) {
     content:       thought.title
   })
 
-  node.group.addChildren([node.path, node.text])
+  node.root.addChildren([node.target, node.text])
 
-  node.path.onClick = function() {
+  node.target.onClick = function() {
     api.events.notify("brain.thought.select", thought)
     api.events.notify("visual.thought.select", node)
   }
-  node.path.onMouseDown = function(e) {
+  node.target.onMouseDown = function(e) {
     api.events.notify("visual.thought.mouse.down", {
       node: node, thought: thought, point: e.point })
   }
-  node.path.onMouseUp = function(e) {
+  node.target.onMouseUp = function(e) {
     api.events.notify("visual.thought.mouse.up", {
       node: node, thought: thought, point: e.point })
   }
-  node.path.onMouseDrag = function(e) {
+  node.target.onMouseDrag = function(e) {
     api.events.notify("visual.thought.drag", {
       node: node, thought: thought, point: e.point })
   }
@@ -72,10 +72,10 @@ function onBrainThoughtNewOrLoad(event) {
   api.events.notify("visual.thought.created", {
     node: node, thought: thought })
 
-  layer.addChild(node.group)
+  layer.addChild(node.root)
   meta.set(thought._id, "visual", node)
 
-  node.group.position = new Point(thought.location.x - offset.x, thought.location.y - offset.y)
+  node.root.position = new Point(thought.location.x - offset.x, thought.location.y - offset.y)
 }
 
 var layer

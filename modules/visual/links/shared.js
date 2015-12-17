@@ -19,8 +19,8 @@ function create(nodeFrom, nodeTo, type) {
   }
 
   // add path points
-  nodeLink.add(nodeFrom.path.position)
-  nodeLink.add(nodeTo.path.position)
+  nodeLink.add(nodeFrom.target.position)
+  nodeLink.add(nodeTo.target.position)
   layer.addChild(nodeLink)
 
   // add segments property if required

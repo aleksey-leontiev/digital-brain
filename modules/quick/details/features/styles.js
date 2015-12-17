@@ -10,7 +10,7 @@ function getPredefinedStyles() {
       id:               "normal",
       displayName:      "Normal",
       scaling:          1,
-      thoughtColor:     "black",
+      thoughtColor:     "lightslategray",
       textColor:        "black",
       descriptionColor: "slategray"
     },

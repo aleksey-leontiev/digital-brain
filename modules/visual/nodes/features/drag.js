@@ -16,8 +16,8 @@ function unload(api) {
 }
 
 function onVisualThoughtDrag(event) {
-  var circle    = event.node.path
-  var group     = event.node.group
+  var root      = event.node.root
+  var target    = event.node.target
   var selection = event.node.selectionHighlight
   var segments  = event.node.segments
   var thought   = event.thought
@@ -25,11 +25,11 @@ function onVisualThoughtDrag(event) {
   var offset    = shared.getLayerOffset()
 
   // move node
-  group.position = point
+  root.position = point
 
   // move links
   if (segments != null) {
-    segments.forEach(function (s) { s.point = circle.position })
+    segments.forEach(function (s) { s.point = target.position })
   }
 
   // update thought

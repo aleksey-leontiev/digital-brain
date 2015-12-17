@@ -61,7 +61,7 @@ function createSelectionHighlight(node) {
     strokeWidth: 4,
     opacity:     0,
   })
-  node.group.addChild(node.selectionHighlight)
+  node.root.addChild(node.selectionHighlight)
 }
 
 function removeSelectionHighlight(node) {

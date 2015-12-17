@@ -19,7 +19,7 @@ function onVisualThoughtCreate(event) {
     fillColor: "yellow",
     opacity:   0
   });
-  event.node.group.addChild(event.node.searchHighlight);
+  event.node.root.addChild(event.node.searchHighlight);
 }
 
 function onBrainThoughtSearchResponse(query) {

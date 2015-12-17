@@ -43,25 +43,25 @@ function createImage(thought, node) {
   })
   node.image.onLoad = function () {
     node.image.scaling = 30 / Math.min(node.image.width, node.image.height)
-    node.path.opacity  = 0
-    node.path.bringToFront()
+    node.target.opacity  = 0
+    node.target.bringToFront()
   }
 
   node.imageGroup = new Group([node.imageMask, node.image])
   node.imageGroup.clipped = true
 
-  node.image.position       = node.group.position
-  node.imageMask.position   = node.group.position
-  node.imageBorder.position = node.group.position
+  node.image.position       = node.root.position
+  node.imageMask.position   = node.root.position
+  node.imageBorder.position = node.root.position
 
-  node.group.addChild(node.imageGroup)
-  node.group.addChild(node.imageBorder)
+  node.root.addChild(node.imageGroup)
+  node.root.addChild(node.imageBorder)
 }
 
 function removeImage(node) {
   if (node.imageGroup)  node.imageGroup.remove()
   if (node.imageBorder) node.imageBorder.remove()
-  node.path.opacity = 1 // return opacity back
+  node.target.opacity = 1 // return opacity back
 }
 
 var shared

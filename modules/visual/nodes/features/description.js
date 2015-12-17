@@ -44,7 +44,7 @@ function createDescription(thought, node) {
     content:       getShortContent(thought.description)
   })
 
-  node.group.addChild(node.description)
+  node.root.addChild(node.description)
 }
 
 function removeDescription(node) {
