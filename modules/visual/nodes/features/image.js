@@ -2,7 +2,8 @@
 
 function load(api) {
   api.events.subscribe([
-    { id: "visual.thought.create", handler: onVisualThoughtCreate }
+    { id: "visual.thought.create", handler: onVisualThoughtCreate },
+    { id: "brain.thought.changed", handler: onBrainThoughtChanged }
   ])
 
   shared = api.module.request("shared.js")
@@ -21,6 +22,15 @@ function onVisualThoughtCreate(event) {
   createImage(event.thought, event.node)
 }
 
+function onBrainThoughtChanged(thought) {
+  var node = shared.getVisualNode(thought._id)
+  if (node.image) {
+    node.image.source = thought.image
+  } else {
+    createImage(thought, node, true)
+  }
+}
+
 function createImage(thought, node) {
   if (thought.image == null) return
 
@@ -31,14 +41,18 @@ function createImage(thought, node) {
     strokeColor: "black",
     opacity:     .75
   })
+  node.image.onLoad = function () {
+    node.image.scaling = 30 / Math.min(node.image.width, node.image.height)
+    node.path.opacity  = 0
+    node.path.bringToFront()
+  }
 
   node.imageGroup = new Group([node.imageMask, node.image])
   node.imageGroup.clipped = true
 
-  node.image.onLoad = function () {
-    node.image.scale(30 / Math.min(node.image.width, node.image.height))
-    node.path.opacity = 0
-  }
+  node.image.position       = node.group.position
+  node.imageMask.position   = node.group.position
+  node.imageBorder.position = node.group.position
 
   node.group.addChild(node.imageGroup)
   node.group.addChild(node.imageBorder)

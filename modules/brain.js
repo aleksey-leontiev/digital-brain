@@ -54,7 +54,7 @@ function hasLinkTo(thought, thoughtToId) {
 }
 
 function linkThoughts(thoughtFrom, thoughtTo, type) {
-  if (thoughtFrom.links == null) { thoughtFrom.links = {} }
+  if (thoughtFrom.links == null) { thoughtFrom.links = [] }
 
   var linkAlreadyExists = hasLinkTo(thoughtFrom, thoughtTo._id)
   if (!linkAlreadyExists) {

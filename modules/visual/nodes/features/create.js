@@ -33,6 +33,7 @@ function onBrainThoughtNewOrLoad(event) {
   var node    = {};
 
   node.group = new Group();
+  node.group.pivot = new Point(0, 0)
   layer.bringToFront() // TODO: bring to front
 
   api.events.notify("visual.thought.create", { node: node, thought: thought })
@@ -43,15 +44,13 @@ function onBrainThoughtNewOrLoad(event) {
   })
 
   node.text = new PointText({
+    point:         [20, 0],
     justification: "left",
     fontSize:      16,
     content:       thought.title
   })
 
   node.group.addChildren([node.path, node.text])
-  node.group.pivot = new Point(0, 0)
-  node.text.pivot = new Point(0, 0)
-  node.text.position = new Point(20, 0)
 
   node.path.onClick = function() {
     api.events.notify("brain.thought.select", thought)
