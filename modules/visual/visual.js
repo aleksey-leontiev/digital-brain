@@ -14,6 +14,7 @@ function load(mapi) {
   api.module.request("layer")
   api.module.request("nodes")
   api.module.request("links")
+  api.module.request("dig")
 }
 
 function unload(api) {

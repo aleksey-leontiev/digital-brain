@@ -1,7 +1,6 @@
 // Visual Module :: Links :: Shared
 
 function load(api) {
-  layer = api.events.request("visual.layer", "links")
 }
 
 function create(nodeFrom, nodeTo, type) {
@@ -21,7 +20,8 @@ function create(nodeFrom, nodeTo, type) {
   // add path points
   nodeLink.add(nodeFrom.target.position)
   nodeLink.add(nodeTo.target.position)
-  layer.addChild(nodeLink)
+  nodeFrom.root.layer.addChild(nodeLink)
+  nodeLink.sendToBack()
 
   // add segments property if required
   if (nodeFrom.segments == null) nodeFrom.segments = []
@@ -29,8 +29,6 @@ function create(nodeFrom, nodeTo, type) {
   nodeFrom.segments.push(nodeLink.firstSegment)
   nodeTo.segments.push(nodeLink.lastSegment)
 }
-
-var layer = null
 
 module.exports = {
   info: {

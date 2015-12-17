@@ -66,11 +66,15 @@ function linkThoughts(thoughtFrom, thoughtTo, type) {
   }
 }
 
-function createThought(title, x, y) {
+function createThought(title, x, y, parentThoughtId) {
   var thought = {
     _id:      generateId(),
     title:    title,
     location: { x: x, y: y }
+  }
+
+  if (parentThoughtId) {
+    thought.location.parent = parentThoughtId
   }
 
   api.events.notify("brain.thought.new", { thought: thought })

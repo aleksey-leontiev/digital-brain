@@ -7,7 +7,6 @@ function load(api) {
 
   shared = api.module.request("shared.js")
   links  = api.module.request("links/shared.js")
-  layer  = api.events.request("visual.layer", "links")
 }
 
 function unload(api) {
@@ -33,7 +32,6 @@ function createLink(thought, link) {
   }
 }
 
-var layer
 var shared
 var links
 

@@ -42,10 +42,11 @@ function createImage(thought, node) {
     opacity:     .75
   })
   node.image.onLoad = function () {
-    node.image.scaling = 30 / Math.min(node.image.width, node.image.height)
-    node.target.opacity  = 0
-    node.target.bringToFront()
+    node.image.scaling  = 30 / Math.min(node.image.width, node.image.height)
+    node.target.opacity = .1
+    //node.target.bringToFront()
   }
+  node.image.onClick = node.root.onClick
 
   node.imageGroup = new Group([node.imageMask, node.image])
   node.imageGroup.clipped = true

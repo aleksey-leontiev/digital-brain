@@ -12,8 +12,8 @@ function load(mapi) {
   meta   = api.module.request("app:meta.js")
   brain  = api.module.request("app:brain.js")
   shared = api.module.request("shared.js")
+  layers = api.module.request("layer/shared.js")
 
-  layer  = api.events.request("visual.layer", "nodes")
   t      = api.l10n.get("nodes/assets/translation.json")
 }
 
@@ -23,18 +23,20 @@ function unload(api) {
 
 function onMouseDown(event) {
   if (!event.event.ctrlKey) return
-  var offset = shared.getLayerOffset()
-  brain.createThought(t.newThought, event.point.x + offset.x, event.point.y + offset.y)
+  var offset   = shared.getLayerOffset()
+  var parentId = shared.getDigStackTopId()
+
+  brain.createThought(t.newThought, event.point.x + offset.x, event.point.y + offset.y, parentId)
 }
 
 function onBrainThoughtNewOrLoad(event) {
-  var offset  = shared.getLayerOffset()
-  var thought = event.thought
-  var node    = {};
+  var offset   = shared.getLayerOffset()
+  var thought  = event.thought
+  var parentId = thought.location.parent || "root"
+  var node     = {}
 
   node.root = new Group();
   node.root.pivot = new Point(0, 0)
-  layer.bringToFront() // TODO: bring to front
 
   api.events.notify("visual.thought.create", { node: node, thought: thought })
 
@@ -70,15 +72,16 @@ function onBrainThoughtNewOrLoad(event) {
   }
 
   api.events.notify("visual.thought.created", {
-    node: node, thought: thought })
+    node: node, thought: thought
+  })
 
-  layer.addChild(node.root)
+  layers.getLayer("nodes:" + parentId).addChild(node.root)
+
   meta.set(thought._id, "visual", node)
 
   node.root.position = new Point(thought.location.x - offset.x, thought.location.y - offset.y)
 }
 
-var layer
 var api
 var shared
 var meta

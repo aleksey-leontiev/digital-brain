@@ -1,9 +1,12 @@
 // Shared Library
 
-function load(api) {
+function load(mapi) {
+  api = mapi
+
   api.events.subscribe([
     { id: "visual.layer.moved",     handler: onVisualLayerMoved },
-    { id: "visual.thought.created", handler: onVisualThoughtCreated }
+    { id: "visual.thought.created", handler: onVisualThoughtCreated },
+    { id: "brain.thought.select",   handler: onBrainThoughtSelect },
   ])
 
   meta = api.module.request("app:meta.js")
@@ -11,6 +14,10 @@ function load(api) {
 
 function unload(api) {
   api.events.unsubscribe()
+}
+
+function onBrainThoughtSelect(thought) {
+  selectedThought = thought
 }
 
 function getVisualNode(id) {
@@ -29,9 +36,37 @@ function getNodes() {
   return nodes
 }
 
+function getSelectedThought() {
+  return selectedThought
+}
+
+function getDigStackTopId() {
+  if (digStack.length == 0) return undefined
+  return digStack.slice(-1)[0]._id
+}
+
+function digDown(thought) {
+  digStack.push(thought)
+  api.events.notify("dig.changed", {
+    stack: digStack,
+    top:   digStack.slice(-1)[0]
+  })
+}
+
+function digUp() {
+  digStack.pop()
+  api.events.notify("dig.changed", {
+    stack: digStack,
+    top:   digStack.slice(-1)[0]
+  })
+}
+
+var api
 var nodes = []
 var layerOffset = { x:0, y:0 }
 var meta
+var selectedThought
+var digStack = []
 
 
 module.exports = {
@@ -44,5 +79,9 @@ module.exports = {
   unload: unload,
   getVisualNode: getVisualNode,
   getNodes: getNodes,
+  getSelectedThought: getSelectedThought,
+  digDown: digDown,
+  digUp: digUp,
+  getDigStackTopId:getDigStackTopId,
   getLayerOffset: function () { return layerOffset }
 }

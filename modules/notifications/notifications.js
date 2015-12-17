@@ -12,6 +12,7 @@ function unload(api) {
 
 function onNotification(event) {
   UIkit.notify(event.message, { status: event.status, pos: 'top-left' })
+  console.log(event)
 }
 
 module.exports = {
