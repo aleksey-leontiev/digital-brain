@@ -1,48 +1,73 @@
 // Shared Library
 
-function load(api, config) {
+function load(mapi) {
+  api = mapi
+
   api.events.subscribe([
-    { id: "visual.thought.create", handler: onVisualThoughtCreate },
-    { id: "visual.layer.moved",     handler: onVisualLayerMoved }
+    { id: "visual.layer.moved",     handler: onVisualLayerMoved },
+    { id: "visual.thought.created", handler: onVisualThoughtCreated },
+    { id: "brain.thought.select",   handler: onBrainThoughtSelect },
   ])
+
+  meta = api.module.request("app:meta.js")
 }
 
 function unload(api) {
   api.events.unsubscribe()
 }
 
-function onVisualThoughtCreate(event) {
-  thoughtById[event.thought._id]           = event.thought
-  thoughtByVisualNode[event.node]          = event.thought
-
-  visualNodeByThoughtId[event.thought._id] = event.node
-  //visualNodeByThought[event.thought]       = event.node
+function onBrainThoughtSelect(thought) {
+  selectedThought = thought
 }
 
-function getThoughtById(id) {
-  return thoughtById[id]
-}
-
-function getVisualNodeByThoughtId(id) {
-  return visualNodeByThoughtId[id]
-}
-
-function getVisualNodeByThought(thought) {
-  return visualNodeByThoughtId[thought._id]
-}
-
-function getThoughtByVisualNode(visualNode) {
-  return thoughtByVisualNode[visualNode]
+function getVisualNode(id) {
+  return meta.get(id, "visual")
 }
 
 function onVisualLayerMoved(event) {
   layerOffset = event.offset
 }
 
+function onVisualThoughtCreated(event) {
+  nodes.push(event.node)
+}
+
+function getNodes() {
+  return nodes
+}
+
+function getSelectedThought() {
+  return selectedThought
+}
+
+function getDigStackTopId() {
+  if (digStack.length == 0) return undefined
+  return digStack.slice(-1)[0]._id
+}
+
+function digDown(thought) {
+  digStack.push(thought)
+  api.events.notify("dig.changed", {
+    stack: digStack,
+    top:   digStack.slice(-1)[0]
+  })
+}
+
+function digUp() {
+  digStack.pop()
+  api.events.notify("dig.changed", {
+    stack: digStack,
+    top:   digStack.slice(-1)[0]
+  })
+}
+
+var api
+var nodes = []
 var layerOffset = { x:0, y:0 }
-var thoughtById = {}
-var visualNodeByThoughtId = {}
-var thoughtByVisualNode = {}
+var meta
+var selectedThought
+var digStack = []
+
 
 module.exports = {
   info: {
@@ -50,11 +75,13 @@ module.exports = {
     version: "0.1",
     author:  "Alexey Leontiev"
   },
-  load:                     load,
+  load:   load,
   unload: unload,
-  getVisualNodeByThought:   getVisualNodeByThought,
-  getThoughtByVisualNode:   getThoughtByVisualNode,
-  getVisualNodeByThoughtId: getVisualNodeByThoughtId,
-  getThoughtById:           getThoughtById,
-  getLayerOffset:           function () { return layerOffset }
+  getVisualNode: getVisualNode,
+  getNodes: getNodes,
+  getSelectedThought: getSelectedThought,
+  digDown: digDown,
+  digUp: digUp,
+  getDigStackTopId:getDigStackTopId,
+  getLayerOffset: function () { return layerOffset }
 }

@@ -1,15 +1,13 @@
-// Search Module :: Open Search Results
-// Open thought
+// Quick Search Module :: Open Search Results
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
-
-  searchResults = $("#search-results")
 
   api.events.subscribe([
     { delegate: "#search-results", view: ".search-result", id: "click", handler: onSearchResultClick },
-    { id: "brain.thought.search.response", handler: onBrainThoughtSearchResponse }
   ])
+
+  brain = api.module.request("app:brain.js")
 }
 
 function unload(api) {
@@ -20,26 +18,19 @@ function onSearchResultClick(event) {
   var t   = $(event.target)
   var tid = t.data("thougth-id") ||
             t.parent(".search-result").data("thougth-id")
-  api.events.notify("brain.thought.select", thoughts[tid])
-}
-
-function onBrainThoughtSearchResponse(query) {
-  thoughts = {}
-
-  query.forEach(function(res) {
-    thoughts[res.key._id] = res.key
-  })
+  var th  = brain.getThoughtById(tid)
+  api.events.notify("brain.thought.select", th)
 }
 
 var api
-var thoughts = {}
+var brain
 
 module.exports = {
-  load: load,
-  unload: unload,
   info: {
     id: "digitalBrain.quick.search.open",
     version: "0.1",
     author: "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload,
 }

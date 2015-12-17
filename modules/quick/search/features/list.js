@@ -1,8 +1,10 @@
-// Search Module :: List Search Results
-// Lists Serch Result
+// Quick Search Module :: List Search Results
 
-function load(api, config) {
-  searchResults = $("#search-results")
+function load(api) {
+  view = {
+    results: $("#search-results"),
+    card:    api.views.template("assets/card.html")
+  }
 
   api.events.subscribe([
     { id: "brain.thought.search",          handler: onBrainThoughtSearch },
@@ -15,42 +17,32 @@ function unload(api) {
 }
 
 function onBrainThoughtSearch(event) {
-  clearSearchResults
+  clearSearchResults()
 }
 
 function onBrainThoughtSearchResponse(query) {
-  clearSearchResults()
-
   query.forEach(function(res) {
     appendSearchResult(res.key)
   })
 }
 
 function clearSearchResults() {
-  searchResults.html("")
+  view.results.html("")
 }
 
-function appendSearchResult(data) {
-  searchResults.append(
-    getSearchResultView(data._id, data.title, data.description)
-  )
+function appendSearchResult(thought) {
+  var html = view.card({thought: thought})
+  view.results.append(html)
 }
 
-function getSearchResultView(id, title, description) {
-  return  "<div class='search-result uk-panel uk-panel-hover' data-thougth-id='" +id+ "'>" +
-          "  <h3 class='uk-panel-title'>" + title + "</h3>" +
-          "  " + description +
-          "</div>"
-}
-
-var searchResults = null
+var view = {}
 
 module.exports = {
-  load: load,
-  unload: unload,
   info: {
     id: "digitalBrain.quick.search.list",
     version: "0.1",
     author: "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload
 }

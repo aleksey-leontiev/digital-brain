@@ -1,50 +1,79 @@
-// Visual Module :: Image
+// Visual :: Nodes :: Image
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
-    { id: "visual.thought.create", handler: onVisualThoughtCreate }
+    { id: "visual.thought.create", handler: onVisualThoughtCreate },
+    { id: "brain.thought.changed", handler: onBrainThoughtChanged }
   ])
+
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {
   api.events.unsubscribe()
+
+  // remove all image nodes
+  shared.getNodes().forEach(function (node) {
+    removeImage(node)
+  })
 }
 
 function onVisualThoughtCreate(event) {
-  if (event.thought.image == null) return
-
-  event.node.image = new Raster({
-    source: event.thought.image
-  })
-
-  event.node.imageStroke = new Path.Circle({
-    radius: 15,
-    strokeColor: "black",
-    opacity: .75
-  })
-
-  event.node.imageMask = new Path.Circle({
-    radius: 15
-  });
-
-  event.node.imageGroup = new Group([event.node.imageMask, event.node.image]);
-  event.node.imageGroup.clipped = true;
-
-  event.node.image.onLoad = function () {
-    event.node.image.scale(30 / Math.min(event.node.image.width, event.node.image.height))
-    event.node.path.opacity = 0
-  }
-
-  event.node.group.addChild(event.node.imageGroup)
-  event.node.group.addChild(event.node.imageStroke)
+  createImage(event.thought, event.node)
 }
 
-module.exports = {
-  load: load, unload: unload,
-
-  info: {
-    id:      "digitalBrain.visual.nodes.image",
-    version: "0.1",
-    author:  "Alexey Leontiev"
+function onBrainThoughtChanged(thought) {
+  var node = shared.getVisualNode(thought._id)
+  if (node.image) {
+    node.image.source = thought.image
+  } else {
+    createImage(thought, node, true)
   }
+}
+
+function createImage(thought, node) {
+  if (thought.image == null) return
+
+  node.image = new Raster({ source: thought.image })
+  node.imageMask = new Path.Circle({ radius: 15 })
+  node.imageBorder = new Path.Circle({
+    radius:      15,
+    strokeColor: "black",
+    opacity:     .75
+  })
+  node.image.onLoad = function () {
+    node.image.scaling  = 30 / Math.min(node.image.width, node.image.height)
+    node.target.opacity = .1
+    //node.target.bringToFront()
+  }
+  node.image.onClick = node.root.onClick
+
+  node.imageGroup = new Group([node.imageMask, node.image])
+  node.imageGroup.clipped = true
+
+  node.image.position       = node.root.position
+  node.imageMask.position   = node.root.position
+  node.imageBorder.position = node.root.position
+
+  node.root.addChild(node.imageGroup)
+  node.root.addChild(node.imageBorder)
+}
+
+function removeImage(node) {
+  if (node.imageGroup)  node.imageGroup.remove()
+  if (node.imageBorder) node.imageBorder.remove()
+  node.target.opacity = 1 // return opacity back
+}
+
+var shared
+
+module.exports = {
+  info: {
+    id:          "digitalBrain.visual.nodes.image",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "Provides image functionality of thought."
+  },
+
+  load: load, unload: unload
 }

@@ -1,15 +1,12 @@
-// Link Nodes
-// draw links between nodes
+// Visual Module :: Links :: Load
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "brain.open.completed",  handler: onBrainOpenCompleted }
   ])
 
-  shared = api.module.request("shared")
-  sharedLinks = api.module.request("links/shared")
-
-  layer       = api.events.request("visual.layer", "links")
+  shared = api.module.request("shared.js")
+  links  = api.module.request("links/shared.js")
 }
 
 function unload(api) {
@@ -18,23 +15,25 @@ function unload(api) {
 
 function onBrainOpenCompleted(brainThoughts) {
   brainThoughts.forEach(function(thought) {
-    if (thought.doc.links != null) {
-      thought.doc.links.forEach(function(link) {
-        firstNode =  shared.getVisualNodeByThoughtId(thought.doc._id)
-        secondNode = shared.getVisualNodeByThoughtId(link.to)
+    if (thought.doc.links == null) return;
 
-        if (firstNode != null && secondNode != null) {
-          sharedLinks.createVisualLink(firstNode, secondNode, link.type)
-        }
-
-      })
-    }
+    thought.doc.links.forEach(function(link) {
+      createLink(thought, link)
+    })
   })
 }
 
-var layer = null
-var shared = null
-var sharedLinks = null
+function createLink(thought, link) {
+  var nodeFrom = shared.getVisualNode(thought.doc._id)
+  var nodeTo   = shared.getVisualNode(link.to)
+
+  if (nodeFrom != null && nodeTo != null) {
+    links.create(nodeFrom, nodeTo, link.type)
+  }
+}
+
+var shared
+var links
 
 module.exports = {
   info: {
@@ -42,5 +41,6 @@ module.exports = {
     version: "0.1",
     author:  "Alexey Leontiev"
   },
+
   load: load, unload: unload
 }

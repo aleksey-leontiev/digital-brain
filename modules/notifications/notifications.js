@@ -1,6 +1,6 @@
 // Notifications Module
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
     { id: "notification", handler: onNotification }
   ])
@@ -11,8 +11,8 @@ function unload(api) {
 }
 
 function onNotification(event) {
-  UIkit.notify(event.message, { status: event.status, pos: 'top-right' })
-  console.log(event.data)
+  UIkit.notify(event.message, { status: event.status, pos: 'top-left' })
+  console.log(event)
 }
 
 module.exports = {

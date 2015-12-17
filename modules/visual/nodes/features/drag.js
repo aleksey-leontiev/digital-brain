@@ -1,14 +1,14 @@
-// Brain visualization module
+// Visual :: Nodes :: Drag
 
-function load(_api, config) {
-  api = _api
-  
+function load(mapi) {
+  api = mapi
+
   api.events.subscribe([
     { id: "visual.thought.drag",     handler: onVisualThoughtDrag },
     { id: "visual.thought.mouse.up", handler: onVisualThoughtMouseUp }
   ])
 
-  shared = api.module.request("shared", config)
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {
@@ -16,62 +16,48 @@ function unload(api) {
 }
 
 function onVisualThoughtDrag(event) {
-  startDragFrom(event.point)
+  var root      = event.node.root
+  var target    = event.node.target
+  var selection = event.node.selectionHighlight
+  var segments  = event.node.segments
+  var thought   = event.thought
+  var point     = event.point
+  var offset    = shared.getLayerOffset()
 
   // move node
-  event.node.group.position = event.point
-  event.node.group.position.x +=
-    (event.node.text.position.x - event.node.path.position.x) - 35
+  root.position = point
 
   // move links
-  if (event.node.segments != null) {
-    event.node.segments.forEach(function (segment) {
-      segment.point = event.node.path.position
-    })
+  if (segments != null) {
+    segments.forEach(function (s) { s.point = target.position })
   }
 
   // update thought
-  layerOffset = shared.getLayerOffset()
-  event.thought.x = event.point.x + layerOffset.x
-  event.thought.y = event.point.y + layerOffset.y
+  thought.location.x = point.x + offset.x
+  thought.location.y = point.y + offset.y
+
+  // set dragged flag
+  isDragged = true
 }
 
 function onVisualThoughtMouseUp(event) {
-  if (!isDragged(event.point)) return
+  if (!isDragged) return
 
-  api.events.notify("brain.thought.changed", event.thought) // TODO: don't save if was no drag
-  clearOriginalPosition()
-}
-
-function startDragFrom(point) {
-  if (originalPosition == null)
-    originalPosition = point
-}
-
-function isDragged(point) {
-  if (originalPosition != null) {
-    if (point.x != originalPosition.x || point.y != originalPosition.y) {
-      return true
-    }
-  }
-  return false
-}
-
-function clearOriginalPosition() {
-  originalPosition = null
+  api.events.notify("brain.thought.changed", event.thought)
+  isDragged = false
 }
 
 var api
-var originalPosition = null
-var isDirty = false
-var shared = null
+var isDragged = false
+var shared
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
-    id:      "digitalBrain.visual.nodes.drag",
-    version: "0.1",
-    author:  "Alexey Leontiev"
-  }
+    id:          "digitalBrain.visual.nodes.drag",
+    version:     "0.1",
+    author:      "Alexey Leontiev",
+    description: "It provides dragging functionality of thought."
+  },
+
+  load: load, unload: unload
 }

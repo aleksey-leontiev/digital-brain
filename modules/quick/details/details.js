@@ -2,14 +2,15 @@
 // Allows to modify common fields like title, description, style or image of
 // selected thought
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
-  modifiers = api.module.request("features/styles", config)
+  modifiers = api.module.request("features/styles.js")
 
   view = {
-    root:        api.views.commitToPanel("view.html", {
-                   predefined: modifiers.getPredefinedStyles()
+    root:        api.views.commitToPanel("assets/view.html", {
+                   predefined: modifiers.getPredefinedStyles(),
+                   t: api.l10n.get("assets/translation.json")
                  }),
     title:       $("#qd-thought-title"),
     description: $("#qd-thought-description"),
@@ -45,8 +46,6 @@ function unload(api) {
 function onBrainThoughtSelect(thought) {
   selectedThought = thought
   updateFieldsFromThought(selectedThought)
-
-  var node = api.events.request("visual.get", thought._id)
 }
 
 function onVisualThoughtCreated(event) {
@@ -77,14 +76,14 @@ function updateFieldsFromThought(thought) {
   view.title.val(thought.title || "")
   view.description.val(thought.description || "")
   view.style.data(thought.style || "")
-  view.image.attr("src", thought.image || "assets/placeholder.jpg")
+  view.image.attr("src", thought.image || imagePlaceholderPath)
 }
 
 function updateThoughtFromFields(thought) {
   thought.title       = view.title.val()
   thought.description = view.description.val()
   thought.style       = view.style.data("thought-style")
-  thought.image       = view.image.attr("src")
+  thought.image       = view.image.attr("src") != imagePlaceholderPath ? view.image.attr("src") : undefined;
 
   var node = api.events.request("visual.get", thought._id)
   applyStyle(thought, node)
@@ -97,10 +96,13 @@ function applyStyle(thought, node) {
   styles.split(' ').forEach(function (s) {
     var m = modifiers.getPredefinedStyles()[s]
     if (m) {
-      node.group.scaling  = new Point(m.scaling, m.scaling)
-      node.path.fillColor = m.thoughtColor
+      // node.root.scaling  = m.scaling // TODO: https://github.com/paperjs/paper.js/issues/857
+      node.target.fillColor = m.thoughtColor
       node.text.fillColor = m.textColor
-      node.description.fillColor = m.descriptionColor
+
+      if (node.description) {
+        node.description.fillColor = m.descriptionColor
+      }
     }
   })
 }
@@ -139,6 +141,7 @@ var selectedThought = null
 var modifiers
 var view = {}
 var api
+var imagePlaceholderPath = "assets/placeholder.jpg"
 
 module.exports = {
   info: {

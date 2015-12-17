@@ -1,11 +1,8 @@
+// Quick Details Module :: Predefined Styles
 
-function load(mapi, config) {
-  // body...
-}
+function load(mapi) { }
 
-function unload(mapi) {
-
-}
+function unload(mapi) { }
 
 function getPredefinedStyles() {
   return {
@@ -13,7 +10,7 @@ function getPredefinedStyles() {
       id:               "normal",
       displayName:      "Normal",
       scaling:          1,
-      thoughtColor:     "black",
+      thoughtColor:     "lightslategray",
       textColor:        "black",
       descriptionColor: "slategray"
     },

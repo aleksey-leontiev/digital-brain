@@ -1,5 +1,5 @@
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   // Subscribe for events
@@ -31,6 +31,10 @@ module.exports = {
     id:      "digitalBrain.extras.loading",
     version: "0.1",
     author:  "Alexey Leontiev"
+  },
+  config: {
+    delay: 500,
+    speed: 1500
   },
 
   load: load, unload: unload

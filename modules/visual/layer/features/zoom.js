@@ -1,8 +1,8 @@
-// Visual Nodes Module
+// Visual Module :: Layer :: Zoom
 
-function load(api, config) {
+function load(api) {
   api.events.subscribe([
-    { id: "key.down", handler: onKeyDown },
+    { id: "key.down",     handler: onKeyDown },
     { id: "visual.frame", handler: onVisualFrame }
   ])
 }
@@ -12,12 +12,12 @@ function unload(api) {
 }
 
 function onKeyDown(event) {
-  if (event.which == 187)
-    zoom += .25
-  if (event.which == 189)
-    zoom -= .25
-  if (zoom < .25)
-    zoom = .25
+  if (event.target.id != "body") return
+
+  if (event.which == 187) zoom += .25 // +
+  if (event.which == 189) zoom -= .25 // -
+
+  if (zoom < .25) zoom = .25
 }
 
 function onVisualFrame() {
@@ -27,11 +27,11 @@ function onVisualFrame() {
 var zoom = 1
 
 module.exports = {
-  load: load, unload: unload,
-
   info: {
-    id:      "digitalBrain.visual.zoom",
+    id:      "digitalBrain.visual.layer.zoom",
     version: "0.1",
     author:  "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload
 }

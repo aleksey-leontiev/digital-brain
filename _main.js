@@ -22,12 +22,6 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/app.html');
 
-  //mainWindow.webContents.on('dom-ready', function() {
-  //  mainWindow.webContents.executeJavaScript("window.userDataPath = '" + app.getPath("userData") + "/'")
-  //})
-  //mainWindow.webContents.executeJavaScript("window.test = 123")
-  //mainWindow.toggleDevTools();
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows

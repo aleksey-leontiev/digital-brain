@@ -1,5 +1,5 @@
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   // create overlay
@@ -25,7 +25,7 @@ function load(mapi, config) {
   ])
 
   // load additional modules
-  shared = api.app.request("modules/shared", config)
+  brain = api.module.request("app:brain.js")
 }
 
 function unload(api) {
@@ -72,7 +72,7 @@ function onLinkClick(event) {
 
   var linkId  = $(event.target).closest(".lem_link-item").data("link-id")
   var link    = activeThought.links[linkId]
-  var thought = shared.getThoughtById(link.to)
+  var thought = brain.getThoughtById(link.to)
   activeLink = link
 
   if (thought != null) {
@@ -110,7 +110,7 @@ function save() {
 }
 
 function linkView(link, id) {
-  var linkTo = shared.getThoughtById(link.to) || { title: "?", description: "?" }
+  var linkTo = brain.getThoughtById(link.to) || { title: "?", description: "?" }
 
   return "" +
     "<div class='uk-panel uk-panel-box lem_link-item' data-link-id='" + id + "'>" +
@@ -128,7 +128,7 @@ function onBrainOpenCompleted(argument) {
 // TODO: Create once on open completed. Push to hashed array
 //       when new thought created
 function upadteAutocomplete() {
-  var thoughts     = shared.getThoughts()
+  var thoughts     = brain.getThoughts()
   var autocomplete = $("#lem_link-to")
   var underscore   = require("underscore")
   var data         = underscore.map(thoughts, function(t) {
@@ -154,7 +154,7 @@ var api
 var view
 var activeThought = null
 var isThoughtOpen = false
-var shared = null
+var brain = null
 var activeLink = null
 
 module.exports = {

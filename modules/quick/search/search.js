@@ -1,21 +1,22 @@
-// Search Module
+// Quick Search Module
 // Allows to search thougths
 
-function load(mapi, config) {
+function load(mapi) {
   api = mapi
 
   view = {
-    root:        api.views.commitToPanel("view.html"),
-    searchQuery: $("#search-query"),
+    root:   api.views.commitToPanel("assets/view.html", {
+              t: api.l10n.get("assets/translation.json") }),
+    search: $("#search-query")
   }
 
   api.events.subscribe([
     { view: "#search-query",  id: "change", handler: onSearchChange },
   ])
 
-  api.module.request("features/highlight")
-  api.module.request("features/list")
-  api.module.request("features/open")
+  api.module.request("features/highlight.js")
+  api.module.request("features/list.js")
+  api.module.request("features/open.js")
 }
 
 function unload(api) {
@@ -24,7 +25,7 @@ function unload(api) {
 }
 
 function onSearchChange() {
-  val = view.searchQuery.val().toLowerCase()
+  val = view.search.val().toLowerCase()
   api.events.notify("brain.thought.search", { query: val })
 }
 

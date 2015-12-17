@@ -14,7 +14,6 @@
     <script src="bower_components/uikit/js/components/search.min.js"></script>
     <script src="bower_components/uikit/js/components/autocomplete.min.js"></script>
 
-
     <link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/notify.almost-flat.min.css" />
     <link rel="stylesheet" href="bower_components/uikit/css/components/htmleditor.almost-flat.min.css" />
@@ -37,34 +36,35 @@
 </body>
 
 <script type="text/javascript">
+  console.groupCollapsed("App initialization")
   var api  = require('./digitalBrain');
-  var path = __dirname + "/"
 
   // core
-  api.modules.load(path + "modules/app-events")
+  api.modules.load("app:app-events.js")
 
   // load extras
-  api.modules.load(path + "modules/extras/loading/loading")
-  api.modules.load(path + "modules/extras/fancy-titlebar/fancy-titlebar")
+  api.modules.load("app:extras/loading")
+  api.modules.load("app:extras/fancy-titlebar")
 
   // load quick modules
-  api.modules.load(path + "modules/quick/search/quick-search")
-  api.modules.load(path + "modules/quick/details/quick-details")
-  api.modules.load(path + "modules/quick/links/quick-links")
+  api.modules.load("app:quick/search")
+  api.modules.load("app:quick/details")
+  api.modules.load("app:quick/links")
 
   // load editors
-  api.modules.load(path + "modules/editors/notes-editor/notes-editor")
-  api.modules.load(path + "modules/editors/links-editor/links-editor")
+  api.modules.load("app:editors/notes-editor")
+  api.modules.load("app:editors/links-editor")
 
   // other modules
-  api.modules.load(path + "modules/visual/visual")
-  api.modules.load(path + "modules/persistence/persistence")
-  api.modules.load(path + "modules/notifications/notifications")
+  api.modules.load("app:visual")
+  api.modules.load("app:persistence")
+  api.modules.load("app:notifications")
 
   // open brain
-  api.modules.load(path + "modules/brains")
+  api.modules.load("app:extras/brains")
 
   $("#content").css("opacity", "1")
+  console.groupEnd()
 </script>
 
 </script>
