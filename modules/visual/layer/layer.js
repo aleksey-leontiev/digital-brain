@@ -1,14 +1,17 @@
 // Visual Module :: Layer
 
 function load(api, config) {
-  api.module.request("layer/shared.js")
+  api.module.request("layer/shared")
   api.module.request("layer/features/center.js")
   api.module.request("layer/features/move.js")
   api.module.request("layer/features/zoom.js")
 }
 
 function unload(api) {
-  api.events.unsubscribe()
+  api.module.unload("digitalBrain.visual.layer.center")
+  api.module.unload("digitalBrain.visual.layer.move")
+  api.module.unload("digitalBrain.visual.layer.zoom")
+
 }
 
 module.exports = {

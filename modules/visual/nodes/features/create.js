@@ -12,7 +12,7 @@ function load(mapi) {
   meta   = api.module.request("app:meta.js")
   brain  = api.module.request("app:brain.js")
   shared = api.module.request("shared.js")
-  layers = api.module.request("layer/shared.js")
+  layers = api.module.request("layer/shared")
 
   t      = api.l10n.get("nodes/assets/translation.json")
 }

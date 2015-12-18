@@ -18,7 +18,10 @@ function load(mapi) {
 }
 
 function unload(api) {
-  api.events.unsubscribe()
+  api.module.unload("digitalBrain.visual.layer")
+  api.module.unload("digitalBrain.visual.nodes")
+  api.module.unload("digitalBrain.visual.links")
+  api.module.unload("digitalBrain.visual.dig")
 }
 
 function onFrame(event) {

@@ -30,6 +30,14 @@ function create(nodeFrom, nodeTo, type) {
   nodeTo.segments.push(nodeLink.lastSegment)
 }
 
+function removeAll(node) {
+  if (!node.segments) return
+
+  node.segments.forEach(function (segment) {
+    segment.remove()
+  })
+}
+
 module.exports = {
   info: {
     id:      "digitalBrain.visual.links.shared",
@@ -38,5 +46,6 @@ module.exports = {
   },
 
   load:   load,
-  create: create
+  create: create,
+  removeAll: removeAll
 }

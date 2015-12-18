@@ -21,6 +21,10 @@ function createModuleApi(module, config, modules) {
       request: function(path, customConfig) {
         return app.modules.load(
           path, customConfig || config)
+      },
+      unload: function (path, customConfig) {
+        return app.modules.unload(
+          path, customConfig || config)
       }
     }
   }

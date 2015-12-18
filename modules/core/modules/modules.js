@@ -42,7 +42,10 @@ function load(path, config) {
 
 function unload(moduleId) {
   var m = loadedModules[moduleId]
-  if (m) m.unload(apis.getModuleApi(moduleId))
+  if (m) {
+    if (m.unload) m.unload(apis.getModuleApi(moduleId))
+    delete loadedModules[moduleId]
+  }
   return m
 }
 

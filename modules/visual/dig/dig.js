@@ -15,11 +15,15 @@ function load(api) {
   }
 
   t      = api.l10n.get("dig/assets/translation.json")
-  layers = api.module.request("layer/shared.js")
+  layers = api.module.request("layer/shared")
   brain  = api.module.request("app:brain.js")
   shared = api.module.request("shared.js")
 
   updateBreadcrumbs([])
+}
+
+function unload(api) {
+  api.events.unsubscribe()
 }
 
 function onKeyDown(event) {
@@ -93,5 +97,5 @@ module.exports = {
     author:  "Alexey Leontiev"
   },
 
-  load: load
+  load: load, unload: unload
 }

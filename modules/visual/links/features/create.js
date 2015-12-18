@@ -10,7 +10,7 @@ function load(mapi) {
   ])
 
   t      = api.l10n.get("links/assets/translation.json")
-  links  = api.module.request("links/shared.js")
+  links  = api.module.request("links/shared")
 }
 
 function unload(api) {

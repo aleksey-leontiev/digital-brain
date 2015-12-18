@@ -6,7 +6,7 @@ function load(api) {
   ])
 
   shared = api.module.request("shared.js")
-  links  = api.module.request("links/shared.js")
+  links  = api.module.request("links/shared")
 }
 
 function unload(api) {

@@ -14,6 +14,15 @@ function load(api) {
   ])
 }
 
+function unload(api) {
+  api.module.unload("digitalBrain.visual.nodes.create")
+  api.module.unload("digitalBrain.visual.nodes.drag")
+  api.module.unload("digitalBrain.visual.nodes.select")
+  api.module.unload("digitalBrain.visual.nodes.update")
+  api.module.unload("digitalBrain.visual.nodes.description")
+  api.module.unload("digitalBrain.visual.nodes.image")
+}
+
 function onVisualGet(thoughtId) {
   return meta.get(thoughtId, "visual")
 }
@@ -21,11 +30,11 @@ function onVisualGet(thoughtId) {
 var meta
 
 module.exports = {
-  load: load,
-
   info: {
     id:      "digitalBrain.visual.nodes",
     version: "0.1",
     author:  "Alexey Leontiev"
-  }
+  },
+
+  load: load, unload: unload
 }
