@@ -9,7 +9,8 @@ function load(mapi) {
     { id: "brain.thought.select",   handler: onBrainThoughtSelect },
   ])
 
-  meta = api.module.request("app:meta.js")
+  meta  = api.module.request("app:meta.js")
+  brain = api.module.request("app:brain.js")
 }
 
 function unload(api) {
@@ -46,7 +47,16 @@ function getDigStackTopId() {
 }
 
 function digDown(thought) {
-  digStack.push(thought)
+  digStack = []
+  var current = thought
+
+  while (current) {
+    digStack.push(current)
+    current = brain.getThoughtById(current.location.parent)
+  }
+
+  digStack = digStack.reverse()
+
   api.events.notify("dig.changed", {
     stack: digStack,
     top:   digStack.slice(-1)[0]
@@ -67,7 +77,7 @@ var layerOffset = { x:0, y:0 }
 var meta
 var selectedThought
 var digStack = []
-
+var brain
 
 module.exports = {
   info: {

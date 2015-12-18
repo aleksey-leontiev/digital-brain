@@ -18,7 +18,7 @@ function onBrainOpenCompleted(brainThoughts) {
     if (thought.doc.links == null) return;
 
     thought.doc.links.forEach(function(link) {
-      createLink(thought, link)
+      if (link.type == "forward") createLink(thought, link)
     })
   })
 }

@@ -4,7 +4,9 @@ function load(mapi) {
   api = mapi
 
   api.events.subscribe([
-    { id: "brain.links.created", handler: onBrainLinksCreated }
+    { id: "key.down",             handler: onKeyDown },
+    { id: "brain.thought.select", handler: onBrainThoughtSelect },
+    { id: "brain.links.created",  handler: onBrainLinksCreated }
   ])
 
   t      = api.l10n.get("links/assets/translation.json")
@@ -13,6 +15,23 @@ function load(mapi) {
 
 function unload(api) {
   api.events.unsubscribe()
+}
+
+function onBrainThoughtSelect(thought) {
+  if (isLinking) {
+    api.events.notify("brain.links.create", { from: selectedThought, to: thought })
+  }
+  selectedThought = thought
+  setLinkingState(false)
+}
+
+function onKeyDown(event) {
+  if (event.char == "L" && event.ctrlKey && selectedThought != null)
+    setLinkingState(true)
+}
+
+function setLinkingState(value) {
+  isLinking = value
 }
 
 function onBrainLinksCreated(event) {
@@ -32,6 +51,8 @@ function onBrainLinksCreated(event) {
 var t
 var api
 var links
+var selectedThought
+var isLinking = false
 
 module.exports = {
   info: {

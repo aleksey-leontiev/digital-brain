@@ -84,6 +84,10 @@ function generateId() {
   return require("shortid").generate()
 }
 
+function getParent(thought) {
+  return getThoughtById(thought.location.parent)
+}
+
 var api
 var thoughtById = {}
 
@@ -101,5 +105,6 @@ module.exports = {
   getThoughtsArray: getThoughtsArray,
   linkThoughts:     linkThoughts,
   hasLinkTo:        hasLinkTo,
-  createThought:    createThought
+  createThought:    createThought,
+  getParent:        getParent
 }
