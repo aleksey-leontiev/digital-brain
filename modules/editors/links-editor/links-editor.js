@@ -145,6 +145,9 @@ function upadteAutocomplete() {
 
 function updateLinksList(thought) {
   view.linksList.html("")
+
+  if (thought.links == null) return
+
   thought.links.forEach(function(link, index) {
     view.linksList.append(linkView(link, index))
   })
