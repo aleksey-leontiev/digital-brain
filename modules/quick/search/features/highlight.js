@@ -7,10 +7,19 @@ function load(mapi) {
     { id: "brain.thought.search.response", handler: onBrainThoughtSearchResponse },
     { id: "visual.thought.create",         handler: onVisualThoughtCreate }
   ])
+
+  brain = api.module.request("app:brain.js")
+  meta  = api.module.request("app:meta.js")
 }
 
 function unload(api) {
   api.events.unsubscribe()
+
+  // remove search highlight node
+  brain.getThoughtsArray().forEach(function (thought) {
+    var node = meta.get(thought._id, "visual")
+    if (node) node.searchHighlight.remove()
+  })
 }
 
 function onVisualThoughtCreate(event) {
@@ -46,6 +55,8 @@ function highlightNode(visualNode) {
 }
 
 var api
+var shared
+var brain
 var lastSearchResults = []
 
 module.exports = {

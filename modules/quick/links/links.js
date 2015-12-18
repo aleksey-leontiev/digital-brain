@@ -18,13 +18,15 @@ function load(api) {
 
 function unload(api) {
   api.events.unsubscribe()
+  api.module.unload("digitalBrain.quick.links.open")
+  view.root.remove()
 }
 
 function onBrainThoughtSelect(thought) {
   clearView()
 
   if (thought.links == null) return
-  
+
   thought.links.forEach(function (link) {
     var thought = brain.getThoughtById(link.to)
     if (thought != null) { appendView(thought, link) }

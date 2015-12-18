@@ -21,6 +21,9 @@ function load(mapi) {
 
 function unload(api) {
   api.events.unsubscribe()
+  api.module.unload("digitalBrain.quick.search.highlight")
+  api.module.unload("digitalBrain.quick.search.list")
+  api.module.unload("digitalBrain.quick.search.open")
   view.root.remove()
 }
 

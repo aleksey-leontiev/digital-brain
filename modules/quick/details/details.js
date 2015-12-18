@@ -40,6 +40,7 @@ function load(mapi) {
 
 function unload(api) {
   api.events.unsubscribe()
+  api.module.unload("digitalBrain.quick.details.styles")
   view.root.remove()
 }
 
