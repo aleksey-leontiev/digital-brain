@@ -25,16 +25,19 @@ function onVisualThoughtDrag(event) {
   var offset    = shared.getLayerOffset()
 
   // move node
-  root.position = point
+  root.position.x = point.x + offset.x
+  root.position.y = point.y + offset.y
 
   // move links
   if (segments != null) {
-    segments.forEach(function (s) { s.point = target.position })
+    segments.forEach(function (s) {
+      s.point = root.position
+    })
   }
 
   // update thought
-  thought.location.x = point.x + offset.x
-  thought.location.y = point.y + offset.y
+  thought.location.x = root.position.x
+  thought.location.y = root.position.y
 
   // set dragged flag
   isDragged = true

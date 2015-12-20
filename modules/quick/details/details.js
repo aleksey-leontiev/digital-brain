@@ -97,9 +97,9 @@ function applyStyle(thought, node) {
   styles.split(' ').forEach(function (s) {
     var m = modifiers.getPredefinedStyles()[s]
     if (m) {
-      // node.root.scaling  = m.scaling // TODO: https://github.com/paperjs/paper.js/issues/857
+      node.root.scaling     = m.scaling
       node.target.fillColor = m.thoughtColor
-      node.text.fillColor = m.textColor
+      node.text.fillColor   = m.textColor
 
       if (node.description) {
         node.description.fillColor = m.descriptionColor

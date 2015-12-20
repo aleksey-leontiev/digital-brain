@@ -18,8 +18,8 @@ function create(nodeFrom, nodeTo, type) {
   }
 
   // add path points
-  nodeLink.add(nodeFrom.target.position)
-  nodeLink.add(nodeTo.target.position)
+  nodeLink.add(nodeFrom.root.position)
+  nodeLink.add(nodeTo.root.position)
   nodeFrom.root.layer.addChild(nodeLink)
   nodeLink.sendToBack()
 

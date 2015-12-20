@@ -5,6 +5,7 @@ function load(mapi) {
 
   // install paper.js
   paper = api.assets.loadJSSync("bower_components/paper/dist/paper-full.js")
+  paper.settings.applyMatrix = false
   paper.install(window)
   paper.setup("canvas")
   view.onFrame     = onFrame

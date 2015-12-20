@@ -48,13 +48,13 @@ function clearSelection() {
 }
 
 function highlightNode(node) {
-  node.selectionHighlight.opacity = .2
+  node.selectionHighlight.opacity = .1
 }
 
 function createSelectionHighlight(node) {
   node.selectionHighlight = new Path.Circle({
     radius:      25,
-    dashArray:   [15],
+    dashArray:   [5, 10],
     fillColor:   "yellow",
     strokeColor: "red",
     strokeCap:   "round",
