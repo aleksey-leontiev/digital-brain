@@ -1,6 +1,4 @@
 // Quick Details Module
-// Allows to modify common fields like title, description, style or image of
-// selected thought
 
 function load(mapi) {
   api = mapi
@@ -21,6 +19,7 @@ function load(mapi) {
   api.events.subscribe([
     { id: "brain.thought.select",      handler: onBrainThoughtSelect },
     { id: "visual.thought.created",    handler: onVisualThoughtCreated },
+    { id: "dig.changed",               handler: onVisualDigChanged },
 
     { view: "#qd-thought-title",       id: "change",   handler: onFieldsChanged },
     { view: "#qd-thought-description", id: "change",   handler: onFieldsChanged },
@@ -44,6 +43,11 @@ function unload(api) {
   view.root.remove()
 }
 
+function onVisualDigChanged(event) {
+  selectedThought = null
+  updateFieldsFromThought(selectedThought)
+}
+
 function onBrainThoughtSelect(thought) {
   selectedThought = thought
   updateFieldsFromThought(selectedThought)
@@ -54,13 +58,13 @@ function onVisualThoughtCreated(event) {
 }
 
 function onFieldsChanged() {
-  if (selectedThought == null) return;
+  if (selectedThought == null) return
   updateThoughtFromFields(selectedThought)
   api.events.notify("brain.thought.changed", selectedThought)
 }
 
 function onFieldsChanging() {
-  if (selectedThought == null) return;
+  if (selectedThought == null) return
   updateThoughtFromFields(selectedThought)
   api.events.notify("brain.thought.changing", selectedThought)
 }
@@ -74,10 +78,17 @@ function onStyleItemClicked(event) {
 }
 
 function updateFieldsFromThought(thought) {
-  view.title.val(thought.title || "")
-  view.description.val(thought.description || "")
-  view.style.data(thought.style || "")
-  view.image.attr("src", thought.image || imagePlaceholderPath)
+  if (thought) {
+    view.title.val(thought.title || "")
+    view.description.val(thought.description || "")
+    view.style.data(thought.style || "")
+    view.image.attr("src", thought.image || imagePlaceholderPath)
+  } else {
+    view.title.val("")
+    view.description.val("")
+    view.style.data("")
+    view.image.attr("src", imagePlaceholderPath)
+  }
 }
 
 function updateThoughtFromFields(thought) {

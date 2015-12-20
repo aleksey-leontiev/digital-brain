@@ -64,6 +64,8 @@ function digDown(thought) {
 }
 
 function digUp() {
+  if (digStack.length == 0) return;
+  
   digStack.pop()
   api.events.notify("dig.changed", {
     stack: digStack,
