@@ -79,7 +79,7 @@ function onBrainThoughtNewOrLoad(event) {
 
   meta.set(thought._id, "visual", node)
 
-  node.root.position = new Point(thought.location.x - offset.x, thought.location.y - offset.y)
+  node.root.position = new Point(thought.location.x, thought.location.y)
 }
 
 var api
