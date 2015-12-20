@@ -1,7 +1,10 @@
 // Brains Module
 
 function load(api) {
-  api.events.notify("brain.open", { path: api.app.config.userDataPath + "_brain" })
+  var name = (app.config.appRootPath == "/Users/aleontiev/Projects/digital-brain/") ?
+    "digitalBrain-debug" : "digitalBrain";
+
+  api.events.notify("brain.open", { path: api.app.config.userDataPath + name })
 }
 
 module.exports = {
