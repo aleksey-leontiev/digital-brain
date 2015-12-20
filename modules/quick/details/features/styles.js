@@ -1,6 +1,8 @@
 // Quick Details Module :: Predefined Styles
 
-function load(mapi) { }
+function load(api) {
+  t = api.l10n.get("assets/translation.json")
+}
 
 function unload(mapi) { }
 
@@ -8,7 +10,7 @@ function getPredefinedStyles() {
   return {
     normal: {
       id:               "normal",
-      displayName:      "Normal",
+      displayName:      t.styles.normal,
       scaling:          1,
       thoughtColor:     "lightslategray",
       textColor:        "black",
@@ -16,7 +18,7 @@ function getPredefinedStyles() {
     },
     primary: {
       id:               "primary",
-      displayName:      "Primary",
+      displayName:      t.styles.primary,
       scaling:          2,
       thoughtColor:     "blue",
       textColor:        "blue",
@@ -24,7 +26,7 @@ function getPredefinedStyles() {
     },
     success: {
       id:               "success",
-      displayName:      "Success",
+      displayName:      t.styles.success,
       scaling:          1,
       thoughtColor:     "green",
       textColor:        "green",
@@ -32,7 +34,7 @@ function getPredefinedStyles() {
     },
     info: {
       id:               "info",
-      displayName:      "Info",
+      displayName:      t.styles.info,
       scaling:           1,
       thoughtColor:     "purple",
       textColor:        "purple",
@@ -40,7 +42,7 @@ function getPredefinedStyles() {
     },
     warning: {
       id:               "warning",
-      displayName:      "Warning",
+      displayName:      t.styles.warning,
       scaling:          1.25,
       thoughtColor:     "orange",
       textColor:        "orange",
@@ -48,7 +50,7 @@ function getPredefinedStyles() {
     },
     danger: {
       id:               "danger",
-      displayName:      "Danger",
+      displayName:      t.styles.danger,
       scaling :         3,
       thoughtColor:     "red",
       textColor:        "red",
@@ -56,6 +58,8 @@ function getPredefinedStyles() {
     }
   }
 }
+
+var t
 
 module.exports = {
   info: {

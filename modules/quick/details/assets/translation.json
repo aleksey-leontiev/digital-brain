@@ -4,13 +4,29 @@
     "description": "Описание",
     "style": "Стиль",
     "predefinedStyles": "Стандартные стили",
-    "userStyles": "Пользовательские стили"
+    "userStyles": "Пользовательские стили",
+    "styles": {
+      "normal": "Обычный",
+      "primary": "Главный",
+      "success": "Успех",
+      "info": "Информация",
+      "warning": "Внимание",
+      "danger": "Опасность"
+    }
   },
   "en": {
     "title": "Title",
     "description": "Description",
     "style": "Style",
     "predefinedStyles": "Predefined Styles",
-    "userStyles": "Users Styles"
+    "userStyles": "Users Styles",
+    "styles": {
+      "normal": "Normal",
+      "primary": "Primary",
+      "success": "Success",
+      "info": "Info",
+      "warning": "Warning",
+      "danger": "Danger"
+    }
   }
 }
