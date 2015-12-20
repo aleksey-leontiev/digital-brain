@@ -5,6 +5,8 @@ function load(api, config) {
     { id: "visual.layer",         handler: onVisualLayerRequest },
     { id: "brain.open.completed", handler: onBrainOpenCompleted }
   ])
+
+  shared = api.module.request("shared.js")
 }
 
 function unload(api) {
@@ -21,7 +23,10 @@ function onVisualLayerRequest(layerId) {
 
 function getLayer(layerId) {
   if (layers[layerId] == null) {
+    var offset = shared.getLayerOffset()
     layers[layerId] = new window.paper.Layer()
+    layers[layerId].position.x -= offset.x
+    layers[layerId].position.y -= offset.y
   }
   return layers[layerId]
 }
